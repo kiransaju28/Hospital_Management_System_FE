@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser, getSpecializations } from "../../api/api";
+// This imports the entire CSS file and applies its styles
+import './add.css';
 
 const AddDoctor = () => {
     const [username, setUsername] = useState("");

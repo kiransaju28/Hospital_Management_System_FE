@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getDoctors, deleteDoctor, getSpecializations } from "../../api/api";
+import "./List.css";
 
 const DoctorList = () => {
     const [doctors, setDoctors] = useState([]);

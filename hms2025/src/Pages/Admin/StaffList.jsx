@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getStaff, deleteStaff } from "../../api/api";
+import "./List.css";
+
 
 const StaffList = () => {
     const [staff, setStaff] = useState([]);
