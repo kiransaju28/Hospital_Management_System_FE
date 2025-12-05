@@ -39,4 +39,12 @@ export const loginUser = (data) => apiClient.post("token/", data);
 
 
 // Get all registered patients (Dashboard)
+// Get all registered patients (Dashboard)
 export const getAllPatients = () => apiClient.get("receptionist/patients/");
+
+// Register User (Doctor, Staff, etc.)
+export const registerUser = (data) => apiClient.post("admins/register-user/", data);
+
+// Get Specializations
+export const getSpecializations = () => apiClient.get("admins/specializations/");
+
