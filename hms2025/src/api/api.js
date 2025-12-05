@@ -1,27 +1,25 @@
 //Imports the axios library for making HTTP requests
-//Promise based HTTP client Used to make requests from the browser to the backend api.
 import axios from 'axios';
 
 const apiClient = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
-
 });
 
-//ads a request interceptor
+// Request Interceptor
 apiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem("access");
 
-    //Do not attach tokens for public routes
     const publicRoutes = ["login/", "token/"];
-
     const isPublicRoute = publicRoutes.some((route) => config.url.includes(route));
+
     if (!isPublicRoute && token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
-    return config
+
+    return config;
 });
 
-//adds a response interceptor 
+// Response Interceptor
 apiClient.interceptors.response.use(
     (res) => res,
     async (err) => {
@@ -33,45 +31,64 @@ apiClient.interceptors.response.use(
     }
 );
 
-//API CALLS 
-//Login
+/* =====================================================
+                AUTHENTICATION
+======================================================== */
+
 export const loginUser = (data) => apiClient.post("token/", data);
 
+/* =====================================================
+                ADMINS / DOCTORS / STAFF
+======================================================== */
 
-// Get all registered patients (Dashboard)
-// Get all registered patients (Dashboard)
-export const getAllPatients = () => apiClient.get("receptionist/patients/");
-
-// Register User (Doctor, Staff, etc.)
 export const registerUser = (data) => apiClient.post("admins/register-user/", data);
-
-// Get Specializations
 export const getSpecializations = () => apiClient.get("admins/specializations/");
 
-
-// Get all Doctors
 export const getDoctors = (params) => apiClient.get("admins/doctors/", { params });
-
-// Get all Staff
-export const getStaff = (params) => apiClient.get("admins/staff/", { params });
-
-// Delete User (Doctor/Staff)
-export const deleteUser = (id) => apiClient.delete(`admins/users/${id}/`);
-
-// Delete Doctor
+export const getDoctorById = (id) => apiClient.get(`admins/doctors/${id}/`);
+export const updateDoctor = (id, data) => apiClient.put(`admins/doctors/${id}/`, data);
 export const deleteDoctor = (id) => apiClient.delete(`admins/doctors/${id}/`);
 
-// Delete Staff
+export const getStaff = (params) => apiClient.get("admins/staff/", { params });
+export const getStaffById = (id) => apiClient.get(`admins/staff/${id}/`);
+export const updateStaff = (id, data) => apiClient.put(`admins/staff/${id}/`, data);
 export const deleteStaff = (id) => apiClient.delete(`admins/staff/${id}/`);
 
-// Get Doctor by ID
-export const getDoctorById = (id) => apiClient.get(`admins/doctors/${id}/`);
+/* =====================================================
+                RECEPTIONIST – PATIENTS
+======================================================== */
 
-// Update Doctor
-export const updateDoctor = (id, data) => apiClient.put(`admins/doctors/${id}/`, data);
+export const getPatients = (params) =>
+    apiClient.get("receptionist/patients/", { params });
 
-// Get Staff by ID
-export const getStaffById = (id) => apiClient.get(`admins/staff/${id}/`);
+export const createPatient = (data) =>
+    apiClient.post("receptionist/patients/", data);
 
-// Update Staff
-export const updateStaff = (id, data) => apiClient.put(`admins/staff/${id}/`, data);
+export const getPatientById = (id) =>
+    apiClient.get(`receptionist/patients/${id}/`);
+
+export const updatePatient = (id, data) =>
+    apiClient.put(`receptionist/patients/${id}/`, data);
+
+export const deletePatient = (id) =>
+    apiClient.delete(`receptionist/patients/${id}/`);
+
+/* =====================================================
+                RECEPTIONIST – APPOINTMENTS
+======================================================== */
+
+export const getAppointments = (params) =>
+    apiClient.get("receptionist/appointments/", { params });
+
+export const createAppointment = (data) =>
+    apiClient.post("receptionist/appointments/", data);
+
+export const getAppointmentById = (id) =>
+    apiClient.get(`receptionist/appointments/${id}/`);
+
+export const updateAppointment = (id, data) => {
+    return apiClient.put(`receptionist/appointments/${id}/`, data);
+};
+
+export const deleteAppointment = (id) =>
+    apiClient.delete(`receptionist/appointments/${id}/`);
