@@ -1,7 +1,13 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./auth/login"; // Ensure filename matches (Login.jsx vs login.jsx)
-import AdminDashboard from "./Pages/Admin/Dashboard/Adminashboard";
+import Login from "./auth/login";
+import Dashboard from "./Pages/Dashboard/dashboard";
+import AddDoctor from "./Pages/Admin/AddDoctor";
+import AddStaff from "./Pages/Admin/AddStaff";
+import DoctorList from "./Pages/Admin/DoctorList";
+import StaffList from "./Pages/Admin/StaffList";
+import EditDoctor from "./Pages/Admin/EditDoctor";
+import EditStaff from "./Pages/Admin/EditStaff";
 
 function App() {
   return (
@@ -11,8 +17,8 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Admin Dashboard */}
-        <Route path="/dashboard" element={<AdminDashboard />} />
+        {/* admin dashboard */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

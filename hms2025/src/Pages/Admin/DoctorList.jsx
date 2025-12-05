@@ -1,0 +1,188 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getDoctors, deleteDoctor, getSpecializations } from "../../api/api";
+import "./List.css";
+
+const DoctorList = () => {
+    const [doctors, setDoctors] = useState([]);
+    const [specializations, setSpecializations] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(10);
+    const [totalPages, setTotalPages] = useState(1);
+
+    useEffect(() => {
+        fetchSpecializations();
+    }, []);
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            fetchDoctors();
+        }, 300); // Debounce 300ms
+
+        return () => clearTimeout(delayDebounce);
+    }, [page, searchTerm]);
+
+    const fetchSpecializations = async () => {
+        try {
+            const res = await getSpecializations();
+            // Create a map of ID -> Name for easy lookup
+            const specMap = {};
+            res.data.forEach(spec => {
+                specMap[spec.spec_Id] = spec.specialization_name;
+            });
+            setSpecializations(specMap);
+        } catch (err) {
+            console.error("Error fetching specializations:", err);
+        }
+    };
+
+    const fetchDoctors = async () => {
+        setLoading(true);
+        try {
+            const params = { page, page_size: pageSize };
+            if (searchTerm) params.search = searchTerm;
+
+            const res = await getDoctors(params);
+
+            const data = res.data.results ?? res.data;
+            setDoctors(data);
+
+            if (res.data.count) {
+                setTotalPages(Math.ceil(res.data.count / pageSize));
+            } else {
+                setTotalPages(1);
+            }
+        } catch (err) {
+            console.error(err);
+            // alert("Error fetching doctors");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    //Delete handler function
+    const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this doctor?");
+        if (!confirmDelete) {
+            return;
+        }
+        try {
+            await deleteDoctor(id);
+            alert("Doctor deleted successfully");
+            fetchDoctors();
+        } catch (err) {
+            console.error(err);
+            alert("Failed to delete doctor");
+        }
+    };
+
+    return (
+        <div className="container mt-4">
+            <div className="d-flex justify-content-between mb-3">
+                <h3>Doctors</h3>
+                <Link to="/add-doctor" className="btn btn-success">Add Doctor</Link>
+            </div>
+
+            <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Search by name, specialization..."
+                value={searchTerm}
+                onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setPage(1);
+                }}
+            />
+
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Specialization</th>
+                                <th>Availability</th>
+                                <th>Consultation Fee</th>
+                                <th>Contact</th>
+                                <th>Joining Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {doctors.length === 0 ? (
+                                <tr>
+                                    <td colSpan="6" className="text-center">
+                                        No doctors found
+                                    </td>
+                                </tr>
+                            ) : (
+                                doctors.map((doc) => (
+                                    <tr key={doc.doctor_id}>
+                                        <td>{doc.staff?.username ?? "N/A"}</td>
+                                        <td>{doc.staff?.full_name ?? "Unknown"}</td>
+                                        <td>{doc.staff?.gender ?? "N/A"}</td>
+                                        <td>
+                                            {/* Try to look up name from map, or use nested object if available, or fallback to ID/N/A */}
+                                            {specializations[doc.specialization] ||
+                                                doc.specialization?.specialization_name ||
+                                                doc.specialization_name ||
+                                                "N/A"}
+                                        </td>
+                                        <td>{doc.availability}</td>
+                                        <td>{doc.consultation_fee}</td>
+                                        <td>{doc.staff?.mobile_number ?? "N/A"}</td>
+                                        <td>{doc.staff?.joining_date ?? "N/A"}</td>
+                                        <td>
+                                            <Link
+                                                to={`/edit-doctor/${doc.doctor_id}`}
+                                                className="btn btn-sm btn-primary me-2"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(doc.doctor_id)}
+                                                className="btn btn-sm btn-danger"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+
+                    {/* Pagination */}
+                    <div className="d-flex justify-content-center align-items-center">
+                        <button
+                            className="btn btn-outline-primary me-2"
+                            onClick={() => setPage(p => Math.max(p - 1, 1))}
+                            disabled={page === 1}
+                        >
+                            Previous
+                        </button>
+
+                        <span>Page {page} of {totalPages}</span>
+
+                        <button
+                            className="btn btn-outline-primary ms-2"
+                            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                            disabled={page === totalPages}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
+
+export default DoctorList;

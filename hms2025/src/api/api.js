@@ -39,4 +39,39 @@ export const loginUser = (data) => apiClient.post("token/", data);
 
 
 // Get all registered patients (Dashboard)
+// Get all registered patients (Dashboard)
 export const getAllPatients = () => apiClient.get("receptionist/patients/");
+
+// Register User (Doctor, Staff, etc.)
+export const registerUser = (data) => apiClient.post("admins/register-user/", data);
+
+// Get Specializations
+export const getSpecializations = () => apiClient.get("admins/specializations/");
+
+
+// Get all Doctors
+export const getDoctors = (params) => apiClient.get("admins/doctors/", { params });
+
+// Get all Staff
+export const getStaff = (params) => apiClient.get("admins/staff/", { params });
+
+// Delete User (Doctor/Staff)
+export const deleteUser = (id) => apiClient.delete(`admins/users/${id}/`);
+
+// Delete Doctor
+export const deleteDoctor = (id) => apiClient.delete(`admins/doctors/${id}/`);
+
+// Delete Staff
+export const deleteStaff = (id) => apiClient.delete(`admins/staff/${id}/`);
+
+// Get Doctor by ID
+export const getDoctorById = (id) => apiClient.get(`admins/doctors/${id}/`);
+
+// Update Doctor
+export const updateDoctor = (id, data) => apiClient.put(`admins/doctors/${id}/`, data);
+
+// Get Staff by ID
+export const getStaffById = (id) => apiClient.get(`admins/staff/${id}/`);
+
+// Update Staff
+export const updateStaff = (id, data) => apiClient.put(`admins/staff/${id}/`, data);
