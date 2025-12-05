@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDoctorById, updateDoctor, getSpecializations } from "../../api/api";
+import { getDoctorById, updateDoctor, getSpecializations, updateStaff } from "../../api/api"; // <-- Import updateStaff
 import './add.css';
 
 const EditDoctor = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // Add state for staff_id
+    const [staffId, setStaffId] = useState(null); 
+    
     const [formData, setFormData] = useState({
         username: "",
         full_name: "",
@@ -32,8 +35,10 @@ const EditDoctor = () => {
                 const docRes = await getDoctorById(id);
                 const doc = docRes.data;
 
+                // --- SAVE STAFF ID ---
+                setStaffId(doc.staff?.staff_id);
+
                 // Populate form data
-                // Note: Adjust fields based on actual API response structure
                 setFormData({
                     username: doc.staff?.username || "",
                     full_name: doc.staff?.full_name || "",
@@ -61,20 +66,34 @@ const EditDoctor = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!staffId) {
+            alert("Error: Staff ID not found.");
+            return;
+        }
+
         try {
-            // Prepare payload - only send editable fields
-            // Assuming username is read-only or handled separately if needed
-            const payload = {
+            // 1. Prepare Staff Payload (editable Staff fields)
+            const staffPayload = {
                 full_name: formData.full_name,
                 gender: formData.gender,
                 joining_date: formData.joining_date,
                 mobile_number: formData.mobile_number,
+            };
+            
+            // 2. Prepare Doctor Payload (editable Doctor fields)
+            const doctorPayload = {
                 consultation_fee: formData.consultation_fee,
                 availability: formData.availability,
                 specialization: formData.specialization,
             };
 
-            await updateDoctor(id, payload);
+            // 3. Update Staff record
+            await updateStaff(staffId, staffPayload);
+            
+            // 4. Update Doctor record
+            await updateDoctor(id, doctorPayload);
+            
             alert("Doctor updated successfully");
             navigate("/doctors");
         } catch (err) {
@@ -83,6 +102,7 @@ const EditDoctor = () => {
         }
     };
 
+    // ... rest of the component remains the same
     if (loading) return <div>Loading...</div>;
 
     return (
