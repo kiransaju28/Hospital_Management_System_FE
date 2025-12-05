@@ -8,6 +8,7 @@ function App() {
       <Routes>
         {/* auth routes */}
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
         {/* admin dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />

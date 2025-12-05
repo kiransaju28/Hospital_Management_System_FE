@@ -12,7 +12,7 @@ apiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem("access");
 
     //Do not attach tokens for public routes
-    const publicRoutes = ["login/", "signup/"];
+    const publicRoutes = ["login/", "token/"];
 
     const isPublicRoute = publicRoutes.some((route) => config.url.includes(route));
     if (!isPublicRoute && token) {
