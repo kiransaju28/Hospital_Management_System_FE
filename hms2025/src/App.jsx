@@ -1,17 +1,18 @@
+// src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./auth/login";
-import Dashboard from "./Pages/Dashboard/dashboard";
+import Login from "./auth/login"; // Ensure filename matches (Login.jsx vs login.jsx)
+import AdminDashboard from "./Pages/Admin/Dashboard/Adminashboard";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* auth routes */}
+        {/* Auth Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 
-        {/* admin dashboard */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Admin Dashboard */}
+        <Route path="/dashboard" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
