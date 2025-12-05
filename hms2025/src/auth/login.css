@@ -1,0 +1,52 @@
+/* Light blue background */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #e8f4ff, #e9fff4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Centered card container */
+.login-card {
+  width: 380px;
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 14px;
+  border: 1px solid #dbe7ff;
+}
+
+/* Form labels */
+.login-card label {
+  font-weight: 600;
+  color: #004d66;
+}
+
+/* Inputs */
+.login-card input {
+  height: 45px;
+  border-radius: 6px;
+  border: 1px solid #bcd4ff;
+  transition: 0.2s ease;
+}
+
+.login-card input:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.3);
+}
+
+/* Button theme: Blue + Green blend */
+.login-btn {
+  height: 45px;
+  background: linear-gradient(to right, #1e90ff, #28a745);
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
