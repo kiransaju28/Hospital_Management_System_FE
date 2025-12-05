@@ -1,7 +1,7 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./auth/login";
-import Dashboard from "./Pages/Dashboard/dashboard";
+import Dashboard from "./Pages/Admin/Dashboard/Admindashboard";
 import AddDoctor from "./Pages/Admin/AddDoctor";
 import AddStaff from "./Pages/Admin/AddStaff";
 import DoctorList from "./Pages/Admin/DoctorList";
@@ -19,6 +19,12 @@ function App() {
 
         {/* admin dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/add-doctor" element={<AddDoctor />} />
+        <Route path="/add-staff" element={<AddStaff />} />
+        <Route path="/doctors" element={<DoctorList />} />
+        <Route path="/edit-doctor/:id" element={<EditDoctor />} />
+        <Route path="/staff" element={<StaffList />} />
+        <Route path="/edit-staff/:id" element={<EditStaff />} />
       </Routes>
     </BrowserRouter>
   );
