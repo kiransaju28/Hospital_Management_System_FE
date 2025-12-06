@@ -94,7 +94,7 @@ const PatientList = () => {
                                 </tr>
                             ) : (
                                 patients.map((patient) => (
-                                    <tr key={patient.Patient_id || patient.id}>
+                                    <tr key={patient.Patient_id ?? patient.id}>
                                         <td>{patient.patient_name}</td>
                                         <td>{patient.email}</td>
                                         <td>{patient.phone}</td>
@@ -103,13 +103,13 @@ const PatientList = () => {
                                         <td>{patient.date_of_birth}</td>
                                         <td>
                                             <Link
-                                                to={`/edit-patient/${patient.Patient_id || patient.id}`}
+                                                to={`/edit-patient/${patient.Patient_id ?? patient.id}`}
                                                 className="btn btn-sm btn-primary me-2"
                                             >
                                                 Edit
                                             </Link>
                                             <button
-                                                onClick={() => handleDelete(patient.Patient_id || patient.id)}
+                                                onClick={() => handleDelete(patient.Patient_id ?? patient.id)}
                                                 className="btn btn-sm btn-danger"
                                             >
                                                 Delete

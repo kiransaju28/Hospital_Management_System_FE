@@ -3,6 +3,27 @@ import { Link } from "react-router-dom";
 import { getAppointments, deleteAppointment, getPatients, getDoctors } from "../../api/api";
 import "../Admin/List.css";
 
+// Utility function to format the date string to YYYY-MM-DD HH:MM
+const formatAppointmentDate = (dateString) => {
+    if (!dateString) return "N/A";
+    
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    } catch (e) {
+        console.error("Error formatting date:", e);
+        return dateString;
+    }
+};
+
 const AppointmentList = () => {
     const [appointments, setAppointments] = useState([]);
     const [patients, setPatients] = useState([]);
@@ -33,7 +54,6 @@ const AppointmentList = () => {
             }
 
             // Fetch patients and doctors for name lookup
-            // Note: In a real app with many records, this should be handled by the backend or optimized
             const patRes = await getPatients({ page_size: 1000 });
             const docRes = await getDoctors({ page_size: 1000 });
 
@@ -49,7 +69,6 @@ const AppointmentList = () => {
 
     const getPatientName = (id) => {
         if (!id) return "N/A";
-        // Check if id is an object (nested response)
         if (typeof id === 'object') return id.patient_name || "Unknown";
 
         const patient = patients.find(p => p.Patient_id === id || p.id === id);
@@ -58,7 +77,6 @@ const AppointmentList = () => {
 
     const getDoctorName = (id) => {
         if (!id) return "N/A";
-        // Check if id is an object (nested response)
         if (typeof id === 'object') return id.staff?.full_name || id.full_name || "Unknown";
 
         const doctor = doctors.find(d => d.doctor_id === id || d.id === id);
@@ -103,26 +121,26 @@ const AppointmentList = () => {
                         <tbody>
                             {appointments.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="text-center">No appointments found</td>
+                                    <td colSpan="7" className="text-center">No appointments found</td>
                                 </tr>
                             ) : (
                                 appointments.map((apt) => (
-                                    <tr key={apt.Appointment_id || apt.id}>
-                                        <td>{apt.Appointment_id || apt.id}</td>
-                                        <td>{apt.token || "N/A"}</td>
+                                    <tr key={apt.Appointment_id ?? apt.id}>
+                                        <td>{apt.Appointment_id ?? apt.id}</td>
+                                        <td>{apt.token ?? "N/A"}</td>
                                         <td>{getPatientName(apt.patient)}</td>
                                         <td>{getDoctorName(apt.doctor)}</td>
-                                        <td>{apt.appointment_date || "N/A"}</td>
-                                        <td>{apt.status || "Pending"}</td>
+                                        <td>{formatAppointmentDate(apt.appointment_date)}</td>
+                                        <td>{apt.status ?? "Pending"}</td>
                                         <td>
                                             <Link
-                                                to={`/edit-appointment/${apt.Appointment_id || apt.id}`}
+                                                to={`/edit-appointment/${apt.Appointment_id ?? apt.id}`}
                                                 className="btn btn-sm btn-primary me-2"
                                             >
                                                 Edit
                                             </Link>
                                             <button
-                                                onClick={() => handleDelete(apt.Appointment_id || apt.id)}
+                                                onClick={() => handleDelete(apt.Appointment_id ?? apt.id)}
                                                 className="btn btn-sm btn-danger"
                                             >
                                                 Cancel

@@ -37,14 +37,20 @@ const AddAppointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const doctorId = parseInt(formData.doctor);
-            const newDate = new Date(formData.appointment_date);
+            const doctorId = parseInt(formData.doctor, 10);
+            // Convert local datetime-local input to ISO UTC for backend
+            const dateISO = new Date(formData.appointment_date).toISOString();
 
-            // Fetch existing appointments to check for conflicts
+            // Fetch existing appointments to check for conflicts (server-side filtering by doctor if supported)
             const apptRes = await getAppointments({ doctor: doctorId });
             const appointments = apptRes.data.results || apptRes.data;
 
+            const newDate = new Date(dateISO);
+
             const hasConflict = appointments.some(appt => {
+                // Exclude cancelled appointments
+                if (appt.status === 'Cancelled') return false;
+
                 // Get doctor ID from appointment (handle object or ID)
                 let apptDoctorId;
                 if (typeof appt.doctor === 'object' && appt.doctor !== null) {
@@ -53,13 +59,11 @@ const AddAppointment = () => {
                     apptDoctorId = appt.doctor;
                 }
 
-                // Check if it's the same doctor (in case backend didn't filter)
-                if (parseInt(apptDoctorId) !== doctorId) return false;
-
-                // Ignore cancelled appointments
-                if (appt.status === 'Cancelled') return false;
+                if (parseInt(apptDoctorId, 10) !== doctorId) return false;
 
                 const apptDate = new Date(appt.appointment_date);
+                if (isNaN(apptDate.getTime())) return false;
+
                 const diffMs = Math.abs(newDate - apptDate);
                 const diffMins = diffMs / (1000 * 60);
 
@@ -72,10 +76,10 @@ const AddAppointment = () => {
             }
 
             const payload = {
-                patient: parseInt(formData.patient),
+                patient: parseInt(formData.patient, 10),
                 doctor: doctorId,
-                appointment_date: formData.appointment_date + ":00",
-                status: formData.status
+                appointment_date: dateISO,
+                status: formData.status.trim()
             };
 
             console.log("Sending appointment payload:", payload);
@@ -97,7 +101,7 @@ const AddAppointment = () => {
                         return `${prefix}${obj}\n`;
                     }
                     if (Array.isArray(obj)) {
-                        return obj.map(msg => `${prefix}- ${msg}\n`).join('');
+                        return obj.map(m => `${prefix}- ${m}\n`).join('');
                     }
                     if (typeof obj === 'object' && obj !== null) {
                         for (let [key, val] of Object.entries(obj)) {
@@ -130,8 +134,8 @@ const AddAppointment = () => {
                         >
                             <option value="">Select Patient</option>
                             {patients.map((p) => (
-                                <option key={p.Patient_id} value={p.Patient_id}>
-                                    {p.patient_name} (ID: {p.Patient_id})
+                                <option key={p.Patient_id ?? p.id} value={p.Patient_id ?? p.id}>
+                                    {p.patient_name} (ID: {p.Patient_id ?? p.id})
                                 </option>
                             ))}
                         </select>
@@ -147,8 +151,8 @@ const AddAppointment = () => {
                         >
                             <option value="">Select Doctor</option>
                             {doctors.map((d) => (
-                                <option key={d.doctor_id} value={d.doctor_id}>
-                                    {d.staff?.full_name || d.full_name} ({d.specialization?.specialization_name || d.specialization_name})
+                                <option key={d.doctor_id ?? d.id} value={d.doctor_id ?? d.id}>
+                                    {d.staff?.full_name || d.full_name} ({d.specialization?.specialization_name || d.specialization_name || "General"})
                                 </option>
                             ))}
                         </select>
@@ -163,6 +167,19 @@ const AddAppointment = () => {
                             onChange={handleChange}
                             required
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Status</label>
+                        <select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                        >
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
                     </div>
 
                     <button type="submit" className="submit-btn">Book Appointment</button>
