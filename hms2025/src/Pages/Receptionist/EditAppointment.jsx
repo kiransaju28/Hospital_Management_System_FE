@@ -4,7 +4,8 @@ import {
     getAppointmentById,
     updateAppointment,
     getPatients,
-    getDoctors
+    getDoctors,
+    getAppointments
 } from "../../api/api";
 import "../Admin/add.css";
 
@@ -60,14 +61,49 @@ const EditAppointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const payload = {
-            patient: Number(formData.patient),
-            doctor: Number(formData.doctor),
-            status: formData.status,
-            appointment_date: formData.appointment_date,
-        };
+        const doctorId = Number(formData.doctor);
+        const apptDate = new Date(formData.appointment_date);
 
         try {
+            // Validation: Check for time conflicts with the (possibly new) doctor
+            const apptRes = await getAppointments({ doctor: doctorId });
+            const appointments = apptRes.data.results || apptRes.data;
+
+            const hasConflict = appointments.some(appt => {
+                // Exclude current appointment from check
+                const remoteId = appt.Appointment_id || appt.id;
+                if (String(remoteId) === String(id)) return false;
+
+                // Get doctor ID
+                let apptDoctorId;
+                if (typeof appt.doctor === 'object' && appt.doctor !== null) {
+                    apptDoctorId = appt.doctor.doctor_id || appt.doctor.id;
+                } else {
+                    apptDoctorId = appt.doctor;
+                }
+
+                if (parseInt(apptDoctorId) !== doctorId) return false;
+                if (appt.status === 'Cancelled') return false;
+
+                const existingDate = new Date(appt.appointment_date);
+                const diffMs = Math.abs(apptDate - existingDate);
+                const diffMins = diffMs / (1000 * 60);
+
+                return diffMins < 60;
+            });
+
+            if (hasConflict) {
+                alert("This doctor has another appointment within 1 hour of this time.");
+                return;
+            }
+
+            const payload = {
+                patient: Number(formData.patient),
+                doctor: doctorId,
+                status: formData.status,
+                appointment_date: formData.appointment_date,
+            };
+
             await updateAppointment(id, payload);
             alert("Appointment updated successfully!");
             navigate("/appointments");

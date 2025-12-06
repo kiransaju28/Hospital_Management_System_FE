@@ -1,21 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAppointment, getPatients, getDoctors } from "../../api/api";
+import { createAppointment, getPatients, getDoctors, getAppointments } from "../../api/api";
 import "../Admin/add.css";
 
 const AddAppointment = () => {
     const [formData, setFormData] = useState({
         patient: "",
         doctor: "",
-        appointment_date: "", // Assuming this might be needed, though not in user's example payload, it's usually required. 
-        // If not, I'll remove it or make it optional. 
-        // The user example just showed patient and doctor. I'll stick to that for now but add date as it's standard.
-        // Actually, let's check the user request again. 
-        // "POST /api/receptionist/appointments/ { "patient": 1, "doctor": 1 }"
-        // It seems minimal. I'll add date/time just in case, or maybe the backend sets it to NOW?
-        // I'll add it as a field but if it fails I'll remove it.
-        // Better yet, I'll add it because an appointment usually needs a time.
-        status: "Pending"
+        appointment_date: "",
+        status: "Scheduled"
     });
 
     const [patients, setPatients] = useState([]);
@@ -25,7 +18,7 @@ const AddAppointment = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const patRes = await getPatients({ page_size: 100 }); // Fetch enough for dropdown
+                const patRes = await getPatients({ page_size: 100 });
                 const docRes = await getDoctors({ page_size: 100 });
 
                 setPatients(patRes.data.results || patRes.data);
@@ -44,18 +37,81 @@ const AddAppointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const doctorId = parseInt(formData.doctor);
+            const newDate = new Date(formData.appointment_date);
+
+            // Fetch existing appointments to check for conflicts
+            const apptRes = await getAppointments({ doctor: doctorId });
+            const appointments = apptRes.data.results || apptRes.data;
+
+            const hasConflict = appointments.some(appt => {
+                // Get doctor ID from appointment (handle object or ID)
+                let apptDoctorId;
+                if (typeof appt.doctor === 'object' && appt.doctor !== null) {
+                    apptDoctorId = appt.doctor.doctor_id || appt.doctor.id;
+                } else {
+                    apptDoctorId = appt.doctor;
+                }
+
+                // Check if it's the same doctor (in case backend didn't filter)
+                if (parseInt(apptDoctorId) !== doctorId) return false;
+
+                // Ignore cancelled appointments
+                if (appt.status === 'Cancelled') return false;
+
+                const apptDate = new Date(appt.appointment_date);
+                const diffMs = Math.abs(newDate - apptDate);
+                const diffMins = diffMs / (1000 * 60);
+
+                return diffMins < 60;
+            });
+
+            if (hasConflict) {
+                alert("This doctor has another appointment within 1 hour of this time. Please choose a different time.");
+                return;
+            }
+
             const payload = {
                 patient: parseInt(formData.patient),
-                doctor: parseInt(formData.doctor),
-                appointment_date: formData.appointment_date,
-                // status: formData.status
+                doctor: doctorId,
+                appointment_date: formData.appointment_date + ":00",
+                status: formData.status
             };
+
+            console.log("Sending appointment payload:", payload);
+
             await createAppointment(payload);
             alert("Appointment created successfully!");
             navigate("/appointments");
         } catch (err) {
             console.error("Error creating appointment:", err);
-            alert("Failed to create appointment");
+
+            if (err.response && err.response.data) {
+                let errorMsg = "Failed to create appointment:\n";
+                const data = err.response.data;
+
+                // Recursively parse error data
+                const formatErrors = (obj, prefix = '') => {
+                    let msg = '';
+                    if (typeof obj === 'string') {
+                        return `${prefix}${obj}\n`;
+                    }
+                    if (Array.isArray(obj)) {
+                        return obj.map(msg => `${prefix}- ${msg}\n`).join('');
+                    }
+                    if (typeof obj === 'object' && obj !== null) {
+                        for (let [key, val] of Object.entries(obj)) {
+                            msg += formatErrors(val, `${prefix}${key}: `);
+                        }
+                    }
+                    return msg;
+                };
+
+                errorMsg += formatErrors(data);
+                alert(errorMsg);
+            } else {
+                alert("Failed to create appointment.");
+            }
         }
     };
 
