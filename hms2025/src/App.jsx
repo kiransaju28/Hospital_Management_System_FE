@@ -35,6 +35,10 @@ import EditReport from "./Pages/Lab Technician/EditReport";
 
 import ReportList from "./Pages/Lab Technician/ReportList";
 
+import MedicineList from "./Pages/Pharmacist/MedicineList";
+import AddMedicine from "./Pages/Pharmacist/AddMedicine";
+import EditMedicine from "./Pages/Pharmacist/EditMedicine";
+
 function App() {
   return (
     <BrowserRouter>
@@ -81,6 +85,11 @@ function App() {
         <Route path="/view-report/:id" element={<ViewReport />} />
         <Route path="/edit-report/:id" element={<EditReport />} />
         <Route path="/lab-reports" element={<ReportList />} />
+
+        {/* Pharmacist Routes */}
+        <Route path="/medicines" element={<MedicineList />} />
+        <Route path="/add-medicine" element={<AddMedicine />} />
+        <Route path="/edit-medicine/:id" element={<EditMedicine />} />
       </Routes>
     </BrowserRouter>
   );

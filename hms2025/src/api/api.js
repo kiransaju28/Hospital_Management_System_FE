@@ -185,7 +185,12 @@ export const deleteLabTestOrder = (id) =>
 ======================================================== */
 
 // Placeholder endpoints - backend needs to support these
-export const getMedicines = () => apiClient.get("pharmacist/medicines/");
+export const getMedicines = (params) => apiClient.get("pharmacist/medicines/", { params });
+export const createMedicine = (data) => apiClient.post("pharmacist/medicines/", data);
+export const getMedicineById = (id) => apiClient.get(`pharmacist/medicines/${id}/`);
+export const updateMedicine = (id, data) => apiClient.put(`pharmacist/medicines/${id}/`, data);
+export const deleteMedicine = (id) => apiClient.delete(`pharmacist/medicines/${id}/`);
+
 export const getAvailableLabTests = () => apiClient.get("labtech/tests/");
 
 /* =====================================================
