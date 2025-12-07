@@ -1,134 +1,578 @@
-/* Modern Minimal Form UI – 2025 Edition */
+/* Updated add.css and List.css with fixes for search box and button positioning */
 
-/* THEME */
 :root {
-  --bg: #f4f6f9;
+  --primary-blue: #0a2540;
+  --metallic-blue: #1e3a8a;
+  --metallic-blue-light: #3b82f6;
+  --metallic-blue-dark: #1e40af;
+  --accent-gold: #d97706;
+  --light-bg: #f0f9ff;
   --card-bg: #ffffff;
-  --primary: #4c6ef5;
-  --primary-hover: #3b5bdb;
-  --border: #e4e7ec;
-  --text: #1a1f36;
-  --muted: #6b7280;
-  --radius: 12px;
-  --shadow: 0 4px 20px rgba(0,0,0,0.06);
-  --transition: 0.18s ease;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --success: #10b981;
+  --danger: #ef4444;
+  --border-color: #cbd5e1;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --transition: all 0.3s ease;
 }
 
-/* PAGE BACKGROUND */
-body {
-  background: var(--bg);
-  font-family: Inter, system-ui, sans-serif;
-  color: var(--text);
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* CARD STYLING */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--light-bg) 0%, #e0f2fe 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+/* Container styling */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Card styling for forms */
 .card {
   background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 28px !important;
-  border: 1px solid var(--border);
+  border-radius: 12px;
   box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
 }
 
-/* TITLE */
-.card h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  color: var(--text);
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--metallic-blue), var(--accent-gold));
 }
 
-/* LABELS */
+/* Form styling */
+form {
+  width: 100%;
+}
+
 .form-label {
-  font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #242b3a;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
-/* INPUTS + SELECT */
 .form-control {
   width: 100%;
-  padding: 10px 14px;
-  background: #fff;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 0.95rem;
-  color: var(--text);
-  transition: border var(--transition), box-shadow var(--transition);
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: #f8fafc;
 }
 
 .form-control:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(76,110,245,0.15);
   outline: none;
+  border-color: var(--metallic-blue-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
-/* PLACEHOLDER */
-.form-control::placeholder {
-  color: #9ca3af;
-}
-
-/* SELECT INPUT STYLING */
-select.form-control {
-  appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%236b7280' height='20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 8l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 16px;
-}
-
-/* BUTTON */
-.btn-primary {
-  background: var(--primary);
-  border: none;
-  padding: 12px;
-  border-radius: var(--radius);
-  font-size: 1rem;
+/* Button styling */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
   font-weight: 600;
-  width: 100%;
-  color: white;
-  transition: background var(--transition), transform var(--transition);
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-primary:hover {
-  background: var(--primary-hover);
+.btn-primary {
+  background: linear-gradient(90deg, var(--metallic-blue), var(--metallic-blue-dark));
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.3), 0 4px 6px -2px rgba(30, 58, 138, 0.2);
 }
 
 .btn-primary:active {
   transform: translateY(0);
 }
 
-/* SMALL TEXT */
-.text-muted {
-  font-size: 0.85rem;
-  color: var(--muted) !important;
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-/* ERROR TEXT */
-.text-danger {
-  color: #e03131 !important;
+.btn-success {
+  background: linear-gradient(90deg, var(--success), #059669);
+  color: white;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3), 0 4px 6px -2px rgba(16, 185, 129, 0.2);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, var(--danger), #dc2626);
+  color: white;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3), 0 4px 6px -2px rgba(239, 68, 68, 0.2);
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.table thead {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.table th,
+.table td {
+  padding: 1.25rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+  transition: var(--transition);
+}
+
+.table tbody tr:hover {
+  background-color: #f0f9ff;
+  transform: scale(1.005);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Pagination styling */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--metallic-blue);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--metallic-blue);
+  color: white;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Search input - Fixed to prevent stretching */
+.search-input {
+  width: 100%;
+  max-width: 400px; /* Limit width to prevent stretching */
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  border: 2px solid var(--border-color);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  border-color: var(--metallic-blue-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Header styling */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h3 {
+  color: var(--primary-blue);
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--metallic-blue);
   font-weight: 600;
 }
 
-/* GRID SPACING FIX */
-.mb-3 {
-  margin-bottom: 1.1rem !important;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem !important;
+  }
+  
+  .col-md-6 {
+    width: 100%;
+    padding: 0 0.5rem !important;
+  }
+  
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .btn-success {
+    align-self: flex-end;
+    width: 100%;
+  }
+  
+  .search-input {
+    max-width: 100%; /* On mobile, take full width */
+  }
 }
 
-/* RESPONSIVE FIX */
-@media(max-width: 576px) {
-  .card {
-    padding: 20px !important;
+/* Form header */
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-blue);
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.form-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--accent-gold);
+  border-radius: 3px;
+}
+
+/* Specialization select styling */
+select.form-control {
+  appearance: none;
+  background-image: url("image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* Alert messages */
+.alert {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid var(--success);
+  color: var(--success);
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid var(--danger);
+  color: var(--danger);
+}
+
+/* No results message */
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Center all forms and lists */
+.container.mt-5,
+.container.mt-4 {
+  display: flex;
+  justify-content: center;
+}
+
+.row.justify-content-center {
+  width: 100%;
+}
+
+/* Override default margins for consistent spacing */
+.mb-3 {
+  margin-bottom: 1.25rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 2rem !important;
+}
+
+.mt-3 {
+  margin-top: 1.25rem !important;
+}
+
+.mt-4 {
+  margin-top: 2rem !important;
+}
+
+/* Footer space */
+body > div:last-child {
+  margin-bottom: 2rem;
+}
+
+/* Hover effects for table actions */
+.table .btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Metallic texture effect for headers */
+h2, h3 {
+  background: linear-gradient(90deg, var(--metallic-blue), #2563eb, var(--accent-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
   }
-  
-  .card h2 {
-    font-size: 1.4rem;
+}
+
+/* Add Staff/Add Doctor button positioning with animation */
+.add-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--metallic-blue), var(--metallic-blue-dark));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+  animation: bounceIn 0.6s ease-out;
+}
+
+.add-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+}
+
+.add-button:active {
+  transform: translateY(0) scale(1.05);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
   }
-  
-  .form-control {
-    font-size: 0.9rem;
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
   }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Make sure the button doesn't interfere with other elements */
+.add-button-container {
+  position: relative;
+  z-index: 1000;
+}
+
+/* For the staff page, ensure the search box doesn't stretch */
+.staff-search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.staff-search-container .search-input {
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Adjust for the specific layout in your image */
+.staff-page-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.staff-page-layout .add-staff-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--success), #059669);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  animation: bounceIn 0.6s ease-out;
+}
+
+.staff-page-layout .add-staff-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.staff-page-layout .add-staff-button:active {
+  transform: translateY(0) scale(1.05);
+}
+
+/* For the doctor list page */
+.doctor-list-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.doctor-list-page .add-doctor-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--metallic-blue), var(--metallic-blue-dark));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+  animation: bounceIn 0.6s ease-out;
+}
+
+.doctor-list-page .add-doctor-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+}
+
+.doctor-list-page .add-doctor-button:active {
+  transform: translateY(0) scale(1.05);
+}
+
+/* Ensure proper spacing for the table */
+.staff-table-container {
+  flex: 1;
+  min-width: 600px;
+}
+
+/* For the search box in staff page */
+.staff-search-box {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  border: 2px solid var(--border-color);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.staff-search-box:focus {
+  border-color: var(--metallic-blue-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }

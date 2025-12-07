@@ -1,119 +1,202 @@
-/* src/Pages/Admin/Dashboard/AdminDashboard.css */
+/* src/Pages/Admin/Dashboard/Dashboard.css */
 
-/* Professional Blue Theme – Calm, Trustworthy, Healthcare-Ready */
 :root {
-  --hms-blue: #2563eb;
-  --hms-blue-light: #dbeafe;
-  --hms-blue-hover: #3371f0;
-  --hms-green: #10b981;
-  --hms-yellow: #f59e0b;
-  --hms-purple: #8b5cf6;
-  --hms-red: #ef4444;
-  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --sidebar-shadow: -4px 0 25px rgba(0, 0, 0, 0.12);
+  --primary-color: #1e88e5; /* Medical blue */
+  --primary-hover: #1976d2;
+  --sidebar-bg: #f5f7fa;
+  --sidebar-border: #e0e6ed;
+  --card-bg: #ffffff;
+  --text-dark: #2d3748;
+  --text-light: #4a5568;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --spacing: 1rem;
+  --sidebar-width: 250px;
 }
 
-/* === Stat Card Hover Effect === */
-.stat-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--card-shadow);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* === Sidebar Styling === */
-.sidebar-mobile {
-  box-shadow: var(--sidebar-shadow);
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fbfd;
+  color: var(--text-dark);
 }
 
-.sidebar-nav-link {
-  transition: all 0.2s ease;
-  position: relative;
-  color: #374151;
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
 }
 
-.sidebar-nav-link.active {
-  background-color: var(--hms-blue-light);
-  color: var(--hms-blue);
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: 1.5rem var(--spacing);
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.sidebar-header h2 {
+  font-size: 1.4rem;
+  color: var(--primary-color);
   font-weight: 600;
 }
 
-.sidebar-nav-link.active::before {
-  content: '';
+.sidebar-menu {
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.menu-item,
+.submenu-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem var(--spacing);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu-item i,
+.submenu-item i {
+  width: 1.25rem;
+  text-align: center;
+}
+
+.menu-item:hover,
+.submenu-item:hover {
+  background-color: rgba(30, 136, 229, 0.08);
+  color: var(--primary-color);
+}
+
+.menu-item.active {
+  background-color: rgba(30, 136, 229, 0.15);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.submenu-toggle {
+  justify-content: space-between;
+}
+
+.arrow {
+  font-size: 0.7rem;
+  color: var(--text-light);
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 1.5rem;
+  background-color: rgba(30, 136, 229, 0.03);
+}
+
+.submenu .submenu-item {
+  padding: 0.65rem var(--spacing);
+  font-size: 0.9rem;
+}
+
+.sidebar-footer {
+  padding: 1rem var(--spacing);
+  border-top: 1px solid var(--sidebar-border);
   position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background-color: var(--hms-blue);
-  border-radius: 0 4px 4px 0;
+  bottom: 0;
+  width: calc(var(--sidebar-width) - 1px);
+  background: var(--sidebar-bg);
 }
 
-.sidebar-nav-link:hover:not(.active) {
-  background-color: #f3f4f6;
-  transform: translateX(4px);
+.logout-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #ffebee;
+  color: #c62828;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.2s;
 }
 
-/* === Appointment Status – Pending Pulse Animation === */
-.status-pending {
-  animation: pulseYellow 2s infinite;
+.logout-btn:hover {
+  background: #ffcdd2;
 }
 
-@keyframes pulseYellow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
-  }
+/* Main Content */
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+  width: calc(100% - var(--sidebar-width));
 }
 
-/* === Notification Badge Bounce === */
-.notification-badge {
-  animation: bounceIn 1.2s ease-in-out;
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
 }
 
-@keyframes bounceIn {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-4px);
-  }
-  60% {
-    transform: translateY(-2px);
-  }
+.stat-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  text-align: center;
 }
 
-/* === Table Row Hover Effect === */
-tbody tr:hover {
-  background-color: rgba(37, 99, 235, 0.04) !important;
-  transition: background-color 0.2s ease;
+.stat-card h3 {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-bottom: 0.75rem;
 }
 
-/* === Header Clock – Subtle Interaction === */
-.header-clock {
-  transition: color 0.25s ease;
-}
-.header-clock:hover {
-  color: var(--hms-blue);
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
 }
 
-/* === Responsive Tweaks === */
+/* Responsive */
 @media (max-width: 768px) {
-  .p-6 {
-    padding: 1.25rem !important;
+  .sidebar {
+    width: 70px;
   }
 
-  .text-xl {
-    font-size: 1.125rem !important;
+  .sidebar h2,
+  .menu-item:not(.submenu-toggle) span:not(.arrow),
+  .submenu,
+  .sidebar-footer span {
+    display: none;
   }
 
-  .grid-cols-1\.5 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .menu-item i,
+  .logout-btn i {
+    margin: 0;
+  }
+
+  .main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    padding: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 }

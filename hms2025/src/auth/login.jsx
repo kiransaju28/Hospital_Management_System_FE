@@ -53,7 +53,7 @@ const Login = () => {
                 if (refresh) localStorage.setItem("refresh", refresh);
 
                 alert("Login successful");
-                navigate("/dashboard");
+                navigate("/admindashboard");
             } else {
                 console.error("Token structure mismatch:", res.data);
                 alert("Login failed: Invalid response from server");
