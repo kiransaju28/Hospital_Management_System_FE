@@ -10,8 +10,8 @@ const AdminDashboard = () => {
     staff: false,
     financials: false,
     inventory: false,
-    reporting: false,
-    settings: false,
+    consult: false,
+    lab: false,
     help: false,
   });
 
@@ -68,25 +68,34 @@ const AdminDashboard = () => {
                 <li>
                   <button
                     className={`submenu-item ${activeItem === 'admissions' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('admissions')}
+                    onClick={() => {
+                      setActiveItem('admissions');
+                      navigate('/add-patient');
+                    }}
                   >
-                    Admissions/Discharge
+                    Admissions
                   </button>
                 </li>
                 <li>
                   <button
                     className={`submenu-item ${activeItem === 'records' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('records')}
+                    onClick={() => {
+                      setActiveItem('records');
+                      navigate('/patients');
+                    }}
                   >
-                    Patient Records (EHR Access)
+                    Patient Records
                   </button>
                 </li>
                 <li>
                   <button
                     className={`submenu-item ${activeItem === 'appointments' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('appointments')}
+                    onClick={() => {
+                      setActiveItem('appointments');
+                      navigate('/appointments');
+                    }}
                   >
-                    Appointments/Scheduling
+                    Appointment Bookings
                   </button>
                 </li>
               </ul>
@@ -186,72 +195,109 @@ const AdminDashboard = () => {
               <ul className="submenu">
                 <li>
                   <button
-                    className={`submenu-item ${activeItem === 'stock' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('stock')}
+                    className={`submenu-item ${activeItem === 'medicines' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('medicines');
+                      navigate('/medicines');
+                    }}
                   >
-                    Stock Levels
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className={`submenu-item ${activeItem === 'suppliers' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('suppliers')}
-                  >
-                    Supplier Management
+                    Medicines
                   </button>
                 </li>
               </ul>
             )}
           </li>
 
-          {/* Reporting & Analytics */}
+          {/* Consult */}
           <li>
             <button
               className="menu-item submenu-toggle"
-              onClick={() => toggleSubmenu('reporting')}
+              onClick={() => toggleSubmenu('consult')}
             >
-              <i className="fas fa-chart-line"></i> Reporting & Analytics
-              <span className="arrow">{openSubmenus.reporting ? '▲' : '▼'}</span>
+              <i className="fas fa-stethoscope"></i> Consult
+              <span className="arrow">{openSubmenus.consult ? '▲' : '▼'}</span>
             </button>
-            {openSubmenus.reporting && (
+            {openSubmenus.consult && (
               <ul className="submenu">
                 <li>
                   <button
-                    className={`submenu-item ${activeItem === 'reports' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('reports')}
+                    className={`submenu-item ${activeItem === 'consult-patient' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('consult-patient');
+                      navigate('/doctor-dashboard');
+                    }}
                   >
-                    Standard Reports
+                    Consult Patient
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`submenu-item ${activeItem === 'view-history' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('view-history');
+                      navigate('/doctor/consultation-history');
+                    }}
+                  >
+                    View Patient History
                   </button>
                 </li>
               </ul>
             )}
           </li>
 
-          {/* System Settings */}
+          {/* Lab */}
           <li>
             <button
               className="menu-item submenu-toggle"
-              onClick={() => toggleSubmenu('settings')}
+              onClick={() => toggleSubmenu('lab')}
             >
-              <i className="fas fa-cog"></i> System Settings
-              <span className="arrow">{openSubmenus.settings ? '▲' : '▼'}</span>
+              <i className="fas fa-flask"></i> Lab
+              <span className="arrow">{openSubmenus.lab ? '▲' : '▼'}</span>
             </button>
-            {openSubmenus.settings && (
+            {openSubmenus.lab && (
               <ul className="submenu">
                 <li>
                   <button
-                    className={`submenu-item ${activeItem === 'roles' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('roles')}
+                    className={`submenu-item ${activeItem === 'lab-tests' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('lab-tests');
+                      navigate('/lab-tests');
+                    }}
                   >
-                    User Roles & Permissions
+                    Lab Test
                   </button>
                 </li>
                 <li>
                   <button
-                    className={`submenu-item ${activeItem === 'security' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('security')}
+                    className={`submenu-item ${activeItem === 'todo' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('todo');
+                      navigate('/lab-test-orders');
+                    }}
                   >
-                    Backup & Security
+                    ToDo
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`submenu-item ${activeItem === 'lab-reports' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('lab-reports');
+                      navigate('/lab-reports');
+                    }}
+                  >
+                    Reports
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`submenu-item ${activeItem === 'billings' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('billings');
+                      navigate('/lab-bills');
+                    }}
+                  >
+                    Billings
                   </button>
                 </li>
               </ul>

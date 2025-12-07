@@ -65,9 +65,14 @@ const DoPrescription = () => {
         <div className="container mt-4">
             <div className="d-flex justify-content-between mb-3 align-items-center">
                 <h3>Pending Lab Test Orders</h3>
-                <Link to="/lab-reports" className="btn btn-info text-white">
-                    View Report History
-                </Link>
+                <div>
+                    <Link to="/lab-bills" className="btn btn-warning text-white me-2">
+                        Lab Bills
+                    </Link>
+                    <Link to="/lab-reports" className="btn btn-info text-white">
+                        View Report History
+                    </Link>
+                </div>
             </div>
 
             <input

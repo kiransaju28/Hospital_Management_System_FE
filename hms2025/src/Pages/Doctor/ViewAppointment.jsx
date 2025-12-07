@@ -32,9 +32,14 @@ const ViewAppointment = () => {
         <div className="list-container">
             <div className="list-header">
                 <h2>Today's Appointments</h2>
-                <button className="refresh-btn" onClick={fetchAppointments}>
-                    Refresh
-                </button>
+                <div className="d-flex gap-2">
+                    <button className="refresh-btn" onClick={() => navigate('/doctor/consultation-history')}>
+                        History
+                    </button>
+                    <button className="refresh-btn" onClick={fetchAppointments}>
+                        Refresh
+                    </button>
+                </div>
             </div>
 
             <div className="table-wrapper">

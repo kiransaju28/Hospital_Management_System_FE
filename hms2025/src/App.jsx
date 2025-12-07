@@ -23,6 +23,7 @@ import AddPrescription from "./Pages/Doctor/AddPrescription";
 import AddLabTest from "./Pages/Doctor/AddLabTest";
 import EditPrescription from "./Pages/Doctor/EditPrescription";
 import EditLabTest from "./Pages/Doctor/EditLabTest";
+import ViewLabReport from "./Pages/Doctor/LabReport/ViewLabReport";
 import TestList from "./Pages/Lab Technician/TestList";
 import AddTest from "./Pages/Lab Technician/AddTest";
 import EditTest from "./Pages/Lab Technician/EditTest";
@@ -34,10 +35,15 @@ import ViewReport from "./Pages/Lab Technician/ViewReport";
 import EditReport from "./Pages/Lab Technician/EditReport";
 
 import ReportList from "./Pages/Lab Technician/ReportList";
+import BillList from "./Pages/Lab Technician/Bill/BillList";
+import AddBill from "./Pages/Lab Technician/Bill/AddBill";
+import ViewBill from "./Pages/Lab Technician/Bill/ViewBill";
 
 import MedicineList from "./Pages/Pharmacist/MedicineList";
 import AddMedicine from "./Pages/Pharmacist/AddMedicine";
 import EditMedicine from "./Pages/Pharmacist/EditMedicine";
+
+import MainLayout from "./components/MainLayout";
 
 function App() {
   return (
@@ -47,49 +53,56 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 
-        {/* admin dashboard */}
-        <Route path="/admindashboard" element={<Dashboard />} />
-        <Route path="/add-doctor" element={<AddDoctor />} />
-        <Route path="/add-staff" element={<AddStaff />} />
-        <Route path="/doctors" element={<DoctorList />} />
-        <Route path="/edit-doctor/:id" element={<EditDoctor />} />
-        <Route path="/staff" element={<StaffList />} />
-        <Route path="/edit-staff/:id" element={<EditStaff />} />
+        {/* Protected Routes wrapped in MainLayout for Home button */}
+        <Route element={<MainLayout />}>
+          {/* admin dashboard */}
+          <Route path="/admindashboard" element={<Dashboard />} />
+          <Route path="/add-doctor" element={<AddDoctor />} />
+          <Route path="/add-staff" element={<AddStaff />} />
+          <Route path="/doctors" element={<DoctorList />} />
+          <Route path="/edit-doctor/:id" element={<EditDoctor />} />
+          <Route path="/staff" element={<StaffList />} />
+          <Route path="/edit-staff/:id" element={<EditStaff />} />
 
-        {/* Receptionist Routes */}
-        <Route path="/patients" element={<PatientList />} />
-        <Route path="/add-patient" element={<AddPatient />} />
-        <Route path="/edit-patient/:id" element={<EditPatient />} />
-        <Route path="/appointments" element={<AppointmentList />} />
-        <Route path="/add-appointment" element={<AddAppointment />} />
-        <Route path="/edit-appointment/:id" element={<EditAppointment />} />
+          {/* Receptionist Routes */}
+          <Route path="/patients" element={<PatientList />} />
+          <Route path="/add-patient" element={<AddPatient />} />
+          <Route path="/edit-patient/:id" element={<EditPatient />} />
+          <Route path="/appointments" element={<AppointmentList />} />
+          <Route path="/add-appointment" element={<AddAppointment />} />
+          <Route path="/edit-appointment/:id" element={<EditAppointment />} />
 
-        {/* Doctor Routes */}
-        <Route path="/doctor-dashboard" element={<ViewAppointment />} />
-        <Route path="/doctor/consultation-history" element={<ConsultationHistory />} />
-        <Route path="/doctor/add-vitals/:appointmentId" element={<AddVitals />} />
-        <Route path="/doctor/edit-vitals/:id" element={<EditVitals />} />
-        <Route path="/doctor/add-consultation/:appointmentId" element={<AddConsultation />} />
-        <Route path="/doctor/add-prescription/:consultationId" element={<AddPrescription />} />
-        <Route path="/doctor/add-lab-test/:consultationId" element={<AddLabTest />} />
-        <Route path="/doctor/edit-prescription/:id" element={<EditPrescription />} />
-        <Route path="/doctor/edit-lab-test/:id" element={<EditLabTest />} />
+          {/* Doctor Routes */}
+          <Route path="/doctor-dashboard" element={<ViewAppointment />} />
+          <Route path="/doctor/consultation-history" element={<ConsultationHistory />} />
+          <Route path="/doctor/add-vitals/:appointmentId" element={<AddVitals />} />
+          <Route path="/doctor/edit-vitals/:id" element={<EditVitals />} />
+          <Route path="/doctor/add-consultation/:appointmentId" element={<AddConsultation />} />
+          <Route path="/doctor/add-prescription/:consultationId" element={<AddPrescription />} />
+          <Route path="/doctor/add-lab-test/:consultationId" element={<AddLabTest />} />
+          <Route path="/doctor/edit-prescription/:id" element={<EditPrescription />} />
+          <Route path="/doctor/edit-lab-test/:id" element={<EditLabTest />} />
+          <Route path="/doctor/view-lab-report/:id" element={<ViewLabReport />} />
 
-        {/* Lab Technician Routes */}
-        <Route path="/lab-tests" element={<TestList />} />
-        <Route path="/add-test" element={<AddTest />} />
-        <Route path="/edit-test/:id" element={<EditTest />} />
-        <Route path="/lab-test-orders" element={<DoPrescription />} />
-        <Route path="/view-prescription/:id" element={<ViewPrescription />} />
-        <Route path="/add-report/:orderId" element={<AddReport />} />
-        <Route path="/view-report/:id" element={<ViewReport />} />
-        <Route path="/edit-report/:id" element={<EditReport />} />
-        <Route path="/lab-reports" element={<ReportList />} />
+          {/* Lab Technician Routes */}
+          <Route path="/lab-tests" element={<TestList />} />
+          <Route path="/add-test" element={<AddTest />} />
+          <Route path="/edit-test/:id" element={<EditTest />} />
+          <Route path="/lab-test-orders" element={<DoPrescription />} />
+          <Route path="/view-prescription/:id" element={<ViewPrescription />} />
+          <Route path="/add-report/:orderId" element={<AddReport />} />
+          <Route path="/view-report/:id" element={<ViewReport />} />
+          <Route path="/edit-report/:id" element={<EditReport />} />
+          <Route path="/lab-reports" element={<ReportList />} />
+          <Route path="/lab-bills" element={<BillList />} />
+          <Route path="/create-bill" element={<AddBill />} />
+          <Route path="/view-bill/:id" element={<ViewBill />} />
 
-        {/* Pharmacist Routes */}
-        <Route path="/medicines" element={<MedicineList />} />
-        <Route path="/add-medicine" element={<AddMedicine />} />
-        <Route path="/edit-medicine/:id" element={<EditMedicine />} />
+          {/* Pharmacist Routes */}
+          <Route path="/medicines" element={<MedicineList />} />
+          <Route path="/add-medicine" element={<AddMedicine />} />
+          <Route path="/edit-medicine/:id" element={<EditMedicine />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

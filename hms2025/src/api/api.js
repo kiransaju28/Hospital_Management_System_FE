@@ -46,12 +46,12 @@ export const getSpecializations = () => apiClient.get("admins/specializations/")
 
 export const getDoctors = (params) => apiClient.get("admins/doctors/", { params });
 export const getDoctorById = (id) => apiClient.get(`admins/doctors/${id}/`);
-export const updateDoctor = (id, data) => apiClient.put(`admins/doctors/${id}/`, data);
+export const updateDoctor = (id, data) => apiClient.patch(`admins/doctors/${id}/`, data);
 export const deleteDoctor = (id) => apiClient.delete(`admins/doctors/${id}/`);
 
 export const getStaff = (params) => apiClient.get("admins/staff/", { params });
 export const getStaffById = (id) => apiClient.get(`admins/staff/${id}/`);
-export const updateStaff = (id, data) => apiClient.put(`admins/staff/${id}/`, data);
+export const updateStaff = (id, data) => apiClient.patch(`admins/staff/${id}/`, data);
 export const deleteStaff = (id) => apiClient.delete(`admins/staff/${id}/`);
 
 /* =====================================================
@@ -156,7 +156,7 @@ export const getPrescriptionItemById = (id) =>
     apiClient.get(`doctor/prescription-items/${id}/`);
 
 export const updatePrescriptionItem = (id, data) =>
-    apiClient.put(`doctor/prescription-items/${id}/`, data);
+    apiClient.patch(`doctor/prescription-items/${id}/`, data);
 
 export const deletePrescriptionItem = (id) =>
     apiClient.delete(`doctor/prescription-items/${id}/`);
@@ -175,7 +175,7 @@ export const getLabTestOrderById = (id) =>
     apiClient.get(`doctor/lab-test-orders/${id}/`);
 
 export const updateLabTestOrder = (id, data) =>
-    apiClient.put(`doctor/lab-test-orders/${id}/`, data);
+    apiClient.patch(`doctor/lab-test-orders/${id}/`, data);
 
 export const deleteLabTestOrder = (id) =>
     apiClient.delete(`doctor/lab-test-orders/${id}/`);
@@ -232,3 +232,15 @@ export const updateLabReport = (id, data) => apiClient.patch(`labtech/lab-report
 
 export const createLabReportResult = (data) => apiClient.post("labtech/lab-report-results/", data);
 export const getLabReportResults = (params) => apiClient.get("labtech/lab-report-results/", { params });
+
+/* =====================================================
+                LAB TECHNICIAN - LAB BILLS
+======================================================== */
+
+export const getLabBills = (params) => apiClient.get("labtech/lab-bills/", { params });
+export const createLabBill = (data) => apiClient.post("labtech/lab-bills/", data);
+export const getLabBillById = (id) => apiClient.get(`labtech/lab-bills/${id}/`);
+export const updateLabBill = (id, data) => apiClient.patch(`labtech/lab-bills/${id}/`, data);
+export const deleteLabBill = (id) => apiClient.delete(`labtech/lab-bills/${id}/`);
+
+export const createLabBillItem = (data) => apiClient.post("labtech/lab-bill-items/", data);

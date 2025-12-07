@@ -30,9 +30,9 @@ const EditLabTest = () => {
                 const item = itemRes.data;
 
                 setFormData({
-                    test: item.test?.id || item.test, // Handle object or ID
+                    test: item.test?.test_id || item.test?.lab_test_id || item.test?.id || item.test,
                     test_description: item.test_description,
-                    consultation: item.consultation
+                    consultation: item.consultation?.consultation_id || item.consultation?.id || item.consultation
                 });
 
                 // 2. Fetch Available Tests (Non-critical, can fallback)
@@ -78,9 +78,12 @@ const EditLabTest = () => {
         setLoading(true);
 
         try {
+            const testId = parseInt(formData.test);
+            const consultationId = parseInt(formData.consultation);
+
             const payload = {
-                consultation: formData.consultation,
-                test: parseInt(formData.test),
+                consultation: consultationId,
+                test: testId,
                 test_description: formData.test_description
             };
 

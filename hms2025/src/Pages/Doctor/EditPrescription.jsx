@@ -31,18 +31,11 @@ const EditPrescription = () => {
                 const itemRes = await getPrescriptionItemById(id);
                 const item = itemRes.data;
 
-                setFormData({
-                    medicine: item.medicine?.id || item.medicine, // Handle object or ID
-                    dosage: item.dosage,
-                    frequency: item.frequency,
-                    duration: item.duration,
-                    consultation: item.consultation // Keep consultation ID for reference
-                });
-
+                let meds = [];
                 // 2. Fetch Medicines List
                 try {
                     const medRes = await getMedicines();
-                    const meds = medRes.data.results || medRes.data;
+                    meds = medRes.data.results || medRes.data;
 
                     if (Array.isArray(meds) && meds.length > 0) {
                         setMedicines(meds);
@@ -51,16 +44,33 @@ const EditPrescription = () => {
                     }
                 } catch (listErr) {
                     console.warn("Could not fetch medicines, using placeholders:", listErr);
-                    setMedicines([
+                    meds = [
                         { id: 1, name: "Paracetamol 500mg" },
                         { id: 2, name: "Amoxicillin 250mg" },
                         { id: 3, name: "Ibuprofen 400mg" },
                         { id: 4, name: "Cetirizine 10mg" },
                         { id: 5, name: "Metformin 500mg" },
                         { id: 6, name: "Aspirin 75mg" }
-                    ]);
+                    ];
+                    setMedicines(meds);
                 }
 
+                console.log("Prescription Item:", item);
+                console.log("Medicines List:", meds);
+
+                const extractedMedId = item.medicine?.medicine_id || item.medicine?.id || item.medicine;
+                const extractedConsultId = item.consultation?.consultation_id || item.consultation?.id || item.consultation;
+
+                console.log("Extracted Med ID:", extractedMedId, "Type:", typeof extractedMedId);
+                console.log("Extracted Consult ID:", extractedConsultId, "Type:", typeof extractedConsultId);
+
+                setFormData({
+                    medicine: String(extractedMedId), // Store as string for select element
+                    dosage: item.dosage,
+                    frequency: item.frequency,
+                    duration: item.duration,
+                    consultation: String(extractedConsultId) // Store as string for consistency
+                });
             } catch (err) {
                 console.error("Error loading prescription data:", err);
                 setError("Failed to load prescription details.");
@@ -81,18 +91,44 @@ const EditPrescription = () => {
         setLoading(true);
         setError(null);
 
+        console.log("Form Data before submit:", formData);
+
+        const medicineId = parseInt(formData.medicine, 10);
+        const consultationId = parseInt(formData.consultation, 10);
+
+        console.log("Parsed Medicine ID:", medicineId, "Is valid:", !isNaN(medicineId));
+        console.log("Parsed Consultation ID:", consultationId, "Is valid:", !isNaN(consultationId));
+
+        if (isNaN(medicineId)) {
+            alert("Invalid medicine selected. Please select a medicine from the dropdown.");
+            setLoading(false);
+            return;
+        }
+
+        if (isNaN(consultationId)) {
+            alert("Invalid consultation data. Please try again.");
+            setLoading(false);
+            return;
+        }
+
         try {
             const payload = {
-                consultation: formData.consultation, // Required by backend usually
-                medicine: parseInt(formData.medicine),
+                consultation: consultationId,
+                medicine: medicineId,
                 dosage: formData.dosage,
                 frequency: formData.frequency,
                 duration: formData.duration
             };
 
+            console.log("Final Payload being sent:", payload);
+            console.log("Payload types:", {
+                consultation: typeof payload.consultation,
+                medicine: typeof payload.medicine
+            });
+
             await updatePrescriptionItem(id, payload);
             alert("Prescription updated successfully!");
-            navigate(-1); // Go back
+            navigate(-1);
         } catch (err) {
             console.error("Error updating prescription:", err);
             if (err.response && err.response.data) {

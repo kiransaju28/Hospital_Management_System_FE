@@ -52,8 +52,50 @@ const Login = () => {
                 localStorage.setItem("access", access);
                 if (refresh) localStorage.setItem("refresh", refresh);
 
+                // Decode token to get role
+                let role = res.data.role; // Try getting role from response body first
+                if (!role && access) {
+                    try {
+                        const base64Url = access.split('.')[1];
+                        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+                            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                        }).join(''));
+                        const decoded = JSON.parse(jsonPayload);
+                        role = decoded.role || decoded.user_role || (decoded.groups && decoded.groups[0]);
+                        console.log("Decoded role:", role);
+                    } catch (e) {
+                        console.error("Failed to decode token", e);
+                    }
+                }
+
                 alert("Login successful");
-                navigate("/admindashboard");
+
+                // Navigate based on role
+                if (role) {
+                    const normalizedRole = role.toLowerCase().replace(/[\s_]/g, '');
+                    switch (normalizedRole) {
+                        case 'admin':
+                            navigate("/admindashboard");
+                            break;
+                        case 'doctor':
+                            navigate("/doctor-dashboard");
+                            break;
+                        case 'receptionist':
+                            navigate("/patients");
+                            break;
+                        case 'labtechnician':
+                            navigate("/lab-test-orders");
+                            break;
+                        case 'pharmacist':
+                            navigate("/medicines");
+                            break;
+                        default:
+                            navigate("/admindashboard"); // Fallback
+                    }
+                } else {
+                    navigate("/admindashboard"); // Default if no role found
+                }
             } else {
                 console.error("Token structure mismatch:", res.data);
                 alert("Login failed: Invalid response from server");

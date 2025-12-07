@@ -55,9 +55,14 @@ const ConsultationHistory = () => {
         <div className="list-container">
             <div className="list-header">
                 <h2>Consultation History</h2>
-                <button className="refresh-btn" onClick={fetchAllData}>
-                    Refresh
-                </button>
+                <div className="d-flex gap-2">
+                    <button className="refresh-btn me-2" onClick={() => navigate('/doctor-dashboard')}>
+                        Back
+                    </button>
+                    <button className="refresh-btn" onClick={fetchAllData}>
+                        Refresh
+                    </button>
+                </div>
             </div>
 
             <div className="table-wrapper">
@@ -100,7 +105,8 @@ const ConsultationHistory = () => {
                                             {relatedPrescriptions.length === 0 ? "-" : (
                                                 <ul style={{ paddingLeft: '20px', margin: 0 }}>
                                                     {relatedPrescriptions.map(p => {
-                                                        const pId = p.id || p.prescription_id || p.Prescription_id;
+                                                        const pId = p.id || p.prescription_item_id;
+                                                        if (!pId) console.warn("Missing ID for prescription. Keys:", Object.keys(p));
                                                         return (
                                                             <li key={pId} style={{ marginBottom: '5px' }}>
                                                                 {p.medicine_name || p.medicine?.medicine_name || p.medicine} ({p.dosage})
@@ -120,16 +126,27 @@ const ConsultationHistory = () => {
                                             {relatedTests.length === 0 ? "-" : (
                                                 <ul style={{ paddingLeft: '20px', margin: 0 }}>
                                                     {relatedTests.map(t => {
-                                                        const tId = t.id || t.lab_test_id || t.labtest_id || t.LabTest_id;
+                                                        const tId = t.id || t.lab_test_order_id;
+                                                        if (!tId) console.warn("Missing ID for lab test. Keys:", Object.keys(t));
                                                         return (
                                                             <li key={tId} style={{ marginBottom: '5px' }}>
                                                                 {t.test_name || t.test?.test_name || t.test}
-                                                                <button
-                                                                    style={{ marginLeft: '10px', fontSize: '0.8em', cursor: 'pointer', color: 'blue', border: 'none', background: 'none', textDecoration: 'underline' }}
-                                                                    onClick={() => navigate(`/doctor/edit-lab-test/${tId}`)}
-                                                                >
-                                                                    Edit
-                                                                </button>
+                                                                <span style={{ marginLeft: '10px' }}>
+                                                                    <button
+                                                                        style={{ fontSize: '0.8em', cursor: 'pointer', color: 'blue', border: 'none', background: 'none', textDecoration: 'underline', marginRight: '8px' }}
+                                                                        onClick={() => navigate(`/doctor/edit-lab-test/${tId}`)}
+                                                                    >
+                                                                        Edit
+                                                                    </button>
+                                                                    {(t.status === 'Completed' || t.report_id) && (
+                                                                        <button
+                                                                            style={{ fontSize: '0.8em', cursor: 'pointer', color: 'green', border: 'none', background: 'none', textDecoration: 'underline' }}
+                                                                            onClick={() => navigate(`/doctor/view-lab-report/${t.report_id || tId}`)}
+                                                                        >
+                                                                            View Report
+                                                                        </button>
+                                                                    )}
+                                                                </span>
                                                             </li>
                                                         );
                                                     })}
