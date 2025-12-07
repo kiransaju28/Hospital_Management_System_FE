@@ -25,13 +25,13 @@ const EditPatient = () => {
                 const data = res.data;
 
                 setFormData({
-                    patient_name: data.patient_name,
-                    email: data.email,
-                    date_of_birth: data.date_of_birth,
-                    blood_group: data.blood_group,
-                    gender: data.gender,
-                    address: data.address,
-                    phone: data.phone,
+                    patient_name: data.patient_name ?? "",
+                    email: data.email ?? "",
+                    date_of_birth: data.date_of_birth ?? "",
+                    blood_group: data.blood_group ?? "",
+                    gender: data.gender ?? "",
+                    address: data.address ?? "",
+                    phone: data.phone ?? "",
                 });
             } catch (err) {
                 console.error("Error fetching patient:", err);
@@ -57,7 +57,31 @@ const EditPatient = () => {
             navigate("/patients");
         } catch (err) {
             console.error("Error updating patient:", err);
-            alert("Failed to update patient");
+            if (err.response && err.response.data) {
+                let errorMsg = "Failed to update patient:\n";
+                const data = err.response.data;
+
+                const formatErrors = (obj, prefix = '') => {
+                    let msg = '';
+                    if (typeof obj === 'string') {
+                        return `${prefix}${obj}\n`;
+                    }
+                    if (Array.isArray(obj)) {
+                        return obj.map(m => `${prefix}- ${m}\n`).join('');
+                    }
+                    if (typeof obj === 'object' && obj !== null) {
+                        for (let [key, val] of Object.entries(obj)) {
+                            msg += formatErrors(val, `${prefix}${key}: `);
+                        }
+                    }
+                    return msg;
+                };
+
+                errorMsg += formatErrors(data);
+                alert(errorMsg);
+            } else {
+                alert("Failed to update patient");
+            }
         }
     };
 

@@ -1,21 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAppointment, getPatients, getDoctors } from "../../api/api";
+import { createAppointment, getPatients, getDoctors, getAppointments } from "../../api/api";
 import "../Admin/add.css";
 
 const AddAppointment = () => {
     const [formData, setFormData] = useState({
         patient: "",
         doctor: "",
-        appointment_date: "", // Assuming this might be needed, though not in user's example payload, it's usually required. 
-        // If not, I'll remove it or make it optional. 
-        // The user example just showed patient and doctor. I'll stick to that for now but add date as it's standard.
-        // Actually, let's check the user request again. 
-        // "POST /api/receptionist/appointments/ { "patient": 1, "doctor": 1 }"
-        // It seems minimal. I'll add date/time just in case, or maybe the backend sets it to NOW?
-        // I'll add it as a field but if it fails I'll remove it.
-        // Better yet, I'll add it because an appointment usually needs a time.
-        status: "Pending"
+        appointment_date: "",
+        status: "Scheduled"
     });
 
     const [patients, setPatients] = useState([]);
@@ -25,7 +18,7 @@ const AddAppointment = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const patRes = await getPatients({ page_size: 100 }); // Fetch enough for dropdown
+                const patRes = await getPatients({ page_size: 100 });
                 const docRes = await getDoctors({ page_size: 100 });
 
                 setPatients(patRes.data.results || patRes.data);
@@ -44,18 +37,85 @@ const AddAppointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const doctorId = parseInt(formData.doctor, 10);
+            // Convert local datetime-local input to ISO UTC for backend
+            const dateISO = new Date(formData.appointment_date).toISOString();
+
+            // Fetch existing appointments to check for conflicts (server-side filtering by doctor if supported)
+            const apptRes = await getAppointments({ doctor: doctorId });
+            const appointments = apptRes.data.results || apptRes.data;
+
+            const newDate = new Date(dateISO);
+
+            const hasConflict = appointments.some(appt => {
+                // Exclude cancelled appointments
+                if (appt.status === 'Cancelled') return false;
+
+                // Get doctor ID from appointment (handle object or ID)
+                let apptDoctorId;
+                if (typeof appt.doctor === 'object' && appt.doctor !== null) {
+                    apptDoctorId = appt.doctor.doctor_id || appt.doctor.id;
+                } else {
+                    apptDoctorId = appt.doctor;
+                }
+
+                if (parseInt(apptDoctorId, 10) !== doctorId) return false;
+
+                const apptDate = new Date(appt.appointment_date);
+                if (isNaN(apptDate.getTime())) return false;
+
+                const diffMs = Math.abs(newDate - apptDate);
+                const diffMins = diffMs / (1000 * 60);
+
+                return diffMins < 60;
+            });
+
+            if (hasConflict) {
+                alert("This doctor has another appointment within 1 hour of this time. Please choose a different time.");
+                return;
+            }
+
             const payload = {
-                patient: parseInt(formData.patient),
-                doctor: parseInt(formData.doctor),
-                appointment_date: formData.appointment_date,
-                // status: formData.status
+                patient: parseInt(formData.patient, 10),
+                doctor: doctorId,
+                appointment_date: dateISO,
+                status: formData.status.trim()
             };
+
+            console.log("Sending appointment payload:", payload);
+
             await createAppointment(payload);
             alert("Appointment created successfully!");
             navigate("/appointments");
         } catch (err) {
             console.error("Error creating appointment:", err);
-            alert("Failed to create appointment");
+
+            if (err.response && err.response.data) {
+                let errorMsg = "Failed to create appointment:\n";
+                const data = err.response.data;
+
+                // Recursively parse error data
+                const formatErrors = (obj, prefix = '') => {
+                    let msg = '';
+                    if (typeof obj === 'string') {
+                        return `${prefix}${obj}\n`;
+                    }
+                    if (Array.isArray(obj)) {
+                        return obj.map(m => `${prefix}- ${m}\n`).join('');
+                    }
+                    if (typeof obj === 'object' && obj !== null) {
+                        for (let [key, val] of Object.entries(obj)) {
+                            msg += formatErrors(val, `${prefix}${key}: `);
+                        }
+                    }
+                    return msg;
+                };
+
+                errorMsg += formatErrors(data);
+                alert(errorMsg);
+            } else {
+                alert("Failed to create appointment.");
+            }
         }
     };
 
@@ -74,8 +134,8 @@ const AddAppointment = () => {
                         >
                             <option value="">Select Patient</option>
                             {patients.map((p) => (
-                                <option key={p.Patient_id} value={p.Patient_id}>
-                                    {p.patient_name} (ID: {p.Patient_id})
+                                <option key={p.Patient_id ?? p.id} value={p.Patient_id ?? p.id}>
+                                    {p.patient_name} (ID: {p.Patient_id ?? p.id})
                                 </option>
                             ))}
                         </select>
@@ -91,8 +151,8 @@ const AddAppointment = () => {
                         >
                             <option value="">Select Doctor</option>
                             {doctors.map((d) => (
-                                <option key={d.doctor_id} value={d.doctor_id}>
-                                    {d.staff?.full_name || d.full_name} ({d.specialization?.specialization_name || d.specialization_name})
+                                <option key={d.doctor_id ?? d.id} value={d.doctor_id ?? d.id}>
+                                    {d.staff?.full_name || d.full_name} ({d.specialization?.specialization_name || d.specialization_name || "General"})
                                 </option>
                             ))}
                         </select>
@@ -107,6 +167,19 @@ const AddAppointment = () => {
                             onChange={handleChange}
                             required
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Status</label>
+                        <select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                        >
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
                     </div>
 
                     <button type="submit" className="submit-btn">Book Appointment</button>
