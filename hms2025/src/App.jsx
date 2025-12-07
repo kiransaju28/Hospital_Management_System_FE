@@ -14,6 +14,26 @@ import EditPatient from "./Pages/Receptionist/EditPatient";
 import AppointmentList from "./Pages/Receptionist/AppointmentList";
 import AddAppointment from "./Pages/Receptionist/AddAppointment";
 import EditAppointment from "./Pages/Receptionist/EditAppointment";
+import AddVitals from "./Pages/Doctor/BasicVitals/AddVitals";
+import EditVitals from "./Pages/Doctor/BasicVitals/EditVitals";
+import ViewAppointment from "./Pages/Doctor/ViewAppointment";
+import AddConsultation from "./Pages/Doctor/AddConsultation";
+import ConsultationHistory from "./Pages/Doctor/ConsultationHistory";
+import AddPrescription from "./Pages/Doctor/AddPrescription";
+import AddLabTest from "./Pages/Doctor/AddLabTest";
+import EditPrescription from "./Pages/Doctor/EditPrescription";
+import EditLabTest from "./Pages/Doctor/EditLabTest";
+import TestList from "./Pages/Lab Technician/TestList";
+import AddTest from "./Pages/Lab Technician/AddTest";
+import EditTest from "./Pages/Lab Technician/EditTest";
+
+import DoPrescription from "./Pages/Lab Technician/DoPrescription";
+import ViewPrescription from "./Pages/Lab Technician/ViewPrescription";
+import AddReport from "./Pages/Lab Technician/AddReport";
+import ViewReport from "./Pages/Lab Technician/ViewReport";
+import EditReport from "./Pages/Lab Technician/EditReport";
+
+import ReportList from "./Pages/Lab Technician/ReportList";
 
 function App() {
   return (
@@ -39,6 +59,28 @@ function App() {
         <Route path="/appointments" element={<AppointmentList />} />
         <Route path="/add-appointment" element={<AddAppointment />} />
         <Route path="/edit-appointment/:id" element={<EditAppointment />} />
+
+        {/* Doctor Routes */}
+        <Route path="/doctor-dashboard" element={<ViewAppointment />} />
+        <Route path="/doctor/consultation-history" element={<ConsultationHistory />} />
+        <Route path="/doctor/add-vitals/:appointmentId" element={<AddVitals />} />
+        <Route path="/doctor/edit-vitals/:id" element={<EditVitals />} />
+        <Route path="/doctor/add-consultation/:appointmentId" element={<AddConsultation />} />
+        <Route path="/doctor/add-prescription/:consultationId" element={<AddPrescription />} />
+        <Route path="/doctor/add-lab-test/:consultationId" element={<AddLabTest />} />
+        <Route path="/doctor/edit-prescription/:id" element={<EditPrescription />} />
+        <Route path="/doctor/edit-lab-test/:id" element={<EditLabTest />} />
+
+        {/* Lab Technician Routes */}
+        <Route path="/lab-tests" element={<TestList />} />
+        <Route path="/add-test" element={<AddTest />} />
+        <Route path="/edit-test/:id" element={<EditTest />} />
+        <Route path="/lab-test-orders" element={<DoPrescription />} />
+        <Route path="/view-prescription/:id" element={<ViewPrescription />} />
+        <Route path="/add-report/:orderId" element={<AddReport />} />
+        <Route path="/view-report/:id" element={<ViewReport />} />
+        <Route path="/edit-report/:id" element={<EditReport />} />
+        <Route path="/lab-reports" element={<ReportList />} />
       </Routes>
     </BrowserRouter>
   );

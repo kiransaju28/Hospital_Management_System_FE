@@ -1,0 +1,158 @@
+/* -------------------------------
+   Modern Dashboard Table Styling
+   Applies to TestList & others
+----------------------------------*/
+
+/* Page container spacing */
+.container {
+    max-width: 1200px;
+}
+
+/* Heading & top bar */
+.container .d-flex h3 {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Add button */
+.btn-success {
+    background: #22c55e;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.btn-success:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+}
+
+/* Search bar */
+.form-control {
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    border: 1.5px solid #d1d5db;
+    transition: 0.2s;
+}
+
+.form-control:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* Table container */
+.table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Table Head */
+.table thead th {
+    background: #f3f4f6;
+    font-weight: 700;
+    color: #374151;
+    padding: 14px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+/* Table Body */
+.table tbody td {
+    padding: 14px;
+    vertical-align: middle;
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+/* Row hover effect */
+.table tbody tr:hover {
+    background: #f9fafb;
+    transition: 0.15s;
+}
+
+/* Stripe effect */
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #fafafa;
+}
+
+/* Action Buttons */
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+}
+
+/* Delete Button */
+.btn-danger {
+    background: #ef4444;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+/* Pagination */
+.btn-outline-primary {
+    border-radius: 8px;
+    border-width: 1.5px;
+    padding: 6px 12px;
+}
+
+.btn-outline-primary:hover {
+    background: #e0e7ff;
+}
+
+.pagination-info {
+    font-weight: 600;
+}
+
+/* No Data Row */
+td.text-center {
+    font-weight: 500;
+    padding: 24px;
+    color: #6b7280;
+}
+
+/* Mobile Improvement */
+@media(max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 12px;
+        background: white;
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 6px;
+        font-size: 0.9rem;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #374151;
+    }
+}
