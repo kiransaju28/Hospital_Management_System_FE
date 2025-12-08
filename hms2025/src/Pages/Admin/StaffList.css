@@ -1,6 +1,4 @@
-/* StaffList.css */
-
-/* Staff List Page Styling */
+/* StaffList.css - Updated for Normal Sizing & White Buttons */
 
 /* Page Header */
 h3 {
@@ -51,7 +49,7 @@ h3 {
     border-bottom: none;
 }
 
-/* Action Buttons */
+/* Action Buttons - White by Default */
 .btn-sm {
     padding: 6px 12px;
     font-size: var(--font-size-xs);
@@ -59,33 +57,38 @@ h3 {
 }
 
 .btn-primary {
-    background-color: var(--secondary-teal);
-    border: none;
+    background-color: #ffffff;
+    border: 1px solid var(--secondary-teal);
+    color: var(--secondary-teal);
 }
 
 .btn-primary:hover {
-    background-color: #00796b;
+    background-color: var(--secondary-teal);
+    color: white;
     box-shadow: var(--shadow-sm);
 }
 
 .btn-danger {
-    background-color: var(--accent-red);
-    border: none;
+    background-color: #ffffff;
+    border: 1px solid var(--accent-red);
+    color: var(--accent-red);
 }
 
 .btn-danger:hover {
-    background-color: #d32f2f;
+    background-color: var(--accent-red);
+    color: white;
     box-shadow: var(--shadow-sm);
 }
 
 .btn-success {
-    background-color: var(--secondary-teal);
-    border: none;
-    color: white;
+    background-color: #ffffff;
+    border: 1px solid var(--secondary-teal);
+    color: var(--secondary-teal);
 }
 
 .btn-success:hover {
-    background-color: #00796b;
+    background-color: var(--secondary-teal);
+    color: white;
 }
 
 /* Search Input */
@@ -93,7 +96,6 @@ h3 {
     border: 1px solid var(--border-color);
     background-color: var(--bg-white);
     border-radius: var(--radius-full);
-    /* Rounded search input */
     padding: 12px 24px;
     box-shadow: var(--shadow-sm);
 }
@@ -124,4 +126,5 @@ h3 {
 /* Layout */
 .container {
     padding: var(--space-xl);
+    /* No max-width override, inherit 1200px from add.css */
 }

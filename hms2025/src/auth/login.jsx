@@ -9,35 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    // Create floating balloons on mount
-    useEffect(() => {
-        const container = document.querySelector(".balloon-container");
-        if (!container) return;
-
-        const colors = ["#FF6B6B", "#4ECDC4", "#FFBE0B", "#FB5607", "#8338EC"];
-        const count = 15;
-
-        for (let i = 0; i < count; i++) {
-            const balloon = document.createElement("div");
-            balloon.classList.add("balloon");
-
-            // Random properties
-            const size = 40 + Math.random() * 30; // 40px to 70px
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const left = Math.random() * 100;
-            const duration = 5 + Math.random() * 3; // 15s to 30s
-            const delay = Math.random() * 10;
-
-            balloon.style.width = `${size}px`;
-            balloon.style.height = `${size * 1.2}px`;
-            balloon.style.backgroundColor = color;
-            balloon.style.left = `${left}vw`;
-            balloon.style.animationDuration = `${duration}s`;
-            balloon.style.animationDelay = `${delay}s`;
-
-            container.appendChild(balloon);
-        }
-    }, []);
+    // Balloon animation removed as per request
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -108,8 +80,7 @@ const Login = () => {
 
     return (
         <div className="login-page">
-            {/* Floating Balloons Background */}
-            <div className="balloon-container"></div>
+
 
             {/* Login Card */}
             <div className="login-card shadow-lg">

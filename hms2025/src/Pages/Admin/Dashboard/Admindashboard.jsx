@@ -1,6 +1,7 @@
-// src/Pages/Admin/Dashboard/Dashboard.jsx
+// src/Pages/Admin/Dashboard/Admindashboard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Admindashboard.css';
 
 const AdminDashboard = () => {
@@ -17,6 +18,22 @@ const AdminDashboard = () => {
 
   const navigate = useNavigate();
 
+  // Dummy data for the chart
+  const data = [
+    { name: 'Jan', patients: 40 },
+    { name: 'Feb', patients: 30 },
+    { name: 'Mar', patients: 20 },
+    { name: 'Apr', patients: 27 },
+    { name: 'May', patients: 18 },
+    { name: 'Jun', patients: 23 },
+    { name: 'Jul', patients: 34 },
+    { name: 'Aug', patients: 45 },
+    { name: 'Sep', patients: 60 },
+    { name: 'Oct', patients: 55 },
+    { name: 'Nov', patients: 70 },
+    { name: 'Dec', patients: 85 },
+  ];
+
   const toggleSubmenu = (key) => {
     setOpenSubmenus((prev) => ({
       ...prev,
@@ -25,15 +42,12 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    // Clear auth tokens from localStorage and redirect to login
     try {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
     } catch (err) {
-      // ignore storage errors
       console.error('Error clearing storage during logout', err);
     }
-    // Use react-router navigation to return to the login page (root path)
     navigate('/');
   };
 
@@ -140,7 +154,6 @@ const AdminDashboard = () => {
                     className={`submenu-item ${activeItem === 'attendance' ? 'active' : ''}`}
                     onClick={() => {
                       setActiveItem('attendance');
-                      // No dedicated attendance route yet; navigate to staff list as fallback
                       navigate('/staff');
                     }}
                   >
@@ -165,17 +178,12 @@ const AdminDashboard = () => {
                 <li>
                   <button
                     className={`submenu-item ${activeItem === 'invoices' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('invoices')}
+                    onClick={() => {
+                      setActiveItem('invoices');
+                      navigate('/admin/invoices');
+                    }}
                   >
                     Invoice Management
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className={`submenu-item ${activeItem === 'payroll' ? 'active' : ''}`}
-                    onClick={() => setActiveItem('payroll')}
-                  >
-                    Payroll
                   </button>
                 </li>
               </ul>
@@ -339,21 +347,48 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <main className="main-content">
         <div className="stats-grid">
-          <div className="stat-card">
-            <h3>Total Active Patients</h3>
-            <p className="stat-value">—</p>
+          <div className="card kpi-card purple">
+            <div className="kpi-title">Total Patients</div>
+            <div className="kpi-value">1,245</div>
           </div>
-          <div className="stat-card">
-            <h3>Doctors On Duty</h3>
-            <p className="stat-value">—</p>
+          <div className="card kpi-card green">
+            <div className="kpi-title">Doctors On Duty</div>
+            <div className="kpi-value">28</div>
           </div>
-          <div className="stat-card">
-            <h3>Upcoming Appointments Today</h3>
-            <p className="stat-value">—</p>
+          <div className="card kpi-card blue">
+            <div className="kpi-title">Appointments Today</div>
+            <div className="kpi-value">150</div>
           </div>
-          <div className="stat-card">
-            <h3>Recent Admissions</h3>
-            <p className="stat-value">—</p>
+          <div className="card kpi-card orange">
+            <div className="kpi-title">Pending Orders</div>
+            <div className="kpi-value">12</div>
+          </div>
+        </div>
+
+        {/* Analytics Chart Section */}
+        <div className="card" style={{ marginTop: '1.5rem', padding: '1.5rem' }}>
+          <div className="kpi-title" style={{ marginBottom: '1.5rem', fontSize: '1rem' }}>Patient Increase Overview</div>
+          <div style={{ width: '100%', height: 350 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E0E0E0" />
+                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#888' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 12, fill: '#888' }} axisLine={false} tickLine={false} />
+                <Tooltip
+                  cursor={{ fill: 'transparent' }}
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                />
+                <Bar dataKey="patients" fill="#5646ff" barSize={30} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </main>

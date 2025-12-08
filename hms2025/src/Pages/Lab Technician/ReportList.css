@@ -1,10 +1,10 @@
-/* ReportList.css */
+/* ReportList.css - Fixed */
 
 .container {
     padding: var(--space-xl);
     min-height: 100vh;
     background-color: var(--bg-light);
-    max-width: 100% !important;
+    /* Removed max-width override */
 }
 
 h3 {
@@ -13,19 +13,21 @@ h3 {
     margin: 0;
 }
 
+/* White Button - Success/Add */
 .btn-success {
-    background-color: var(--primary-blue);
-    color: white;
+    background-color: #ffffff;
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
     padding: 8px 16px;
     border-radius: var(--radius-md);
     font-weight: 600;
-    border: none;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .btn-success:hover {
     background-color: var(--primary-dark);
+    color: white;
     box-shadow: var(--shadow-sm);
 }
 
@@ -74,6 +76,7 @@ h3 {
     background-color: var(--bg-light);
 }
 
+/* Action Buttons - White by Default */
 .btn-sm {
     padding: 6px 12px;
     font-size: var(--font-size-xs);
@@ -83,16 +86,19 @@ h3 {
 }
 
 .btn-primary {
-    background-color: var(--primary-light);
-    color: white;
+    background-color: #ffffff;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
 }
 
 .btn-primary:hover {
     background-color: var(--primary-blue);
+    color: white;
 }
 
 .btn-danger {
-    background-color: rgba(244, 67, 54, 0.1);
+    background-color: #ffffff;
+    border: 1px solid var(--status-error);
     color: var(--status-error);
 }
 

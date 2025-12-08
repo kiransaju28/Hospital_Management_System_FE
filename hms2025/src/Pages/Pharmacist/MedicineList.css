@@ -1,10 +1,10 @@
-/* MedicineList.css */
+/* MedicineList.css - Fixed */
 
 .container {
     padding: var(--space-xl);
     background: var(--bg-light);
     min-height: 100vh;
-    max-width: 100% !important;
+    /* Removed max-width: 100% !important to allow inheritance of 1200px */
 }
 
 h3 {
@@ -13,10 +13,11 @@ h3 {
     margin: 0;
 }
 
+/* White Button - Success */
 .btn-success {
-    background-color: var(--secondary-teal);
-    color: white;
-    border: none;
+    background-color: #ffffff;
+    color: var(--secondary-teal);
+    border: 1px solid var(--secondary-teal);
     padding: 8px 16px;
     border-radius: var(--radius-md);
     font-weight: 600;
@@ -25,7 +26,8 @@ h3 {
 }
 
 .btn-success:hover {
-    background-color: #00796b;
+    background-color: var(--secondary-teal);
+    color: white;
     box-shadow: var(--shadow-sm);
 }
 
@@ -64,18 +66,6 @@ h3 {
     border-bottom: 2px solid var(--border-light);
 }
 
-/* Override bootstrap table-dark if used */
-.table-dark {
-    background-color: transparent !important;
-    color: inherit;
-}
-
-.table-dark th {
-    background-color: var(--bg-light) !important;
-    color: var(--text-medium) !important;
-    border-color: var(--border-light) !important;
-}
-
 .table tbody td {
     padding: 16px;
     color: var(--text-dark);
@@ -88,26 +78,29 @@ h3 {
     background-color: var(--bg-light);
 }
 
-/* Action Buttons */
+/* Action Buttons - White by default */
 .btn-sm {
     padding: 6px 12px;
     font-size: var(--font-size-xs);
     border-radius: var(--radius-sm);
-    border: none;
+    border: 1px solid transparent;
     margin-right: 8px;
 }
 
 .btn-primary {
-    background-color: var(--secondary-teal);
-    /* Use teal for consistency in module */
+    background-color: #ffffff;
+    border-color: var(--secondary-teal);
+    color: var(--secondary-teal);
 }
 
 .btn-primary:hover {
-    background-color: #00796b;
+    background-color: var(--secondary-teal);
+    color: white;
 }
 
 .btn-danger {
-    background-color: rgba(244, 67, 54, 0.1);
+    background-color: #ffffff;
+    border-color: var(--status-error);
     color: var(--status-error);
 }
 

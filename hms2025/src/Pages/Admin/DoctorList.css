@@ -1,128 +1,13 @@
-/* DoctorList.css */
+/* DoctorList.css - Fixed */
+/* Inherits from add.css */
 
-/* Doctor List Page Styling */
-
-/* Page Header */
 h3 {
     color: var(--primary-blue);
-    margin-bottom: var(--space-md);
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
 }
 
-/* Table Container */
 .table {
-    background: var(--bg-white);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    border-collapse: separate;
-    border-spacing: 0;
+    margin-bottom: 0.5rem;
     width: 100%;
-    margin-bottom: var(--space-lg);
-}
-
-.table thead th {
-    background: var(--bg-light);
-    color: var(--text-medium);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: var(--font-size-xs);
-    padding: 16px;
-    border-bottom: 2px solid var(--border-light);
-    text-align: left;
-}
-
-.table tbody td {
-    padding: 16px;
-    color: var(--text-dark);
-    border-bottom: 1px solid var(--border-light);
-    font-size: var(--font-size-sm);
-    vertical-align: middle;
-}
-
-.table tbody tr {
-    transition: background-color var(--transition-fast);
-}
-
-.table tbody tr:hover {
-    background-color: var(--bg-light);
-}
-
-.table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* Action Buttons */
-.btn-sm {
-    padding: 6px 12px;
-    font-size: var(--font-size-xs);
-    border-radius: var(--radius-sm);
-}
-
-.btn-primary {
-    background-color: var(--primary-blue);
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-dark);
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-danger {
-    background-color: var(--accent-red);
-    border: none;
-}
-
-.btn-danger:hover {
-    background-color: #d32f2f;
-    /* Darker red */
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-success {
-    background-color: var(--accent-green);
-    border: none;
-    color: white;
-}
-
-.btn-success:hover {
-    background-color: #00a041;
-}
-
-/* Search Input */
-.form-control {
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-white);
-    border-radius: var(--radius-full);
-    /* Rounded search input */
-    padding: 12px 24px;
-    box-shadow: var(--shadow-sm);
-}
-
-.form-control:focus {
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px var(--primary-bg);
-}
-
-/* Pagination */
-.btn-outline-primary {
-    border-color: var(--primary-blue);
-    color: var(--primary-blue);
-    background: transparent;
-}
-
-.btn-outline-primary:hover {
-    background-color: var(--primary-bg);
-    color: var(--primary-blue);
-}
-
-.btn-outline-primary:disabled {
-    color: var(--text-light);
-    border-color: var(--border-color);
-    background: transparent;
-}
-
-/* Layout */
-.container {
-    padding: var(--space-xl);
 }

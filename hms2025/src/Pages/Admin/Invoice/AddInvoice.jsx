@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createBill, getAppointments, getPatients, getDoctors } from "../../../api/api";
-import "../../Admin/add.css";
+import "../add.css";
 
-const AddBill = () => {
+const AddInvoice = () => {
     const [appointments, setAppointments] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState("");
     const [doctors, setDoctors] = useState([]);
@@ -48,11 +48,11 @@ const AddBill = () => {
         setLoading(true);
         try {
             await createBill({ appointment: selectedAppointment });
-            alert("Bill generated successfully!");
-            navigate("/receptionist/bills");
+            alert("Invoice generated successfully!");
+            navigate("/admin/invoices");
         } catch (err) {
-            console.error("Error generating bill:", err);
-            const errorMessage = err.response?.data?.detail || err.response?.data?.non_field_errors || JSON.stringify(err.response?.data) || "Failed to generate bill.";
+            console.error("Error generating invoice:", err);
+            const errorMessage = err.response?.data?.detail || err.response?.data?.non_field_errors || JSON.stringify(err.response?.data) || "Failed to generate invoice.";
             alert(`Error: ${errorMessage}`);
         } finally {
             setLoading(false);
@@ -62,7 +62,7 @@ const AddBill = () => {
     return (
         <div className="add-container">
             <div className="add-card">
-                <h2>Generate Consultation Bill</h2>
+                <h2>Generate Invoice</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Select Appointment</label>
@@ -83,7 +83,7 @@ const AddBill = () => {
                     </div>
 
                     <button type="submit" className="submit-btn" disabled={loading}>
-                        {loading ? "Generating..." : "Generate Bill"}
+                        {loading ? "Generating..." : "Generate Invoice"}
                     </button>
                 </form>
             </div>
@@ -91,4 +91,4 @@ const AddBill = () => {
     );
 };
 
-export default AddBill;
+export default AddInvoice;

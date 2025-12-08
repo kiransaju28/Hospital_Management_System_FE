@@ -42,6 +42,10 @@ import BillList from "./Pages/Lab Technician/Bill/BillList";
 import AddBill from "./Pages/Lab Technician/Bill/AddBill";
 import ViewBill from "./Pages/Lab Technician/Bill/ViewBill";
 
+import InvoiceList from "./Pages/Admin/Invoice/InvoiceList";
+import AddInvoice from "./Pages/Admin/Invoice/AddInvoice";
+import ViewInvoice from "./Pages/Admin/Invoice/ViewInvoice";
+
 import MedicineList from "./Pages/Pharmacist/MedicineList";
 import AddMedicine from "./Pages/Pharmacist/AddMedicine";
 import EditMedicine from "./Pages/Pharmacist/EditMedicine";
@@ -66,6 +70,9 @@ function App() {
           <Route path="/edit-doctor/:id" element={<EditDoctor />} />
           <Route path="/staff" element={<StaffList />} />
           <Route path="/edit-staff/:id" element={<EditStaff />} />
+          <Route path="/admin/invoices" element={<InvoiceList />} />
+          <Route path="/admin/create-invoice" element={<AddInvoice />} />
+          <Route path="/admin/view-invoice/:id" element={<ViewInvoice />} />
 
           {/* Receptionist Routes */}
           <Route path="/patients" element={<PatientList />} />

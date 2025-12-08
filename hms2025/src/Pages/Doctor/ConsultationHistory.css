@@ -1,38 +1,43 @@
-/* ConsultationHistory.css */
+/* ConsultationHistory.css - Updated for Normal Sizing & White Buttons */
 
 .list-container {
-    padding: var(--space-xl);
-    background: var(--bg-light);
+    padding: 1rem 1.5rem;
+    background: #f5f8fa;
     min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-lg);
+    margin-bottom: 1.5rem;
 }
 
 .list-header h2 {
-    color: var(--primary-blue);
+    color: #1e1e2d;
     font-weight: 700;
     margin: 0;
 }
 
+/* Refresh / Back Buttons (White by Default) */
 .refresh-btn {
     padding: 8px 16px;
-    background-color: var(--primary-blue);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
+    background-color: #ffffff;
+    color: #5646ff;
+    /* Primary Blue */
+    border: 1px solid #5646ff;
+    border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all 0.2s ease;
 }
 
 .refresh-btn:hover {
-    background-color: var(--primary-dark);
-    box-shadow: var(--shadow-sm);
+    background-color: #5646ff;
+    color: white;
+    box-shadow: 0 4px 12px rgba(86, 70, 255, 0.3);
 }
 
 .me-2 {
@@ -40,9 +45,9 @@
 }
 
 .table-wrapper {
-    background: var(--bg-white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
@@ -52,49 +57,52 @@
 }
 
 .data-table thead th {
-    background: var(--bg-light);
-    color: var(--text-medium);
+    background: #1e1e2d;
+    /* Dark Header */
+    color: #ffffff;
     padding: 16px;
     text-align: left;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: var(--font-size-xs);
-    border-bottom: 2px solid var(--border-light);
+    font-size: 0.8rem;
+    border-bottom: none;
 }
 
 .data-table tbody td {
     padding: 16px;
-    border-bottom: 1px solid var(--border-light);
-    color: var(--text-dark);
-    font-size: var(--font-size-sm);
+    border-bottom: 1px solid #ebedf3;
+    color: #3f4254;
+    font-size: 0.9rem;
     vertical-align: top;
 }
 
 .data-table tbody tr:hover {
-    background-color: var(--bg-light);
+    background-color: #f8fafc;
 }
 
-/* Specific button styles for history */
+/* Small Buttons (White by default) */
 .btn-small {
     padding: 4px 8px;
-    font-size: var(--font-size-xs);
-    border-radius: var(--radius-sm);
-    border: none;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #00d27b;
+    /* Success Green default for small actions or teal */
     cursor: pointer;
-    background-color: var(--secondary-teal);
-    color: white;
+    background-color: #ffffff;
+    color: #00d27b;
     font-weight: 500;
-    transition: background var(--transition-fast);
+    transition: all 0.2s ease;
 }
 
 .btn-small:hover {
-    background-color: var(--secondary-light);
+    background-color: #00d27b;
+    color: white;
 }
 
 .no-data {
     padding: 24px;
     text-align: center;
-    color: var(--text-medium);
+    color: #b5b5c3;
     font-style: italic;
 }
 
@@ -106,5 +114,5 @@
 }
 
 .error-message {
-    color: var(--status-error);
+    color: #f64e60;
 }

@@ -1,20 +1,33 @@
-/* Updated add.css and List.css with fixes for search box and button positioning */
+/* High Density & Professional UI - Reference Style (Normalized + White Buttons) */
 
 :root {
-  --primary-blue: #0a2540;
-  --metallic-blue: #1e3a8a;
-  --metallic-blue-light: #3b82f6;
-  --metallic-blue-dark: #1e40af;
-  --accent-gold: #d97706;
-  --light-bg: #f0f9ff;
-  --card-bg: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --success: #10b981;
-  --danger: #ef4444;
-  --border-color: #cbd5e1;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --transition: all 0.3s ease;
+  /* Brand Colors */
+  --brand-dark: #1e1e2d;
+  --brand-primary: #5646ff;
+  --brand-secondary: #00d27b;
+  --brand-accent: #ffb800;
+  --brand-danger: #f64e60;
+
+  /* Backgrounds */
+  --bg-app: #f5f8fa;
+  --bg-card: #ffffff;
+
+  /* Text */
+  --text-dark: #181c32;
+  --text-muted: #b5b5c3;
+  --text-light: #ffffff;
+
+  /* Borders & Shadows */
+  --border-color: #ebedf3;
+  --shadow-sm: 0 0 20px 0 rgba(76, 87, 206, 0.02);
+  --shadow-card: 0 0 20px 0 rgba(76, 87, 206, 0.05);
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --radius-sm: 0.42rem;
+  --radius-card: 0.75rem;
 }
 
 * {
@@ -24,555 +37,390 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, var(--light-bg) 0%, #e0f2fe 100%);
-  color: var(--text-primary);
-  min-height: 100vh;
-  padding-bottom: 2rem;
+  font-family: 'Poppins', 'Inter', Helvetica, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-dark);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
-/* Container styling */
+/* --- Layout --- */
 .container {
-  max-width: 1200px;
+  max-width: 1200px !important;
+  /* Normal width */
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 1rem 1.5rem;
 }
 
-/* Card styling for forms */
+.main-content {
+  padding: 1.5rem;
+}
+
+/* --- Cards --- */
 .card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: none;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
   position: relative;
-  animation: fadeInUp 0.6s ease-out;
+  transition: all 0.3s ease;
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--metallic-blue), var(--accent-gold));
+/* KPI Card Style */
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.5rem;
+  border-left: 4px solid transparent;
+  height: 100%;
 }
 
-/* Form styling */
+.kpi-card.purple {
+  border-left-color: #8950fc;
+}
+
+.kpi-card.green {
+  border-left-color: #1bc5bd;
+}
+
+.kpi-card.blue {
+  border-left-color: #3699ff;
+}
+
+.kpi-card.orange {
+  border-left-color: #ffa800;
+}
+
+.kpi-title {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-value {
+  color: var(--text-dark);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+/* --- Typography --- */
+h2,
+h3,
+h4 {
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+/* --- Forms --- */
 form {
   width: 100%;
 }
 
+.form-group {
+  margin-bottom: 1rem;
+}
+
 .form-label {
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 0.35rem;
   display: block;
 }
 
 .form-control {
+  display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: var(--transition);
-  background-color: #f8fafc;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-dark);
+  background-color: #f3f6f9;
+  background-clip: padding-box;
+  border: 1px solid #f3f6f9;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .form-control:focus {
-  outline: none;
-  border-color: var(--metallic-blue-light);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background-color: #ffffff;
+  border-color: var(--brand-primary);
+  outline: 0;
+  box-shadow: none;
 }
 
-/* Button styling */
+/* --- Buttons (White by Default) --- */
 .btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  border: none;
-  font-size: 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Subtle shadow */
 }
 
+/* Primary Button (White -> Blue) */
 .btn-primary {
-  background: linear-gradient(90deg, var(--metallic-blue), var(--metallic-blue-dark));
-  color: white;
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
 }
 
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.3), 0 4px 6px -2px rgba(30, 58, 138, 0.2);
+.btn-primary:hover {
+  background-color: var(--brand-primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(86, 70, 255, 0.3);
+  transform: translateY(-1px);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
+/* Success Button (White -> Green) */
 .btn-success {
-  background: linear-gradient(90deg, var(--success), #059669);
-  color: white;
+  color: var(--brand-secondary);
+  border-color: var(--brand-secondary);
 }
 
 .btn-success:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3), 0 4px 6px -2px rgba(16, 185, 129, 0.2);
+  background-color: var(--brand-secondary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 210, 123, 0.3);
+  transform: translateY(-1px);
 }
 
+/* Danger Button (White -> Red) */
 .btn-danger {
-  background: linear-gradient(90deg, var(--danger), #dc2626);
-  color: white;
+  color: var(--brand-danger);
+  border-color: var(--brand-danger);
 }
 
 .btn-danger:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3), 0 4px 6px -2px rgba(239, 68, 68, 0.2);
+  background-color: var(--brand-danger);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(246, 78, 96, 0.3);
+  transform: translateY(-1px);
 }
 
-/* Table styling */
+/* Outline Buttons (Already white, ensure consistecy) */
+.btn-outline-primary {
+  background-color: #ffffff;
+  border: 1px solid var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--brand-primary);
+  color: #fff;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* --- Tables --- */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
 .table {
   width: 100%;
-  border-collapse: collapse;
-  margin: 1.5rem 0;
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+  background-color: transparent;
 }
 
-.table thead {
-  background: var(--primary-blue);
-  color: white;
-}
-
-.table th,
-.table td {
-  padding: 1.25rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.table th {
+.table thead th {
+  background-color: var(--brand-dark);
+  color: #ffffff;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-top: none;
+  border-bottom: none;
+  white-space: nowrap;
+}
+
+.table thead th:first-child {
+  border-top-left-radius: var(--radius-sm);
+}
+
+.table thead th:last-child {
+  border-top-right-radius: var(--radius-sm);
 }
 
 .table tbody tr {
-  transition: var(--transition);
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s;
 }
 
 .table tbody tr:hover {
-  background-color: #f0f9ff;
-  transform: scale(1.005);
+  transform: scale(1.002);
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.table tbody td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
+  color: #3f4254;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .table tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* Pagination styling */
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  gap: 1rem;
-}
-
-.pagination-btn {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  color: var(--metallic-blue);
+/* Status Badges */
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
   font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
 }
 
-.pagination-btn:hover:not(:disabled) {
-  background: var(--metallic-blue);
-  color: white;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Search input - Fixed to prevent stretching */
-.search-input {
-  width: 100%;
-  max-width: 400px; /* Limit width to prevent stretching */
-  margin-bottom: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  border: 2px solid var(--border-color);
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-.search-input:focus {
-  border-color: var(--metallic-blue-light);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-/* Header styling */
-.page-header {
+/* --- Utils --- */
+.d-flex {
   display: flex;
+}
+
+.justify-content-between {
   justify-content: space-between;
+}
+
+.align-items-center {
   align-items: center;
-  margin-bottom: 2rem;
 }
 
-.page-header h3 {
-  color: var(--primary-blue);
-  font-weight: 700;
-  font-size: 1.75rem;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-  }
-}
-
-.pulse-animation {
-  animation: pulse 2s infinite;
-}
-
-/* Loading state */
-.loading {
-  text-align: center;
-  padding: 2rem;
-  color: var(--metallic-blue);
-  font-weight: 600;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .card {
-    padding: 1.5rem !important;
-  }
-  
-  .col-md-6 {
-    width: 100%;
-    padding: 0 0.5rem !important;
-  }
-  
-  .table {
-    display: block;
-    overflow-x: auto;
-  }
-  
-  .page-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  
-  .btn-success {
-    align-self: flex-end;
-    width: 100%;
-  }
-  
-  .search-input {
-    max-width: 100%; /* On mobile, take full width */
-  }
-}
-
-/* Form header */
-.form-header {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--primary-blue);
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
-.form-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: var(--accent-gold);
-  border-radius: 3px;
-}
-
-/* Specialization select styling */
-select.form-control {
-  appearance: none;
-  background-image: url("image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1rem;
-  padding-right: 2.5rem;
-}
-
-/* Alert messages */
-.alert {
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 8px;
-  font-weight: 500;
-}
-
-.alert-success {
-  background: rgba(16, 185, 129, 0.1);
-  border-left: 4px solid var(--success);
-  color: var(--success);
-}
-
-.alert-danger {
-  background: rgba(239, 68, 68, 0.1);
-  border-left: 4px solid var(--danger);
-  color: var(--danger);
-}
-
-/* No results message */
-.no-results {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-/* Center all forms and lists */
-.container.mt-5,
-.container.mt-4 {
-  display: flex;
-  justify-content: center;
-}
-
-.row.justify-content-center {
-  width: 100%;
-}
-
-/* Override default margins for consistent spacing */
 .mb-3 {
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1rem !important;
 }
 
 .mb-4 {
-  margin-bottom: 2rem !important;
-}
-
-.mt-3 {
-  margin-top: 1.25rem !important;
+  margin-bottom: 1.5rem !important;
 }
 
 .mt-4 {
-  margin-top: 2rem !important;
+  margin-top: 1.5rem !important;
 }
 
-/* Footer space */
-body > div:last-child {
-  margin-bottom: 2rem;
-}
-
-/* Hover effects for table actions */
-.table .btn {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-}
-
-/* Metallic texture effect for headers */
-h2, h3 {
-  background: linear-gradient(90deg, var(--metallic-blue), #2563eb, var(--accent-gold));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  background-size: 200% auto;
-  animation: shine 3s linear infinite;
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-/* Add Staff/Add Doctor button positioning with animation */
-.add-button {
+/* Floating Action Button for Add - Colored override to remain solid if desired, or make white too? 
+   Let's keep FAB solid as it's a primary action usually. Or per user request: "most buttons are white".
+   Let's make it white with icon color. */
+.add-button,
+.add-doctor-button {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  padding: 12px 20px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, var(--metallic-blue), var(--metallic-blue-dark));
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-  animation: bounceIn 0.6s ease-out;
-}
-
-.add-button:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
-}
-
-.add-button:active {
-  transform: translateY(0) scale(1.05);
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Make sure the button doesn't interfere with other elements */
-.add-button-container {
-  position: relative;
-  z-index: 1000;
-}
-
-/* For the staff page, ensure the search box doesn't stretch */
-.staff-search-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.staff-search-container .search-input {
-  max-width: 400px;
-  width: 100%;
-}
-
-/* Adjust for the specific layout in your image */
-.staff-page-layout {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
-  gap: 2rem;
-}
-
-.staff-page-layout .add-staff-button {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  padding: 12px 20px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, var(--success), #059669);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  animation: bounceIn 0.6s ease-out;
-}
-
-.staff-page-layout .add-staff-button:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-}
-
-.staff-page-layout .add-staff-button:active {
-  transform: translateY(0) scale(1.05);
-}
-
-/* For the doctor list page */
-.doctor-list-page {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
-  gap: 2rem;
-}
-
-.doctor-list-page .add-doctor-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  padding: 12px 20px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, var(--metallic-blue), var(--metallic-blue-dark));
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-  animation: bounceIn 0.6s ease-out;
-}
-
-.doctor-list-page .add-doctor-button:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
-}
-
-.doctor-list-page .add-doctor-button:active {
-  transform: translateY(0) scale(1.05);
-}
-
-/* Ensure proper spacing for the table */
-.staff-table-container {
-  flex: 1;
-  min-width: 600px;
-}
-
-/* For the search box in staff page */
-.staff-search-box {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 1.5rem;
-  padding: 0.75rem 1.5rem;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
   border-radius: 50px;
-  border: 2px solid var(--border-color);
-  font-size: 1rem;
-  transition: var(--transition);
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  font-weight: 600;
 }
 
-.staff-search-box:focus {
-  border-color: var(--metallic-blue-light);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.add-button:hover,
+.add-doctor-button:hover {
+  background-color: var(--brand-primary);
+  color: #fff;
+}
+
+/* Pagination */
+.pagination-container {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pagination-btn {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.pagination-btn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+}
+
+/* Search Box */
+.search-input {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 0.65rem 1.25rem;
+  border-radius: 2rem;
+  min-width: 250px;
+  font-size: 0.9rem;
+}
+
+.search-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(86, 70, 255, 0.1);
+}
+
+/* Submit Button (White by Default) */
+.submit-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--brand-primary);
+  background-color: #ffffff;
+  border: 1px solid var(--brand-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(86, 70, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  border-color: #e9ecef;
+  cursor: not-allowed;
 }

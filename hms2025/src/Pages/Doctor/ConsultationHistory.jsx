@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getConsultations, getPrescriptionItems, getLabTestOrders } from "../../api/api";
+import { getConsultations, getPrescriptionItems, getLabTestOrders, getAppointments } from "../../api/api";
 import "./ConsultationHistory.css";
 
 const ConsultationHistory = () => {
@@ -8,6 +8,7 @@ const ConsultationHistory = () => {
     const [consultations, setConsultations] = useState([]);
     const [prescriptions, setPrescriptions] = useState([]);
     const [labTests, setLabTests] = useState([]);
+    const [allAppointments, setAllAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -17,6 +18,15 @@ const ConsultationHistory = () => {
 
     const fetchAllData = async () => {
         try {
+            // Attempt to fetch appointments, but don't fail if forbidden
+            let appointmentsData = [];
+            try {
+                const appRes = await getAppointments();
+                appointmentsData = appRes.data.results || appRes.data;
+            } catch (e) {
+                console.warn("Could not fetch full appointment history:", e);
+            }
+
             const [consRes, prescRes, labRes] = await Promise.all([
                 getConsultations(),
                 getPrescriptionItems(),
@@ -27,6 +37,7 @@ const ConsultationHistory = () => {
             console.log("Fetched Consultations:", consRes.data.results || consRes.data);
             setPrescriptions(prescRes.data.results || prescRes.data);
             setLabTests(labRes.data.results || labRes.data);
+            setAllAppointments(appointmentsData);
         } catch (err) {
             console.error("Error fetching history data:", err);
             setError("Failed to load full history.");
@@ -86,13 +97,27 @@ const ConsultationHistory = () => {
                                 const relatedPrescriptions = getConsultationPrescriptions(id);
                                 const relatedTests = getConsultationLabTests(id);
 
+                                // Find related appointment details if we have the ID
+                                const appointmentId = consultation.appointment?.id || consultation.appointment;
+                                const relatedAppointment = allAppointments.find(a => a.id === appointmentId || a.appointment_id === appointmentId);
+
                                 // Extract Patient Name safely
                                 const patientName =
                                     consultation.appointment?.patient?.patient_name ||
                                     consultation.appointment?.patient?.name ||
+                                    consultation.appointment?.patient?.full_name ||
                                     consultation.appointment?.patient_name ||
                                     consultation.patient_name ||
+                                    consultation.patient?.patient_name ||
+                                    consultation.patient?.name ||
                                     (typeof consultation.appointment?.patient === 'string' ? consultation.appointment.patient : null) ||
+                                    (typeof consultation.patient === 'string' ? consultation.patient : null) ||
+                                    relatedAppointment?.patient_name ||
+                                    relatedAppointment?.patient?.name ||
+                                    relatedPrescriptions[0]?.patient_name ||
+                                    relatedPrescriptions[0]?.patient?.patient_name ||
+                                    relatedTests[0]?.patient_name ||
+                                    relatedTests[0]?.patient?.patient_name ||
                                     "Unknown";
 
                                 return (
@@ -153,10 +178,10 @@ const ConsultationHistory = () => {
                                                                     >
                                                                         Edit
                                                                     </button>
-                                                                    {(t.status === 'Completed' || t.report_id) && (
+                                                                    {(t.report_id) && (
                                                                         <button
                                                                             style={{ fontSize: '0.8em', cursor: 'pointer', color: 'green', border: 'none', background: 'none', textDecoration: 'underline' }}
-                                                                            onClick={() => navigate(`/doctor/view-lab-report/${t.report_id || tId}`)}
+                                                                            onClick={() => navigate(`/doctor/view-lab-report/${t.report_id}`)}
                                                                         >
                                                                             View Report
                                                                         </button>

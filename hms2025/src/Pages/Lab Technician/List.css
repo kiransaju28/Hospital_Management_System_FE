@@ -5,7 +5,7 @@
 
 /* Page container spacing */
 .container {
-    max-width: 1200px;
+    max-width: 1200px !important;
 }
 
 /* Heading & top bar */
@@ -14,10 +14,11 @@
     color: #1f2937;
 }
 
-/* Add button */
+/* Add button - White by Default */
 .btn-success {
-    background: #22c55e;
-    border: none;
+    background: #ffffff;
+    border: 1px solid #22c55e;
+    color: #22c55e;
     padding: 8px 14px;
     border-radius: 8px;
     font-weight: 600;
@@ -25,7 +26,8 @@
 }
 
 .btn-success:hover {
-    background: #16a34a;
+    background: #22c55e;
+    color: #fff;
     transform: translateY(-2px);
 }
 
@@ -74,12 +76,7 @@
     transition: 0.15s;
 }
 
-/* Stripe effect */
-.table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: #fafafa;
-}
-
-/* Action Buttons */
+/* Action Buttons - White by Default */
 .btn-sm {
     padding: 6px 10px;
     font-size: 0.85rem;
@@ -88,22 +85,26 @@
 }
 
 .btn-primary {
-    background: #3b82f6;
-    border: none;
+    background: #ffffff;
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
 }
 
 .btn-primary:hover {
-    background: #2563eb;
+    background: #3b82f6;
+    color: #fff;
 }
 
 /* Delete Button */
 .btn-danger {
-    background: #ef4444;
-    border: none;
+    background: #ffffff;
+    border: 1px solid #ef4444;
+    color: #ef4444;
 }
 
 .btn-danger:hover {
-    background: #dc2626;
+    background: #ef4444;
+    color: #fff;
 }
 
 /* Pagination */
@@ -121,14 +122,12 @@
     font-weight: 600;
 }
 
-/* No Data Row */
 td.text-center {
     font-weight: 500;
     padding: 24px;
     color: #6b7280;
 }
 
-/* Mobile Improvement */
 @media(max-width: 768px) {
     .table thead {
         display: none;

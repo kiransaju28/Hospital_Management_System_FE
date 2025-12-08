@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getLabReportById, getLabReportResults } from "../../../api/api";
 import "../../Lab Technician/Add.css";
 
@@ -54,11 +54,17 @@ const ViewLabReport = () => {
                 <div className="mb-4">
                     <div className="row">
                         <div className="col-md-6">
+                            <p>
+                                <strong>Patient: </strong>
+                                <Link to="/doctor/patients" style={{ textDecoration: 'none', color: '#007bff' }}>
+                                    {report.order?.patient_name || report.order?.patient?.name || report.patient_name || "Unknown"}
+                                </Link>
+                            </p>
                             <p><strong>Report ID:</strong> {report.LabReport_id || report.id}</p>
                             <p><strong>Test Category:</strong> {report.category_name || "N/A"}</p>
                         </div>
                         <div className="col-md-6">
-                            <p><strong>Order ID:</strong> {report.order || "N/A"}</p>
+                            <p><strong>Order ID:</strong> {report.order?.LabTestOrder_id || report.order?.id || report.order || "N/A"}</p>
                             <p><strong>Status:</strong> <span className="badge bg-success">Completed</span></p>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-/* AppointmentList.css */
+/* AppointmentList.css - Fixed */
 
 .list-container {
     padding: var(--space-xl);
@@ -21,9 +21,9 @@
 
 .refresh-btn {
     padding: 8px 16px;
-    background-color: var(--secondary-teal);
-    color: white;
-    border: none;
+    background-color: #ffffff;
+    border: 1px solid var(--secondary-teal);
+    color: var(--secondary-teal);
     border-radius: var(--radius-md);
     font-weight: 600;
     cursor: pointer;
@@ -31,7 +31,8 @@
 }
 
 .refresh-btn:hover {
-    background-color: #00796b;
+    background-color: var(--secondary-teal);
+    color: white;
     box-shadow: var(--shadow-sm);
 }
 
@@ -94,11 +95,10 @@ tbody tr:hover {
     color: var(--status-error);
 }
 
-/* Action Buttons */
+/* Action Buttons - White by Default */
 .btn-view,
 .btn-delete {
     padding: 6px 12px;
-    border: none;
     border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
     font-weight: 600;
@@ -108,16 +108,19 @@ tbody tr:hover {
 }
 
 .btn-view {
-    background-color: var(--primary-light);
-    color: white;
+    background-color: #ffffff;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
 }
 
 .btn-view:hover {
     background-color: var(--primary-blue);
+    color: white;
 }
 
 .btn-delete {
-    background-color: rgba(244, 67, 54, 0.1);
+    background-color: #ffffff;
+    border: 1px solid var(--status-error);
     color: var(--status-error);
 }
 
