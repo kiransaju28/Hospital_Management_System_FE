@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser, getSpecializations } from "../../api/api";
-// This imports the entire CSS file and applies its styles
-import './add.css';
+// This imports the page specific CSS file
+import './AddDoctor.css';
 
 const AddDoctor = () => {
     const [username, setUsername] = useState("");
@@ -104,20 +104,20 @@ const AddDoctor = () => {
     return (
         <>
             {/* Floating Add Doctor Button - Top Right Corner */}
-            <button 
+            <button
                 className="btn add-corner-btn add-doctor-corner"
                 onClick={() => navigate('/add-doctor')}
                 style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 1000 }}
             >
                 Add Doctor
             </button>
-            
+
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="card shadow p-4">
                             <h2 className="text-center mb-4">Add Doctor</h2>
-                            
+
 
                             <form onSubmit={handleSubmit}>
                                 <div className="row">

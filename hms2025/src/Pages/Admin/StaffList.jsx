@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getStaff, deleteStaff } from "../../api/api";
-import "./List.css";
+import "./StaffList.css";
 
 
 const StaffList = () => {

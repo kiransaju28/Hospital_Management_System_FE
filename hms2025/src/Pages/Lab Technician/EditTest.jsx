@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTestCategoryById, updateTestCategory } from "../../api/api";
-import './Add.css';
+import './EditTest.css';
 
 const EditTest = () => {
     const { id } = useParams();

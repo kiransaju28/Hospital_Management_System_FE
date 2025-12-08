@@ -1,0 +1,86 @@
+/* AddPatient.css */
+
+.add-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--space-xl);
+    background: var(--bg-light);
+}
+
+.add-card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg-white);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    animation: slideInUp 0.4s ease;
+}
+
+.add-card h2 {
+    color: var(--secondary-teal);
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-medium);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: var(--font-size-md);
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    transition: all var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--secondary-teal);
+    background-color: var(--bg-white);
+    box-shadow: 0 0 0 2px var(--secondary-bg);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--secondary-teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-top: var(--space-md);
+}
+
+.submit-btn:hover {
+    background: #00796b;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.submit-btn:disabled {
+    background: var(--text-light);
+    cursor: not-allowed;
+    transform: none;
+}

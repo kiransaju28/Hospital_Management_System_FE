@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMedicines, deleteMedicine } from "../../api/api";
-// import "./List.css"; // Assuming we can reuse similar styles or the file might need to be created/imported if specific styles are needed, but for now standard bootstrap classes
+import "./MedicineList.css";
 
 const MedicineList = () => {
     const [medicines, setMedicines] = useState([]);

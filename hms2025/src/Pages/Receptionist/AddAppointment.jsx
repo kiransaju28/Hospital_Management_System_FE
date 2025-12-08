@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createAppointment, getPatients, getDoctors, getAppointments } from "../../api/api";
-import "../Admin/add.css";
+import "./AddAppointment.css";
 
 const AddAppointment = () => {
     const [formData, setFormData] = useState({

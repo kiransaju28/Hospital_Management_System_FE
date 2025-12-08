@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPatient } from "../../api/api";
-import "../Admin/add.css"; // Reuse existing CSS
+import "./AddPatient.css"; // Reuse existing CSS
 
 const AddPatient = () => {
     const [formData, setFormData] = useState({

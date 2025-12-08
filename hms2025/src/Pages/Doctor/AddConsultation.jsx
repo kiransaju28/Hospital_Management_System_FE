@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createConsultation, patchAppointment } from "../../api/api";
-import "../Admin/add.css";
+import "./AddConsultation.css";
 
 const AddConsultation = () => {
     const { appointmentId } = useParams();

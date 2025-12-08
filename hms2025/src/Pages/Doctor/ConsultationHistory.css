@@ -1,0 +1,110 @@
+/* ConsultationHistory.css */
+
+.list-container {
+    padding: var(--space-xl);
+    background: var(--bg-light);
+    min-height: 100vh;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.list-header h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin: 0;
+}
+
+.refresh-btn {
+    padding: 8px 16px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.refresh-btn:hover {
+    background-color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+}
+
+.me-2 {
+    margin-right: 8px;
+}
+
+.table-wrapper {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead th {
+    background: var(--bg-light);
+    color: var(--text-medium);
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    border-bottom: 2px solid var(--border-light);
+}
+
+.data-table tbody td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-dark);
+    font-size: var(--font-size-sm);
+    vertical-align: top;
+}
+
+.data-table tbody tr:hover {
+    background-color: var(--bg-light);
+}
+
+/* Specific button styles for history */
+.btn-small {
+    padding: 4px 8px;
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    background-color: var(--secondary-teal);
+    color: white;
+    font-weight: 500;
+    transition: background var(--transition-fast);
+}
+
+.btn-small:hover {
+    background-color: var(--secondary-light);
+}
+
+.no-data {
+    padding: 24px;
+    text-align: center;
+    color: var(--text-medium);
+    font-style: italic;
+}
+
+.loading,
+.error-message {
+    padding: 24px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.error-message {
+    color: var(--status-error);
+}

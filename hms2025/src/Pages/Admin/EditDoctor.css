@@ -1,0 +1,84 @@
+/* EditDoctor.css */
+
+/* Page Header */
+h3 {
+    color: var(--primary-blue);
+    margin-bottom: var(--space-md);
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    background: var(--bg-white);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-top: var(--space-xl) !important;
+    margin-bottom: var(--space-xl);
+}
+
+/* Form Controls */
+.form-label,
+label {
+    font-weight: 500;
+    color: var(--text-medium);
+    margin-bottom: var(--space-xs);
+    display: block;
+}
+
+.form-control {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 15px;
+    font-size: var(--font-size-md);
+    color: var(--text-dark);
+    transition: all var(--transition-fast);
+    width: 100%;
+}
+
+.form-control:focus {
+    background-color: var(--bg-white);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px var(--primary-bg);
+    outline: none;
+}
+
+.form-control:disabled {
+    background-color: var(--bg-grey);
+    cursor: not-allowed;
+}
+
+/* Spacing */
+.mb-3 {
+    margin-bottom: var(--space-md) !important;
+}
+
+.mt-3 {
+    margin-top: var(--space-md) !important;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: var(--space-lg);
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--text-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}

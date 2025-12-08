@@ -12,7 +12,7 @@ import {
     // I'll implement basic Edit for Remarks for now. 
     // Implementing editable results is complex without a bulk-update serializer.
 } from "../../api/api";
-import "./Add.css";
+import "./EditReport.css";
 
 const EditReport = () => {
     const { id } = useParams();

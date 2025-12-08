@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTestCategory } from "../../api/api";
 // This imports the entire CSS file and applies its styles
-import './Add.css';
+import './AddTest.css';
 
 const AddTest = () => {
     const [categoryName, setCategoryName] = useState("");

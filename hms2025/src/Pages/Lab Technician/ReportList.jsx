@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLabReports } from "../../api/api";
-import "./List.css";
+import "./ReportList.css";
 
 const ReportList = () => {
     const [reports, setReports] = useState([]);

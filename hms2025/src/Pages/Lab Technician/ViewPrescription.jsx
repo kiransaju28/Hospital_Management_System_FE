@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getLabTechTestOrderById } from "../../api/api";
-import "./Add.css"; // Reuse the card styling
+import "./ViewPrescription.css"; // Reuse the card styling
 
 const ViewPrescription = () => {
     const { id } = useParams();

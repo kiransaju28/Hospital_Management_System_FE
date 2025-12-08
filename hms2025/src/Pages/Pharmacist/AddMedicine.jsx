@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMedicine } from "../../api/api";
+import "./AddMedicine.css";
 
 const AddMedicine = () => {
     const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getConsultations, getPrescriptionItems, getLabTestOrders } from "../../api/api";
-import "../Admin/list.css"; // Reuse existing list styles
+import "./ConsultationHistory.css";
 
 const ConsultationHistory = () => {
     const navigate = useNavigate();
@@ -24,6 +24,7 @@ const ConsultationHistory = () => {
             ]);
 
             setConsultations(consRes.data.results || consRes.data);
+            console.log("Fetched Consultations:", consRes.data.results || consRes.data);
             setPrescriptions(prescRes.data.results || prescRes.data);
             setLabTests(labRes.data.results || labRes.data);
         } catch (err) {
@@ -73,6 +74,7 @@ const ConsultationHistory = () => {
                         <thead>
                             <tr>
                                 <th>Date/ID</th>
+                                <th>Patient</th>
                                 <th>Details</th>
                                 <th>Prescriptions</th>
                                 <th>Lab Tests</th>
@@ -84,6 +86,15 @@ const ConsultationHistory = () => {
                                 const relatedPrescriptions = getConsultationPrescriptions(id);
                                 const relatedTests = getConsultationLabTests(id);
 
+                                // Extract Patient Name safely
+                                const patientName =
+                                    consultation.appointment?.patient?.patient_name ||
+                                    consultation.appointment?.patient?.name ||
+                                    consultation.appointment?.patient_name ||
+                                    consultation.patient_name ||
+                                    (typeof consultation.appointment?.patient === 'string' ? consultation.appointment.patient : null) ||
+                                    "Unknown";
+
                                 return (
                                     <tr key={id}>
                                         <td>
@@ -91,6 +102,10 @@ const ConsultationHistory = () => {
                                             <span style={{ fontSize: '0.85em', color: '#666' }}>
                                                 {new Date(consultation.created_at || Date.now()).toLocaleDateString()}
                                             </span>
+                                        </td>
+                                        <td>
+                                            {/* Patient Information */}
+                                            <strong>{patientName}</strong>
                                         </td>
                                         <td>
                                             <div style={{ marginBottom: '5px' }}><strong>Symp:</strong> {consultation.symptoms}</div>

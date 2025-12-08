@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getLabTestOrderById, updateLabTestOrder, getAvailableLabTests } from "../../api/api";
-import "../Admin/add.css";
+import "./EditLabTest.css";
 
 const EditLabTest = () => {
     const { id } = useParams();

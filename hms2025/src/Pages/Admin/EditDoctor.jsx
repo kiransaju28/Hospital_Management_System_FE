@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDoctorById, updateDoctor, getSpecializations, updateStaff } from "../../api/api"; // <-- Import updateStaff
-import './add.css';
+import './EditDoctor.css';
 
 const EditDoctor = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
     // Add state for staff_id
-    const [staffId, setStaffId] = useState(null); 
-    
+    const [staffId, setStaffId] = useState(null);
+
     const [formData, setFormData] = useState({
         username: "",
         full_name: "",
@@ -66,7 +66,7 @@ const EditDoctor = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!staffId) {
             alert("Error: Staff ID not found.");
             return;
@@ -80,7 +80,7 @@ const EditDoctor = () => {
                 joining_date: formData.joining_date,
                 mobile_number: formData.mobile_number,
             };
-            
+
             // 2. Prepare Doctor Payload (editable Doctor fields)
             const doctorPayload = {
                 consultation_fee: formData.consultation_fee,
@@ -90,10 +90,10 @@ const EditDoctor = () => {
 
             // 3. Update Staff record
             await updateStaff(staffId, staffPayload);
-            
+
             // 4. Update Doctor record
             await updateDoctor(id, doctorPayload);
-            
+
             alert("Doctor updated successfully");
             navigate("/doctors");
         } catch (err) {

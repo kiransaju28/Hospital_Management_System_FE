@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPrescriptionItemById, updatePrescriptionItem, getMedicines } from "../../api/api";
-import "../Admin/add.css";
+import "./EditPrescription.css";
 
 const EditPrescription = () => {
     const { id } = useParams();

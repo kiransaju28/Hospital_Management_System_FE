@@ -1,0 +1,90 @@
+/* AddMedicine.css */
+
+.container {
+    padding: var(--space-xl);
+    min-height: 100vh;
+    background-color: var(--bg-light);
+    max-width: 100% !important;
+    /* Override bootstrap container max-width if needed for full bg */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    color: var(--secondary-teal);
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+}
+
+.alert {
+    width: 100%;
+    max-width: 600px;
+}
+
+.card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg-white);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: none;
+    /* Remove bootstrap border */
+    animation: slideInUp 0.4s ease;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-medium);
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: var(--font-size-md);
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    transition: all var(--transition-fast);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--secondary-teal);
+    background-color: var(--bg-white);
+    box-shadow: 0 0 0 2px var(--secondary-bg);
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+}
+
+.btn-success {
+    background-color: var(--secondary-teal);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #00796b;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+    background-color: var(--bg-grey);
+    color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-dark);
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPatientById, updatePatient } from "../../api/api";
-import "../Admin/add.css";
+import "./EditPatient.css";
 
 const EditPatient = () => {
     const { id } = useParams();

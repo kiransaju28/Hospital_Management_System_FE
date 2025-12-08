@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTodayAppointments } from "../../api/api";
-import "../Admin/list.css"; // Reuse existing list styles
+import "./ViewAppointment.css";
 
 const ViewAppointment = () => {
     const [appointments, setAppointments] = useState([]);
@@ -16,6 +16,7 @@ const ViewAppointment = () => {
     const fetchAppointments = async () => {
         try {
             const response = await getTodayAppointments();
+            console.log("Fetched Today's Appointments:", response.data);
             setAppointments(response.data);
         } catch (err) {
             console.error("Error fetching appointments:", err);
@@ -57,59 +58,69 @@ const ViewAppointment = () => {
                         </thead>
                         <tbody>
                             {appointments
-                                .filter((app) => app.status && app.status.toLowerCase() !== "completed")
-                                .map((appointment) => (
-                                    <tr key={appointment.appointment_id || appointment.Appointment_id || appointment.id}>
-                                        <td>{appointment.token_number || appointment.token || "-"}</td>
-                                        <td>
-                                            {/* Fallback to ID if name is missing */}
-                                            {appointment.patient_name ||
-                                                appointment.patient?.patient_name ||
-                                                (typeof appointment.patient === 'object' ? appointment.patient.name : null) ||
-                                                `Patient ID: ${appointment.patient}`}
-                                        </td>
-                                        <td>
-                                            <span className={`status-badge ${appointment.status.toLowerCase()}`}>
-                                                {appointment.status}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div className="action-buttons">
-                                                {/* Action to Add Vitals */}
-                                                <button
-                                                    className="btn-edit"
-                                                    onClick={() => {
-                                                        // Handle case sensitivity issues from backend
-                                                        const id = appointment.appointment_id || appointment.Appointment_id || appointment.id;
-                                                        if (!id) {
-                                                            alert("Error: Could not find Appointment ID. Please check the data.");
-                                                            console.error("Missing ID for appointment:", appointment);
-                                                            return;
-                                                        }
-                                                        console.log("Navigating to Add Vitals for ID:", id);
-                                                        navigate(`/doctor/add-vitals/${id}`);
-                                                    }}
-                                                    title="Record Vitals"
-                                                >
-                                                    Add Vitals
-                                                </button>
+                                .filter((app) => !app.status || app.status.toLowerCase() !== "completed")
+                                .map((appointment) => {
+                                    // Robust ID extraction
+                                    const id = appointment.appointment_id || appointment.Appointment_id || appointment.id;
 
-                                                {/* Action to Consult */}
-                                                <button
-                                                    className="btn-view"
-                                                    onClick={() => {
-                                                        const id = appointment.appointment_id || appointment.Appointment_id || appointment.id;
-                                                        if (!id) return;
-                                                        navigate(`/doctor/add-consultation/${id}`);
-                                                    }}
-                                                    title="Start Consultation"
-                                                >
-                                                    Consult
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                    // Robust Patient Name extraction
+                                    const patientName =
+                                        appointment.patient_name ||
+                                        appointment.patient?.patient_name ||
+                                        appointment.patient?.name ||
+                                        (typeof appointment.patient === 'object' ? appointment.patient.name : null) ||
+                                        appointment.patient_id ||
+                                        (typeof appointment.patient !== 'object' ? `Patient ID: ${appointment.patient}` : "Unknown");
+
+                                    // Safely handle status
+                                    const status = appointment.status || "Pending";
+
+                                    return (
+                                        <tr key={id || Math.random()}>
+                                            <td>{appointment.token_number || appointment.token || "-"}</td>
+                                            <td>
+                                                {patientName}
+                                            </td>
+                                            <td>
+                                                <span className={`status-badge ${status.toLowerCase()}`}>
+                                                    {status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div className="action-buttons">
+                                                    {/* Action to Add Vitals */}
+                                                    <button
+                                                        className="btn-edit"
+                                                        onClick={() => {
+                                                            if (!id) {
+                                                                alert("Error: Could not find Appointment ID. Please check the data.");
+                                                                console.error("Missing ID for appointment:", appointment);
+                                                                return;
+                                                            }
+                                                            console.log("Navigating to Add Vitals for ID:", id);
+                                                            navigate(`/doctor/add-vitals/${id}`);
+                                                        }}
+                                                        title="Record Vitals"
+                                                    >
+                                                        Add Vitals
+                                                    </button>
+
+                                                    {/* Action to Consult */}
+                                                    <button
+                                                        className="btn-view"
+                                                        onClick={() => {
+                                                            if (!id) return;
+                                                            navigate(`/doctor/add-consultation/${id}`);
+                                                        }}
+                                                        title="Start Consultation"
+                                                    >
+                                                        Consult
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                         </tbody>
                     </table>
                 )}

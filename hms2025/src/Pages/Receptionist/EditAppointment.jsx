@@ -7,7 +7,7 @@ import {
     getDoctors,
     getAppointments
 } from "../../api/api";
-import "../Admin/add.css";
+import "./EditAppointment.css";
 
 // Convert backend ISO date to "YYYY-MM-DDTHH:MM" without shifting timezone
 const formatToLocalDatetimeInput = (isoDateString) => {

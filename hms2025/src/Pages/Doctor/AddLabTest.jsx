@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createLabTestOrder, getAvailableLabTests } from "../../api/api";
-import "../Admin/add.css";
+import "./AddLabTest.css";
 
 const AddLabTest = () => {
     const { consultationId } = useParams();

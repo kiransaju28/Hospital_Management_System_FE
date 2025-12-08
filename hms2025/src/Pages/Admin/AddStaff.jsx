@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/api";
-// This imports the entire CSS file and applies its styles
-import './add.css';
+// This imports the page specific CSS file
+import './AddStaff.css';
 
 const AddStaff = () => {
     const [username, setUsername] = useState("");
@@ -76,14 +76,14 @@ const AddStaff = () => {
     return (
         <>
             {/* Floating Add Staff Button - Top Left Corner */}
-            <button 
+            <button
                 className="btn add-corner-btn add-staff-corner"
                 onClick={() => navigate('/add-staff')}
                 style={{ position: 'fixed', top: '20px', left: '20px', zIndex: 1000 }}
             >
                 Add Staff
             </button>
-            
+
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-8">

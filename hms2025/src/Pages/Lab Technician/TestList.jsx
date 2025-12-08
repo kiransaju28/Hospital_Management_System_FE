@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getTestCategories, deleteTestCategory } from "../../api/api";
-import "./List.css";
+import "./TestList.css";
 
 const TestList = () => {
     const [tests, setTests] = useState([]);

@@ -14,6 +14,9 @@ import EditPatient from "./Pages/Receptionist/EditPatient";
 import AppointmentList from "./Pages/Receptionist/AppointmentList";
 import AddAppointment from "./Pages/Receptionist/AddAppointment";
 import EditAppointment from "./Pages/Receptionist/EditAppointment";
+import ReceptionistBillList from "./Pages/Receptionist/Bill/BillList";
+import ReceptionistAddBill from "./Pages/Receptionist/Bill/AddBill";
+import ReceptionistViewBill from "./Pages/Receptionist/Bill/ViewBill";
 import AddVitals from "./Pages/Doctor/BasicVitals/AddVitals";
 import EditVitals from "./Pages/Doctor/BasicVitals/EditVitals";
 import ViewAppointment from "./Pages/Doctor/ViewAppointment";
@@ -71,6 +74,9 @@ function App() {
           <Route path="/appointments" element={<AppointmentList />} />
           <Route path="/add-appointment" element={<AddAppointment />} />
           <Route path="/edit-appointment/:id" element={<EditAppointment />} />
+          <Route path="/receptionist/bills" element={<ReceptionistBillList />} />
+          <Route path="/receptionist/create-bill" element={<ReceptionistAddBill />} />
+          <Route path="/receptionist/view-bill/:id" element={<ReceptionistViewBill />} />
 
           {/* Doctor Routes */}
           <Route path="/doctor-dashboard" element={<ViewAppointment />} />

@@ -1,0 +1,134 @@
+/* MedicineList.css */
+
+.container {
+    padding: var(--space-xl);
+    background: var(--bg-light);
+    min-height: 100vh;
+    max-width: 100% !important;
+}
+
+h3 {
+    color: var(--secondary-teal);
+    font-weight: 700;
+    margin: 0;
+}
+
+.btn-success {
+    background-color: var(--secondary-teal);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-success:hover {
+    background-color: #00796b;
+    box-shadow: var(--shadow-sm);
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--secondary-teal);
+    box-shadow: 0 0 0 2px var(--secondary-bg);
+}
+
+.table {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    margin-top: var(--space-md);
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.table thead th {
+    background: var(--bg-light);
+    color: var(--text-medium);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    padding: 16px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+/* Override bootstrap table-dark if used */
+.table-dark {
+    background-color: transparent !important;
+    color: inherit;
+}
+
+.table-dark th {
+    background-color: var(--bg-light) !important;
+    color: var(--text-medium) !important;
+    border-color: var(--border-light) !important;
+}
+
+.table tbody td {
+    padding: 16px;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-light);
+    font-size: var(--font-size-sm);
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: var(--bg-light);
+}
+
+/* Action Buttons */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
+    border: none;
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: var(--secondary-teal);
+    /* Use teal for consistency in module */
+}
+
+.btn-primary:hover {
+    background-color: #00796b;
+}
+
+.btn-danger {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: var(--status-error);
+}
+
+.btn-danger:hover {
+    background-color: var(--status-error);
+    color: white;
+}
+
+/* Pagination Buttons */
+.btn-outline-primary {
+    border-color: var(--secondary-teal);
+    color: var(--secondary-teal);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--secondary-bg);
+    color: var(--secondary-teal);
+}
+
+.btn-outline-primary:disabled {
+    color: var(--text-light);
+    border-color: var(--border-color);
+}

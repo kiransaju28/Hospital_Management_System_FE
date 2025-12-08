@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getPatients, deletePatient } from "../../api/api";
-import "../Admin/List.css"; // Reuse existing CSS
+import "./PatientList.css"; // Reuse existing CSS
 
 const PatientList = () => {
     const [patients, setPatients] = useState([]);

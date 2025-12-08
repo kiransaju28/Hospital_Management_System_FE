@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createPrescriptionItem, getMedicines } from "../../api/api";
-import "../Admin/add.css";
+import "./AddPrescription.css";
 
 const AddPrescription = () => {
     const { consultationId } = useParams();

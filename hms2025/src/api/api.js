@@ -98,6 +98,15 @@ export const deleteAppointment = (id) =>
     apiClient.delete(`receptionist/appointments/${id}/`);
 
 /* =====================================================
+                RECEPTIONIST – BILLING
+======================================================== */
+
+export const getBills = (params) => apiClient.get("receptionist/bills/", { params });
+export const createBill = (data) => apiClient.post("receptionist/bills/", data);
+export const getBillById = (id) => apiClient.get(`receptionist/bills/${id}/`);
+export const deleteBill = (id) => apiClient.delete(`receptionist/bills/${id}/`);
+
+/* =====================================================
                 DOCTOR - APPOINTMENTS
 ======================================================== */
 

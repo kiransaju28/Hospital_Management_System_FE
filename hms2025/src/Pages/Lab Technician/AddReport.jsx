@@ -7,7 +7,7 @@ import {
     createLabReportResult,
     updateLabTechTestOrderStatus
 } from "../../api/api";
-import "./Add.css";
+import "./AddReport.css";
 
 const AddReport = () => {
     const { orderId } = useParams();

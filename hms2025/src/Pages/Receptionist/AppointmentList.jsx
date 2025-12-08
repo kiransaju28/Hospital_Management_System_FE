@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAppointments, deleteAppointment, getPatients, getDoctors } from "../../api/api";
-import "../Admin/List.css";
+import "./AppointmentList.css";
 
 // Utility function to format the date string to YYYY-MM-DD HH:MM
 const formatAppointmentDate = (dateString) => {
     if (!dateString) return "N/A";
-    
+
     try {
         const date = new Date(dateString);
         if (isNaN(date.getTime())) return dateString;

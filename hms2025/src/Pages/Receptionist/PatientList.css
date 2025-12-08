@@ -1,0 +1,139 @@
+/* PatientList.css */
+
+.list-container {
+    padding: var(--space-xl);
+    background: var(--bg-light);
+    min-height: 100vh;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.list-header h2 {
+    color: var(--secondary-teal);
+    font-weight: 700;
+    margin: 0;
+}
+
+.refresh-btn {
+    padding: 8px 16px;
+    background-color: var(--secondary-teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.refresh-btn:hover {
+    background-color: #00796b;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Add Patient Button - if inline */
+.btn-primary {
+    background-color: var(--secondary-teal);
+}
+
+.btn-primary:hover {
+    background-color: #00796b;
+}
+
+.table-wrapper {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* If using standard table class from List.css style */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background: var(--bg-light);
+    color: var(--text-medium);
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    border-bottom: 2px solid var(--border-light);
+}
+
+tbody td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-dark);
+    font-size: var(--font-size-sm);
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: var(--bg-light);
+}
+
+/* Search Box */
+.search-box {
+    margin-bottom: var(--space-md);
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--secondary-teal);
+    box-shadow: 0 0 0 2px var(--secondary-bg);
+}
+
+/* Action Buttons */
+.btn-edit,
+.btn-delete {
+    padding: 6px 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background var(--transition-fast);
+}
+
+.btn-edit {
+    background-color: var(--primary-light);
+    /* Or secondary light */
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: var(--primary-blue);
+}
+
+.btn-delete {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: var(--status-error);
+}
+
+.btn-delete:hover {
+    background-color: var(--status-error);
+    color: white;
+}
