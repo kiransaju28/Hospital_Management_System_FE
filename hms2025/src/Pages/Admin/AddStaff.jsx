@@ -7,7 +7,7 @@ import './AddStaff.css';
 const AddStaff = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("Receptionist"); // Default to Receptionist
+    const [role, setRole] = useState("receptionist"); // Default to receptionist
     const [fullName, setFullName] = useState("");
     const [gender, setGender] = useState("");
     const [joiningDate, setJoiningDate] = useState("");
@@ -66,7 +66,7 @@ const AddStaff = () => {
             navigate("/admindashboard"); // back to admin dashboard
         } catch (error) {
             console.error("Error adding staff:", error?.response?.data || error);
-            const msg = error?.response?.data?.detail || error?.message || "Unknown error";
+            const msg = error?.response?.data?.detail || error?.response?.data?.role?.[0] || error?.message || "Unknown error";
             alert("Error adding staff: " + msg);
         } finally {
             setLoading(false);
@@ -127,9 +127,9 @@ const AddStaff = () => {
                                             onChange={(e) => setRole(e.target.value)}
                                             required
                                         >
-                                            <option value="Receptionist">Receptionist</option>
+                                            <option value="receptionist">Receptionist</option>
                                             <option value="Pharmacist">Pharmacist</option>
-                                            <option value="LabTechnician">Lab Technician</option>
+                                            <option value="labtech">Lab Technician</option>
                                             {/* Add other staff roles if needed */}
                                         </select>
                                     </div>

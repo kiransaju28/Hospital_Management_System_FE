@@ -110,21 +110,25 @@
 }
 
 .btn-edit {
-    background-color: var(--secondary-light);
+    background-color: #6366f1;
+    /* Indigo for Vitals */
     color: white;
 }
 
 .btn-edit:hover {
-    background-color: var(--secondary-teal);
+    background-color: #4f46e5;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-view {
-    background-color: var(--primary-light);
+    background-color: var(--primary-blue);
+    /* Green for Consult */
     color: white;
 }
 
 .btn-view:hover {
-    background-color: var(--primary-blue);
+    background-color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
 }
 
 .no-data {

@@ -157,7 +157,7 @@ const AdminDashboard = () => {
                       navigate('/staff');
                     }}
                   >
-                    Attendance/Time-off Requests
+                    Staff List
                   </button>
                 </li>
               </ul>

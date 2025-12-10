@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getLabBills, deleteLabBill } from "../../../api/api";
+import { getLabBills, deleteLabBill, getPatients } from "../../../api/api";
 import "../List.css";
 
 const BillList = () => {
@@ -10,6 +10,7 @@ const BillList = () => {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
+    const [patientMap, setPatientMap] = useState({});
 
     useEffect(() => {
         const delayDebounce = setTimeout(() => {
@@ -18,6 +19,31 @@ const BillList = () => {
 
         return () => clearTimeout(delayDebounce);
     }, [page, searchTerm]);
+
+    // Fetch patients to map IDs to Names
+    useEffect(() => {
+        fetchPatients();
+    }, []);
+
+    const fetchPatients = async () => {
+        try {
+            // Fetch a large page size to get most/all patients for mapping
+            const res = await getPatients({ page_size: 1000 });
+            const data = res.data.results ?? res.data;
+            const map = {};
+            if (Array.isArray(data)) {
+                data.forEach(p => {
+                    const id = p.Patient_id || p.id;
+                    if (id) {
+                        map[id] = p.patient_name || p.name || "Unknown";
+                    }
+                });
+            }
+            setPatientMap(map);
+        } catch (err) {
+            console.error("Failed to fetch patients for mapping:", err);
+        }
+    };
 
     const fetchBills = async () => {
         setLoading(true);
@@ -52,6 +78,29 @@ const BillList = () => {
             console.error(err);
             alert("Failed to delete bill");
         }
+    };
+
+    const getPatientName = (bill) => {
+        if (bill.patient_name) return bill.patient_name;
+        if (bill.patient && patientMap[bill.patient]) return patientMap[bill.patient];
+        if (bill.patient?.patient_name) return bill.patient.patient_name;
+        return `Patient ID: ${bill.patient}`;
+    };
+
+    const calculateBillTotal = (bill) => {
+        // Use backend total if available and non-zero
+        const total = parseFloat(bill.total_amount);
+        if (total > 0) return total;
+
+        // Fallback: Calculate from items if present
+        if (bill.items && Array.isArray(bill.items)) {
+            return bill.items.reduce((sum, item) => {
+                const itemTotal = parseFloat(item.subtotal) || parseFloat(item.price) || 0;
+                return sum + itemTotal;
+            }, 0);
+        }
+
+        return 0;
     };
 
     return (
@@ -100,9 +149,9 @@ const BillList = () => {
                                 bills.map((bill) => (
                                     <tr key={bill.LabBill_id}>
                                         <td>{bill.LabBill_id}</td>
-                                        <td>{bill.patient_name || `Patient ID: ${bill.patient}`}</td>
+                                        <td>{getPatientName(bill)}</td>
                                         <td>{new Date(bill.bill_date).toLocaleDateString()}</td>
-                                        <td>₹{parseFloat(bill.total_amount).toFixed(2)}</td>
+                                        <td>₹{calculateBillTotal(bill).toFixed(2)}</td>
                                         <td>
                                             <Link
                                                 to={`/view-bill/${bill.LabBill_id}`}

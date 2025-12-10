@@ -22,8 +22,8 @@
 .refresh-btn {
     padding: 8px 16px;
     background-color: #ffffff;
-    color: var(--secondary-teal);
-    border: 1px solid var(--secondary-teal);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
     border-radius: var(--radius-md);
     font-weight: 600;
     cursor: pointer;
@@ -31,7 +31,7 @@
 }
 
 .refresh-btn:hover {
-    background-color: var(--secondary-teal);
+    background-color: var(--primary-blue);
     color: white;
     box-shadow: var(--shadow-sm);
 }
@@ -39,12 +39,12 @@
 /* Add Patient Button - White by default */
 .btn-primary {
     background-color: #ffffff;
-    color: var(--secondary-teal);
-    border: 1px solid var(--secondary-teal);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
 }
 
 .btn-primary:hover {
-    background-color: var(--secondary-teal);
+    background-color: var(--primary-blue);
     color: white;
 }
 

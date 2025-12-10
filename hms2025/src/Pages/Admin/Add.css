@@ -3,7 +3,8 @@
 :root {
   /* Brand Colors */
   --brand-dark: #1e1e2d;
-  --brand-primary: #5646ff;
+  --brand-primary: #16a34a;
+  /* Green */
   --brand-secondary: #00d27b;
   --brand-accent: #ffb800;
   --brand-danger: #f64e60;
@@ -188,7 +189,7 @@ form {
 .btn-primary:hover {
   background-color: var(--brand-primary);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(86, 70, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
   transform: translateY(-1px);
 }
 
@@ -414,7 +415,7 @@ form {
 .submit-btn:hover:not(:disabled) {
   background-color: var(--brand-primary);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(86, 70, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
   transform: translateY(-1px);
 }
 

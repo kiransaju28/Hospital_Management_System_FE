@@ -53,9 +53,9 @@ h2 {
 
 .form-control:focus {
     outline: none;
-    border-color: var(--secondary-teal);
+    border-color: var(--primary-blue);
     background-color: var(--bg-white);
-    box-shadow: 0 0 0 2px var(--secondary-bg);
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.1);
 }
 
 .form-control:disabled {
@@ -73,12 +73,12 @@ h2 {
 }
 
 .btn-success {
-    background-color: var(--secondary-teal);
+    background-color: var(--primary-blue);
     color: white;
 }
 
 .btn-success:hover {
-    background-color: #00796b;
+    background-color: var(--primary-hover);
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
 }

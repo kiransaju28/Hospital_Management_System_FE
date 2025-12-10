@@ -32,16 +32,8 @@ const AddPrescription = () => {
                     throw new Error("No medicines found in backend, using placeholders.");
                 }
             } catch (err) {
-                console.warn("Using placeholder medicines:", err);
-                // Placeholder list until backend is ready
-                setMedicines([
-                    { id: 1, name: "Paracetamol 500mg" },
-                    { id: 2, name: "Amoxicillin 250mg" },
-                    { id: 3, name: "Ibuprofen 400mg" },
-                    { id: 4, name: "Cetirizine 10mg" },
-                    { id: 5, name: "Metformin 500mg" },
-                    { id: 6, name: "Aspirin 75mg" }
-                ]);
+                console.warn("Failed to fetch medicines:", err);
+                setBackendError("Could not load medicines. Please ensure the backend is running.");
             }
         };
         fetchMedicines();

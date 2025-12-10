@@ -5,35 +5,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    /* Clean modern gradient */
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    /* Navy Blue Gradient */
     font-family: 'Inter', sans-serif;
-    /* Modern font */
     padding: 20px;
 }
 
 .login-card {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
     /* Glassmorphism effect */
     border-radius: 24px;
     padding: 48px;
     width: 100%;
     max-width: 440px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-    /* Premium shadow */
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    /* Stronger shadow for contrast */
+    border: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
 }
 
 .login-card h2 {
-    color: #1e293b;
+    color: #0f172a;
+    /* Navy for title */
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
@@ -48,7 +48,7 @@
 .form-label {
     display: block;
     text-align: left;
-    font-weight: 500;
+    font-weight: 600;
     color: #334155;
     margin-bottom: 8px;
     font-size: 14px;
@@ -67,9 +67,10 @@
 
 .form-input:focus {
     outline: none;
-    border-color: #3b82f6;
+    border-color: #16a34a;
+    /* Green Focus */
     background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
 }
 
 .form-input::placeholder {
@@ -77,7 +78,8 @@
 }
 
 .login-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    /* Green Gradient */
     color: white;
     border: none;
     padding: 14px;
@@ -88,13 +90,13 @@
     margin-top: 24px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
 }
 
 .login-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+    background: linear-gradient(135deg, #15803d 0%, #166534 100%);
 }
 
 .login-btn:active {

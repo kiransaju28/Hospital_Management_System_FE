@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
     createLabBill,
     createLabBillItem,
+    updateLabBill,
     getTestCategories,
     getPatients
 } from "../../../api/api";
@@ -123,7 +124,14 @@ const AddBill = () => {
                 })
             );
 
+            // 3. Update Bill with Total (Fix for 0 price issue)
+            console.log("Step 3: Updating Bill Total:", totalAmount);
+            await updateLabBill(newBillId, { total_amount: parseFloat(totalAmount) });
+
             alert("Bill created successfully!");
+
+            // Small delay to ensure DB commit
+            await new Promise(resolve => setTimeout(resolve, 500));
             navigate("/lab-bills");
 
         } catch (err) {
