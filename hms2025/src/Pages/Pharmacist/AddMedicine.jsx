@@ -9,7 +9,6 @@ const AddMedicine = () => {
         medicine_name: "",
         manufacture_name: "",
         dosage: "",
-        quantity_in_stock: "",
         price_per_unit: ""
     });
     const [error, setError] = useState(null);
@@ -80,32 +79,18 @@ const AddMedicine = () => {
                     />
                 </div>
 
-                <div className="row">
-                    <div className="col-md-6 mb-3">
-                        <label className="form-label">Quantity in Stock</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            name="quantity_in_stock"
-                            value={formData.quantity_in_stock}
-                            onChange={handleChange}
-                            required
-                            min="0"
-                        />
-                    </div>
-                    <div className="col-md-6 mb-3">
-                        <label className="form-label">Price per Unit</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            className="form-control"
-                            name="price_per_unit"
-                            value={formData.price_per_unit}
-                            onChange={handleChange}
-                            required
-                            min="0"
-                        />
-                    </div>
+                <div className="mb-3">
+                    <label className="form-label">Price per Unit</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        className="form-control"
+                        name="price_per_unit"
+                        value={formData.price_per_unit}
+                        onChange={handleChange}
+                        required
+                        min="0"
+                    />
                 </div>
 
                 <button type="submit" className="btn btn-success">Save Medicine</button>

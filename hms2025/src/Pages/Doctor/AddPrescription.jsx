@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { createPrescriptionItem, getMedicines } from "../../api/api";
+import { createPrescriptionItem, getMedicines, getConsultationById, patchConsultation } from "../../api/api";
 import "./AddPrescription.css";
 
 const AddPrescription = () => {
@@ -17,6 +17,19 @@ const AddPrescription = () => {
     const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(false);
     const [backendError, setBackendError] = useState(null);
+    const [fulfillInternal, setFulfillInternal] = useState(false);
+
+    const handleFulfillChange = async (e) => {
+        const newValue = e.target.checked;
+        setFulfillInternal(newValue);
+        try {
+            await patchConsultation(consultationId, { fulfill_pharmacist_internally: newValue });
+        } catch (err) {
+            console.error("Failed to update consultation status", err);
+            alert("Failed to update status. Please try again.");
+            setFulfillInternal(!newValue); // Revert on error
+        }
+    };
 
     useEffect(() => {
         const fetchMedicines = async () => {
@@ -36,8 +49,19 @@ const AddPrescription = () => {
                 setBackendError("Could not load medicines. Please ensure the backend is running.");
             }
         };
+
+        const fetchConsultationStatus = async () => {
+            try {
+                const res = await getConsultationById(consultationId);
+                setFulfillInternal(res.data.fulfill_pharmacist_internally);
+            } catch (err) {
+                console.warn("Error fetching consultation status:", err);
+            }
+        };
+
         fetchMedicines();
-    }, []);
+        fetchConsultationStatus();
+    }, [consultationId]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -97,6 +121,17 @@ const AddPrescription = () => {
                     <button className="btn btn-secondary me-2" onClick={() => navigate(`/doctor/add-lab-test/${consultationId}`)}>
                         Go to Lab Tests
                     </button>
+                    <div className="checkbox-wrapper" style={{ display: 'inline-block', marginRight: '15px' }}>
+                        <label style={{ cursor: 'pointer', userSelect: 'none' }}>
+                            <input
+                                type="checkbox"
+                                checked={fulfillInternal}
+                                onChange={handleFulfillChange}
+                                style={{ marginRight: '5px' }}
+                            />
+                            Fulfill at Pharmacist (Internal)
+                        </label>
+                    </div>
                     <button className="btn btn-primary" onClick={() => navigate("/doctor/consultation-history")}>
                         Finish
                     </button>

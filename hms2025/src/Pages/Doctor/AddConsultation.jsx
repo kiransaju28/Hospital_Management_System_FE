@@ -11,7 +11,7 @@ const AddConsultation = () => {
         symptoms: "",
         diagnosis: "",
         notes: "",
-        fulfill_pharmacist_internally: false,
+        fulfill_pharmacist_internally: true,
     });
 
     const [loading, setLoading] = useState(false);
@@ -124,6 +124,21 @@ const AddConsultation = () => {
                             rows="3"
                             placeholder="Additional notes..."
                         ></textarea>
+                    </div>
+
+                    <div className="form-group checkbox-group">
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="fulfill_pharmacist_internally"
+                                checked={formData.fulfill_pharmacist_internally}
+                                onChange={handleChange}
+                            />
+                            Fulfill at Pharmacist (Internal)
+                        </label>
+                        <small className="form-text">
+                            Check this if the patient should collect medicines from the internal pharmacy.
+                        </small>
                     </div>
 
                     <button type="submit" className="submit-btn" disabled={loading}>

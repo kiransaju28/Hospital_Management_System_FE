@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPrescriptionItemById, updatePrescriptionItem, getMedicines } from "../../api/api";
+import { getPrescriptionItemById, updatePrescriptionItem, getMedicines, getConsultationById, patchConsultation } from "../../api/api";
 import "./EditPrescription.css";
 
 const EditPrescription = () => {
@@ -17,6 +17,21 @@ const EditPrescription = () => {
     const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [fulfillInternal, setFulfillInternal] = useState(false);
+    const [consultationIdForToggle, setConsultationIdForToggle] = useState(null);
+
+    const handleFulfillChange = async (e) => {
+        if (!consultationIdForToggle) return;
+        const newValue = e.target.checked;
+        setFulfillInternal(newValue);
+        try {
+            await patchConsultation(consultationIdForToggle, { fulfill_pharmacist_internally: newValue });
+        } catch (err) {
+            console.error("Failed to update consultation status", err);
+            alert("Failed to update status. Please try again.");
+            setFulfillInternal(!newValue); // Revert on error
+        }
+    };
 
     useEffect(() => {
         if (!id || id === 'undefined') {
@@ -71,6 +86,16 @@ const EditPrescription = () => {
                     duration: item.duration,
                     consultation: String(extractedConsultId) // Store as string for consistency
                 });
+
+                if (extractedConsultId) {
+                    setConsultationIdForToggle(extractedConsultId);
+                    try {
+                        const consRes = await getConsultationById(extractedConsultId);
+                        setFulfillInternal(consRes.data.fulfill_pharmacist_internally);
+                    } catch (consErr) {
+                        console.warn("Could not fetch consultation status", consErr);
+                    }
+                }
             } catch (err) {
                 console.error("Error loading prescription data:", err);
                 setError("Failed to load prescription details.");
@@ -197,6 +222,20 @@ const EditPrescription = () => {
                             onChange={handleChange}
                             required
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <div className="checkbox-wrapper" style={{ marginTop: '10px', marginBottom: '10px' }}>
+                            <label style={{ cursor: 'pointer', userSelect: 'none', fontWeight: '500' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={fulfillInternal}
+                                    onChange={handleFulfillChange}
+                                    style={{ marginRight: '8px' }}
+                                />
+                                Fulfill at Pharmacist (Internal)
+                            </label>
+                        </div>
                     </div>
 
                     <button type="submit" className="submit-btn" disabled={loading}>

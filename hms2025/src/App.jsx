@@ -50,6 +50,13 @@ import MedicineList from "./Pages/Pharmacist/MedicineList";
 import AddMedicine from "./Pages/Pharmacist/AddMedicine";
 import EditMedicine from "./Pages/Pharmacist/EditMedicine";
 
+import StockList from "./Pages/Pharmacist/StockList";
+import AddStock from "./Pages/Pharmacist/AddStock";
+import PendingBills from "./Pages/Pharmacist/PendingBills";
+import CreateBill from "./Pages/Pharmacist/CreateBill";
+import EditStock from "./Pages/Pharmacist/EditStock";
+import PharmacistDashboard from "./Pages/Pharmacist/Dashboard/Dashboard";
+
 import MainLayout from "./components/MainLayout";
 
 function App() {
@@ -112,9 +119,18 @@ function App() {
           <Route path="/view-bill/:id" element={<ViewBill />} />
 
           {/* Pharmacist Routes */}
+          <Route path="/pharmacist-dashboard" element={<PharmacistDashboard />} />
           <Route path="/medicines" element={<MedicineList />} />
           <Route path="/add-medicine" element={<AddMedicine />} />
           <Route path="/edit-medicine/:id" element={<EditMedicine />} />
+
+
+          <Route path="/pharmacist/stock" element={<StockList />} />
+          <Route path="/pharmacist/add-stock" element={<AddStock />} />
+          <Route path="/pharmacist/edit-stock/:id" element={<EditStock />} />
+          <Route path="/pharmacist/pending-bills" element={<PendingBills />} />
+
+          <Route path="/pharmacist/create-bill/:consultationId" element={<CreateBill />} />
         </Route>
       </Routes>
     </BrowserRouter>

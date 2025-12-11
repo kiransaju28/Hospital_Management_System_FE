@@ -212,6 +212,28 @@ const AdminDashboard = () => {
                     Medicines
                   </button>
                 </li>
+                <li>
+                  <button
+                    className={`submenu-item ${activeItem === 'stock' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('stock');
+                      navigate('/pharmacist/stock');
+                    }}
+                  >
+                    Stock Management
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`submenu-item ${activeItem === 'billing' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveItem('billing');
+                      navigate('/pharmacist/pending-bills');
+                    }}
+                  >
+                    Pharmacy Billing
+                  </button>
+                </li>
               </ul>
             )}
           </li>

@@ -35,7 +35,7 @@ const MainLayout = () => {
                             setHomePath("/lab-test-orders"); // As per Login logic
                             break;
                         case 'pharmacist':
-                            setHomePath("/medicines");
+                            setHomePath("/pharmacist-dashboard");
                             break;
                         default:
                             setHomePath("/admindashboard");

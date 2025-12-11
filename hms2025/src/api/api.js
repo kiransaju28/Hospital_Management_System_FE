@@ -148,6 +148,9 @@ export const getConsultationById = (id) =>
 export const updateConsultation = (id, data) =>
     apiClient.put(`doctor/consultations/${id}/`, data);
 
+export const patchConsultation = (id, data) =>
+    apiClient.patch(`doctor/consultations/${id}/`, data);
+
 export const deleteConsultation = (id) =>
     apiClient.delete(`doctor/consultations/${id}/`);
 
@@ -199,6 +202,18 @@ export const createMedicine = (data) => apiClient.post("pharmacist/medicines/", 
 export const getMedicineById = (id) => apiClient.get(`pharmacist/medicines/${id}/`);
 export const updateMedicine = (id, data) => apiClient.put(`pharmacist/medicines/${id}/`, data);
 export const deleteMedicine = (id) => apiClient.delete(`pharmacist/medicines/${id}/`);
+
+export const getMedicineStock = (params) => apiClient.get("pharmacist/medicine-stock/", { params });
+export const createMedicineStock = (data) => apiClient.post("pharmacist/medicine-stock/", data);
+export const getMedicineStockById = (id) => apiClient.get(`pharmacist/medicine-stock/${id}/`);
+export const updateMedicineStock = (id, data) => apiClient.put(`pharmacist/medicine-stock/${id}/`, data);
+export const deleteMedicineStock = (id) => apiClient.delete(`pharmacist/medicine-stock/${id}/`);
+
+export const getPharmacistBills = (params) => apiClient.get("pharmacist/bills/", { params });
+export const createPharmacistBill = (data) => apiClient.post("pharmacist/bills/", data);
+export const getPharmacistBillById = (id) => apiClient.get(`pharmacist/bills/${id}/`);
+
+export const getPendingPrescriptions = (params) => apiClient.get("pharmacist/pending-prescriptions/", { params });
 
 export const getAvailableLabTests = () => apiClient.get("labtech/tests/");
 

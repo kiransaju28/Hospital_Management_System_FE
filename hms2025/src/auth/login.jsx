@@ -60,7 +60,7 @@ const Login = () => {
                             navigate("/lab-test-orders");
                             break;
                         case 'pharmacist':
-                            navigate("/medicines");
+                            navigate("/pharmacist-dashboard");
                             break;
                         default:
                             navigate("/admindashboard"); // Fallback

@@ -1,0 +1,82 @@
+.pending-bills-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.pending-header {
+    margin-bottom: 2rem;
+}
+
+.pending-header h1 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.pending-header p {
+    color: #718096;
+}
+
+.pending-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.pending-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pending-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pending-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2d3748;
+    font-size: 1.2rem;
+}
+
+.pending-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+.create-bill-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.create-bill-btn:hover {
+    background-color: #2563eb;
+}
+
+.no-data-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: #a0aec0;
+    font-size: 1.1rem;
+    background: white;
+    border-radius: 10px;
+    border: 1px dashed #cbd5e0;
+}
