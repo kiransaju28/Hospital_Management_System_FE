@@ -1,84 +1,118 @@
-/* EditDoctor.css */
+/* 🌿 Edit Doctor – Professional Aligned UI */
 
-/* Page Header */
-h3 {
-    color: var(--primary-blue);
-    margin-bottom: var(--space-md);
-    font-weight: 700;
+/* Background */
+body {
+    background: linear-gradient(135deg, #d0f0ff, #c3ffe8, #c8e6ff) !important;
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove Bootstrap background blocks */
+.container, .row, div[class*="col-"] {
+    background: transparent !important;
+}
+
+/* 🌿 Glass Card */
+.edit-card {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+
+    max-width: 1100px;
+    width: 95%;
+    margin: 60px auto;
+    padding: 3rem 4rem;
+
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+    transition: 0.25s ease;
+}
+
+.edit-card:hover {
+    transform: translateY(-3px);
+}
+
+/* 🌿 Title */
+.edit-title {
     text-align: center;
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #0d47a1;
+    margin-bottom: 2.5rem;
 }
 
-/* Container */
-.container {
-    max-width: 800px;
-    background: var(--bg-white);
-    padding: var(--space-xl);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    margin-top: var(--space-xl) !important;
-    margin-bottom: var(--space-xl);
+/* 🌿 Aligned Form Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;   /* Label left | Input right */
+    align-items: center;
+    column-gap: 25px;
+    margin-bottom: 1.4rem;
 }
 
-/* Form Controls */
-.form-label,
-label {
-    font-weight: 500;
-    color: var(--text-medium);
-    margin-bottom: var(--space-xs);
-    display: block;
+/* Labels */
+.form-label, label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1d1d2f;
 }
 
+/* Inputs */
 .form-control {
-    background-color: var(--bg-light);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 10px 15px;
-    font-size: var(--font-size-md);
-    color: var(--text-dark);
-    transition: all var(--transition-fast);
+    padding: 14px 18px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1px solid #cfd6e3;
+    background: rgba(255, 255, 255, 0.75);
+    transition: 0.25s ease;
     width: 100%;
 }
 
 .form-control:focus {
-    background-color: var(--bg-white);
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px var(--primary-bg);
+    background: #ffffff;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
     outline: none;
 }
 
+/* Disabled Input */
 .form-control:disabled {
-    background-color: var(--bg-grey);
-    cursor: not-allowed;
+    opacity: 0.6;
+    background: rgba(240, 240, 240, 0.6);
 }
 
-/* Spacing */
-.mb-3 {
-    margin-bottom: var(--space-md) !important;
-}
-
-.mt-3 {
-    margin-top: var(--space-md) !important;
-}
-
-/* Buttons */
-.btn {
-    padding: 12px 24px;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    transition: all var(--transition-fast);
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-top: var(--space-lg);
-}
-
+/* 🌿 Update Button */
 .btn-primary {
-    background-color: var(--primary-blue);
-    color: var(--text-white);
+    background: linear-gradient(135deg, #1a73e8, #00b894);
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    margin-top: 25px;
+    transition: 0.25s ease;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* 🌿 Responsive Layout */
+@media (max-width: 768px) {
+    .edit-card {
+        padding: 1.8rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        row-gap: 8px;
+    }
+
+    .edit-title {
+        font-size: 1.8rem;
+    }
 }
