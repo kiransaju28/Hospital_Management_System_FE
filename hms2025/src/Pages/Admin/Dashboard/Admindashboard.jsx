@@ -56,7 +56,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <nav className="sidebar">
         <div className="sidebar-header">
-          <h2>HMS Admin</h2>
+          <h2>Dashboard</h2>
         </div>
         <ul className="sidebar-menu">
           <li>

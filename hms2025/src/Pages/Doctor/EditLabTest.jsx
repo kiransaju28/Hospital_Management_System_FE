@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getLabTestOrderById, updateLabTestOrder, getAvailableLabTests } from "../../api/api";
+import { getLabTestOrderById, updateLabTestOrder, getTestCategories } from "../../api/api";
 import "./EditLabTest.css";
 
 const EditLabTest = () => {
@@ -35,27 +35,20 @@ const EditLabTest = () => {
                     consultation: item.consultation?.consultation_id || item.consultation?.id || item.consultation
                 });
 
-                // 2. Fetch Available Tests (Non-critical, can fallback)
+                // 2. Fetch Available Test Categories
                 try {
-                    const testsRes = await getAvailableLabTests();
+                    const testsRes = await getTestCategories();
                     const tests = testsRes.data.results || testsRes.data;
 
                     if (Array.isArray(tests) && tests.length > 0) {
                         setAvailableTests(tests);
                     } else {
-                        throw new Error("Empty list from backend");
+                        console.warn("No lab test categories found in backend");
+                        setAvailableTests([]);
                     }
                 } catch (listErr) {
-                    console.warn("Could not fetch lab tests, using placeholders:", listErr);
-                    setAvailableTests([
-                        { id: 1, name: "Complete Blood Count (CBC)" },
-                        { id: 2, name: "Lipid Profile" },
-                        { id: 3, name: "Thyroid Function Test (TFT)" },
-                        { id: 4, name: "Blood Sugar Fasting" },
-                        { id: 5, name: "Liver Function Test (LFT)" },
-                        { id: 6, name: "Kidney Function Test (KFT)" },
-                        { id: 7, name: "Urine Routine" }
-                    ]);
+                    console.error("Error fetching lab test categories:", listErr);
+                    setAvailableTests([]);
                 }
 
             } catch (err) {
@@ -118,10 +111,10 @@ const EditLabTest = () => {
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select Lab Test</option>
+                            <option value="">Select Lab Test Category</option>
                             {availableTests.map((t) => (
-                                <option key={t.id || t.test_id} value={t.id || t.test_id}>
-                                    {t.name || t.test_name}
+                                <option key={t.LabTestCategory_id} value={t.LabTestCategory_id}>
+                                    {t.category_name}
                                 </option>
                             ))}
                         </select>

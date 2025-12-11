@@ -11,6 +11,7 @@ const DoctorList = () => {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
 
     useEffect(() => {
         fetchSpecializations();
@@ -50,13 +51,14 @@ const DoctorList = () => {
             setDoctors(data);
 
             if (res.data.count) {
+                setTotalCount(res.data.count);
                 setTotalPages(Math.ceil(res.data.count / pageSize));
             } else {
+                setTotalCount(data.length);
                 setTotalPages(1);
             }
         } catch (err) {
             console.error(err);
-            // alert("Error fetching doctors");
         } finally {
             setLoading(false);
         }
@@ -78,109 +80,172 @@ const DoctorList = () => {
         }
     };
 
+    const getSpecializationName = (doctor) => {
+        return specializations[doctor.specialization] ||
+               doctor.specialization?.specialization_name ||
+               doctor.specialization_name ||
+               "N/A";
+    };
+
+    const formatFee = (fee) => {
+        if (!fee) return "N/A";
+        return `₹${parseFloat(fee).toFixed(2)}`;
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "N/A";
+        return new Date(dateString).toLocaleDateString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
+
+    const getAvailabilityBadge = (availability) => {
+        const avail = (availability || "").toLowerCase();
+        if (avail === "available") return "status-available";
+        if (avail === "busy") return "status-busy";
+        if (avail === "on leave") return "status-leave";
+        return "status-unknown";
+    };
+
     return (
-        <div className="container mt-4">
-            <div className="d-flex justify-content-between mb-3">
-                <h3>Doctors</h3>
-                <Link to="/add-doctor" className="btn btn-success">Add Doctor</Link>
+        <div className="list-container">
+            <div className="list-header">
+                <h2>Doctors</h2>
+                <div className="search-box">
+                    <input
+                        type="text"
+                        placeholder="Search by name, specialization..."
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setPage(1);
+                        }}
+                    />
+                </div>
+                <div>
+                    <button className="refresh-btn" onClick={fetchDoctors}>
+                        Refresh
+                    </button>
+                    <Link to="/add-doctor" className="btn btn-success">
+                        Add Doctor
+                    </Link>
+                </div>
             </div>
 
-            <input
-                type="text"
-                className="form-control mb-3"
-                placeholder="Search by name, specialization..."
-                value={searchTerm}
-                onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setPage(1);
-                }}
-            />
-
-            {loading ? (
-                <div>Loading...</div>
-            ) : (
-                <>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Specialization</th>
-                                <th>Availability</th>
-                                <th>Consultation Fee</th>
-                                <th>Contact</th>
-                                <th>Joining Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {doctors.length === 0 ? (
+            <div className="table-wrapper">
+                {loading ? (
+                    <div className="loading-state">Loading doctors...</div>
+                ) : (
+                    <>
+                        <table className="table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="6" className="text-center">
-                                        No doctors found
-                                    </td>
+                                    <th>DOCTOR ID</th>
+                                    <th>NAME</th>
+                                    <th>GENDER</th>
+                                    <th>SPECIALIZATION</th>
+                                    <th>AVAILABILITY</th>
+                                    <th>FEE</th>
+                                    <th>CONTACT</th>
+                                    <th>JOINING DATE</th>
+                                    <th>ACTIONS</th>
                                 </tr>
-                            ) : (
-                                doctors.map((doc) => (
-                                    <tr key={doc.doctor_id}>
-                                        <td>{doc.staff?.username ?? "N/A"}</td>
-                                        <td>{doc.staff?.full_name ?? "Unknown"}</td>
-                                        <td>{doc.staff?.gender ?? "N/A"}</td>
-                                        <td>
-                                            {/* Try to look up name from map, or use nested object if available, or fallback to ID/N/A */}
-                                            {specializations[doc.specialization] ||
-                                                doc.specialization?.specialization_name ||
-                                                doc.specialization_name ||
-                                                "N/A"}
-                                        </td>
-                                        <td>{doc.availability}</td>
-                                        <td>{doc.consultation_fee}</td>
-                                        <td>{doc.staff?.mobile_number ?? "N/A"}</td>
-                                        <td>{doc.staff?.joining_date ?? "N/A"}</td>
-                                        <td>
-                                            <Link
-                                                to={`/edit-doctor/${doc.doctor_id}`}
-                                                className="btn btn-sm btn-primary me-2"
-                                            >
-                                                Edit
-                                            </Link>
-                                            <button
-                                                onClick={() => handleDelete(doc.doctor_id)}
-                                                className="btn btn-sm btn-danger"
-                                            >
-                                                Delete
-                                            </button>
+                            </thead>
+
+                            <tbody>
+                                {doctors.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="9" className="text-center">
+                                            No doctors found
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    doctors.map((doc) => (
+                                        <tr key={doc.doctor_id}>
+                                            <td className="doctor-id">
+                                                #{doc.doctor_id}
+                                            </td>
+                                            <td className="doctor-name">
+                                                <div className="name-wrapper">
+                                                    <div className="doctor-fullname">
+                                                        {doc.staff?.full_name ?? "Unknown"}
+                                                    </div>
+                                                    <div className="doctor-username">
+                                                        @{doc.staff?.username ?? "N/A"}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="doctor-gender">
+                                                {doc.staff?.gender ?? "N/A"}
+                                            </td>
+                                            <td className="doctor-specialization">
+                                                <span className="specialization-badge">
+                                                    {getSpecializationName(doc)}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span className={`status-badge ${getAvailabilityBadge(doc.availability)}`}>
+                                                    {doc.availability || "N/A"}
+                                                </span>
+                                            </td>
+                                            <td className="doctor-fee">
+                                                {formatFee(doc.consultation_fee)}
+                                            </td>
+                                            <td className="doctor-contact">
+                                                {doc.staff?.mobile_number ?? "N/A"}
+                                            </td>
+                                            <td className="doctor-joining">
+                                                {formatDate(doc.staff?.joining_date)}
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    to={`/edit-doctor/${doc.doctor_id}`}
+                                                    className="btn-edit"
+                                                >
+                                                    Edit
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(doc.doctor_id)}
+                                                    className="btn-delete"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
 
-                    {/* Pagination */}
-                    <div className="d-flex justify-content-center align-items-center">
-                        <button
-                            className="btn btn-outline-primary me-2"
-                            onClick={() => setPage(p => Math.max(p - 1, 1))}
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </button>
-
-                        <span>Page {page} of {totalPages}</span>
-
-                        <button
-                            className="btn btn-outline-primary ms-2"
-                            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
-                            disabled={page === totalPages}
-                        >
-                            Next
-                        </button>
-                    </div>
-                </>
-            )}
+                        <div className="pagination-container">
+                            <div className="pagination-info">
+                                Showing {doctors.length} of {totalCount} doctors
+                            </div>
+                            <div className="pagination-controls">
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.max(p - 1, 1))}
+                                    disabled={page === 1}
+                                >
+                                    ← Previous
+                                </button>
+                                <div className="page-indicator">
+                                    Page {page} of {totalPages}
+                                </div>
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                                    disabled={page === totalPages}
+                                >
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

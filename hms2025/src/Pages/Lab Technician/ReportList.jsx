@@ -10,6 +10,7 @@ const ReportList = () => {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
 
     useEffect(() => {
         const delayDebounce = setTimeout(() => {
@@ -30,8 +31,10 @@ const ReportList = () => {
             setReports(data);
 
             if (res.data.count) {
+                setTotalCount(res.data.count);
                 setTotalPages(Math.ceil(res.data.count / pageSize));
             } else {
+                setTotalCount(data.length);
                 setTotalPages(1);
             }
         } catch (err) {
@@ -41,90 +44,127 @@ const ReportList = () => {
         }
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "N/A";
+        return new Date(dateString).toLocaleDateString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
+
     return (
-        <div className="container mt-4">
-            <div className="d-flex justify-content-between mb-3">
-                <h3>Lab Report History</h3>
-                <Link to="/lab-test-orders" className="btn btn-secondary">Back to Orders</Link>
+        <div className="list-container">
+            <div className="list-header">
+                <h2>Lab Report History</h2>
+                <div className="search-box">
+                    <input
+                        type="text"
+                        placeholder="Search by category or ID..."
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setPage(1);
+                        }}
+                    />
+                </div>
+                <div>
+                    <button className="refresh-btn" onClick={fetchReports}>
+                        Refresh
+                    </button>
+                    <Link to="/lab-test-orders" className="btn btn-secondary">
+                        Back to Orders
+                    </Link>
+                </div>
             </div>
 
-            <input
-                type="text"
-                className="form-control mb-3"
-                placeholder="Search report..."
-                value={searchTerm}
-                onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setPage(1);
-                }}
-            />
-
-            {loading ? (
-                <div>Loading...</div>
-            ) : (
-                <>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Report ID</th>
-                                <th>Category</th>
-                                <th>Report Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {reports.length === 0 ? (
+            <div className="table-wrapper">
+                {loading ? (
+                    <div className="loading-state">Loading reports...</div>
+                ) : (
+                    <>
+                        <table className="table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="4" className="text-center">
-                                        No reports found
-                                    </td>
+                                    <th>REPORT ID</th>
+                                    <th>CATEGORY</th>
+                                    <th>REPORT DATE</th>
+                                    <th>STATUS</th>
+                                    <th>ACTIONS</th>
                                 </tr>
-                            ) : (
-                                reports.map((report) => (
-                                    <tr key={report.LabReport_id}>
-                                        <td>{report.LabReport_id}</td>
-                                        <td>{report.category_name}</td>
-                                        <td>{report.report_date}</td>
-                                        <td>
-                                            <Link
-                                                to={`/view-report/${report.LabReport_id}`}
-                                                className="btn btn-sm btn-info me-2"
-                                            >
-                                                View
-                                            </Link>
-                                            <Link
-                                                to={`/edit-report/${report.LabReport_id}`}
-                                                className="btn btn-sm btn-primary"
-                                            >
-                                                Edit
-                                            </Link>
+                            </thead>
+
+                            <tbody>
+                                {reports.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="5" className="text-center">
+                                            No reports found
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    reports.map((report) => (
+                                        <tr key={report.LabReport_id}>
+                                            <td className="report-id">
+                                                #{report.LabReport_id}
+                                            </td>
+                                            <td className="report-category">
+                                                {report.category_name}
+                                            </td>
+                                            <td className="report-date">
+                                                {formatDate(report.report_date)}
+                                            </td>
+                                            <td>
+                                                <span className={`status-badge ${report.status === 'completed' ? 'status-completed' : 'status-pending'}`}>
+                                                    {report.status === 'completed' ? 'Completed' : 'Pending'}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    to={`/view-report/${report.LabReport_id}`}
+                                                    className="btn-view"
+                                                >
+                                                    View
+                                                </Link>
+                                                <Link
+                                                    to={`/edit-report/${report.LabReport_id}`}
+                                                    className="btn-edit"
+                                                >
+                                                    Edit
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
 
-                    <div className="d-flex justify-content-center align-items-center mt-3">
-                        <button
-                            className="btn btn-outline-primary me-2"
-                            onClick={() => setPage(p => Math.max(p - 1, 1))}
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </button>
-                        <span className="pagination-info">Page {page} of {totalPages}</span>
-                        <button
-                            className="btn btn-outline-primary ms-2"
-                            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
-                            disabled={page === totalPages}
-                        >
-                            Next
-                        </button>
-                    </div>
-                </>
-            )}
+                        <div className="pagination-container">
+                            <div className="pagination-info">
+                                Showing {reports.length} of {totalCount} reports
+                            </div>
+                            <div className="pagination-controls">
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.max(p - 1, 1))}
+                                    disabled={page === 1}
+                                >
+                                    ← Previous
+                                </button>
+                                <div className="page-indicator">
+                                    Page {page} of {totalPages}
+                                </div>
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                                    disabled={page === totalPages}
+                                >
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

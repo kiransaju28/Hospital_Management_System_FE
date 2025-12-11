@@ -85,7 +85,6 @@ const Login = () => {
             {/* Login Card */}
             <div className="login-card shadow-lg">
                 <h2 className="text-center mb-4">Hospital Management</h2>
-                <p className="text-center mb-4 login-subtitle">Sign in to your account</p>
 
                 <form onSubmit={handleLogin}>
                     <div className="mb-3">

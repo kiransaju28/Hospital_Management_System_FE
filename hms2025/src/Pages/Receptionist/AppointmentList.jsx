@@ -32,6 +32,7 @@ const AppointmentList = () => {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
 
     useEffect(() => {
         fetchData();
@@ -48,8 +49,10 @@ const AppointmentList = () => {
             setAppointments(data);
 
             if (res.data.count) {
+                setTotalCount(res.data.count);
                 setTotalPages(Math.ceil(res.data.count / pageSize));
             } else {
+                setTotalCount(data.length);
                 setTotalPages(1);
             }
 
@@ -95,83 +98,133 @@ const AppointmentList = () => {
         }
     };
 
+    const getStatusBadgeClass = (status) => {
+        const statusLower = (status || "pending").toLowerCase();
+        switch (statusLower) {
+            case "completed":
+                return "status-completed";
+            case "confirmed":
+                return "status-confirmed";
+            case "cancelled":
+                return "status-cancelled";
+            default:
+                return "status-pending";
+        }
+    };
+
+    const formatStatusText = (status) => {
+        const statusLower = (status || "pending").toLowerCase();
+        return statusLower.charAt(0).toUpperCase() + statusLower.slice(1);
+    };
+
     return (
-        <div className="container mt-4">
-            <div className="d-flex justify-content-between mb-3">
-                <h3>Appointments</h3>
-                <Link to="/add-appointment" className="btn btn-success">Book Appointment</Link>
+        <div className="list-container">
+            <div className="list-header">
+                <h2>Appointments</h2>
+                <div>
+                    <button className="refresh-btn" onClick={fetchData}>
+                        Refresh
+                    </button>
+                    <Link to="/add-appointment" className="btn btn-success">
+                        Book Appointment
+                    </Link>
+                </div>
             </div>
 
-            {loading ? (
-                <div>Loading...</div>
-            ) : (
-                <>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Token</th>
-                                <th>Patient</th>
-                                <th>Doctor</th>
-                                <th>Date & Time</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {appointments.length === 0 ? (
+            <div className="table-wrapper">
+                {loading ? (
+                    <div className="loading-state">Loading appointments...</div>
+                ) : (
+                    <>
+                        <table className="table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="7" className="text-center">No appointments found</td>
+                                    <th>ID</th>
+                                    <th>TOKEN</th>
+                                    <th>PATIENT</th>
+                                    <th>DOCTOR</th>
+                                    <th>DATE & TIME</th>
+                                    <th>STATUS</th>
+                                    <th>ACTIONS</th>
                                 </tr>
-                            ) : (
-                                appointments.map((apt) => (
-                                    <tr key={apt.Appointment_id ?? apt.id}>
-                                        <td>{apt.Appointment_id ?? apt.id}</td>
-                                        <td>{apt.token ?? "N/A"}</td>
-                                        <td>{getPatientName(apt.patient)}</td>
-                                        <td>{getDoctorName(apt.doctor)}</td>
-                                        <td>{formatAppointmentDate(apt.appointment_date)}</td>
-                                        <td>{apt.status ?? "Pending"}</td>
-                                        <td>
-                                            <Link
-                                                to={`/edit-appointment/${apt.Appointment_id ?? apt.id}`}
-                                                className="btn btn-sm btn-primary me-2"
-                                            >
-                                                Edit
-                                            </Link>
-                                            <button
-                                                onClick={() => handleDelete(apt.Appointment_id ?? apt.id)}
-                                                className="btn btn-sm btn-danger"
-                                            >
-                                                Cancel
-                                            </button>
+                            </thead>
+                            <tbody>
+                                {appointments.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="7" className="text-center">
+                                            No appointments found
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    appointments.map((apt) => (
+                                        <tr key={apt.Appointment_id ?? apt.id}>
+                                            <td className="appointment-id">
+                                                #{apt.Appointment_id ?? apt.id}
+                                            </td>
+                                            <td className="token">
+                                                {apt.token ? `T-${apt.token}` : "N/A"}
+                                            </td>
+                                            <td className="patient-name">
+                                                {getPatientName(apt.patient)}
+                                            </td>
+                                            <td className="doctor-name">
+                                                {getDoctorName(apt.doctor)}
+                                            </td>
+                                            <td className="appointment-time">
+                                                {formatAppointmentDate(apt.appointment_date)}
+                                            </td>
+                                            <td>
+                                                <span className={`status-badge ${getStatusBadgeClass(apt.status)}`}>
+                                                    {formatStatusText(apt.status)}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    to={`/edit-appointment/${apt.Appointment_id ?? apt.id}`}
+                                                    className="btn-edit"
+                                                >
+                                                    Edit
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(apt.Appointment_id ?? apt.id)}
+                                                    className="btn-delete"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
 
-                    {/* Pagination */}
-                    <div className="d-flex justify-content-center align-items-center">
-                        <button
-                            className="btn btn-outline-primary me-2"
-                            onClick={() => setPage(p => Math.max(p - 1, 1))}
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </button>
-                        <span>Page {page} of {totalPages}</span>
-                        <button
-                            className="btn btn-outline-primary ms-2"
-                            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
-                            disabled={page === totalPages}
-                        >
-                            Next
-                        </button>
-                    </div>
-                </>
-            )}
+                        <div className="pagination-container">
+                            <div className="pagination-info">
+                                Showing {appointments.length} of {totalCount} appointments
+                            </div>
+                            <div className="pagination-controls">
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.max(p - 1, 1))}
+                                    disabled={page === 1}
+                                >
+                                    ← Previous
+                                </button>
+                                <div className="page-indicator">
+                                    Page {page} of {totalPages}
+                                </div>
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                                    disabled={page === totalPages}
+                                >
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

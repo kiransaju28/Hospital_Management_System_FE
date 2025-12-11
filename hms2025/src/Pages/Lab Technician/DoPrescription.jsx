@@ -10,6 +10,7 @@ const DoPrescription = () => {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
 
     const navigate = useNavigate();
 
@@ -25,28 +26,20 @@ const DoPrescription = () => {
     const fetchOrders = async () => {
         setLoading(true);
         try {
-            // Filter by "Pending" status by default or handle in backend if implied
-            // The user requested to see "lab prescriptions" (orders).
-            // Usually Lab Tech wants to see Pending ones to act on them.
             const params = { page, page_size: pageSize, status: "Pending" };
             if (searchTerm) params.search = searchTerm;
 
             const res = await getLabTechTestOrders(params);
 
             const data = res.data.results ?? res.data;
-            // Client-side filter to ensure only Pending orders are shown
-            // as backend filter might not be enabled.
             const pendingOrders = Array.isArray(data) ? data.filter(order => order.status === "Pending") : [];
             setOrders(pendingOrders);
 
             if (res.data.count) {
-                // If filtering client-side, totalPages based on server count might be misleading 
-                // but we can't easily fix pagination without backend filter. 
-                // For now, we accept this limitation or assume filtering works.
-                // Better to set totalPages based on filtered length if no server pagination, 
-                // but usually server pagination exists.
+                setTotalCount(res.data.count);
                 setTotalPages(Math.ceil(res.data.count / pageSize));
             } else {
+                setTotalCount(data.length);
                 setTotalPages(1);
             }
         } catch (err) {
@@ -61,107 +54,128 @@ const DoPrescription = () => {
         navigate(`/add-report/${orderId}`);
     };
 
+    const getPatientName = (order) => {
+        // Try different possible field names for patient name
+        return order.patient_name || 
+               order.patient?.patient_name || 
+               order.consultation?.appointment?.patient?.patient_name || 
+               "Patient Info";
+    };
+
+    const getTestName = (order) => {
+        return order.test_name || 
+               order.test?.category_name || 
+               order.lab_test_category?.category_name || 
+               "N/A";
+    };
+
     return (
-        <div className="container mt-4">
-            <div className="d-flex justify-content-between mb-3 align-items-center">
-                <h3>Pending Lab Test Orders</h3>
+        <div className="list-container">
+            <div className="list-header">
+                <h2>Pending Lab Test Orders</h2>
+                <div className="search-box">
+                    
+                </div>
                 <div>
-                    <Link to="/lab-bills" className="btn btn-warning text-white me-2">
+                    <button className="refresh-btn" onClick={fetchOrders}>
+                        Refresh
+                    </button>
+                    <Link to="/lab-bills" className="btn btn-warning">
                         Lab Bills
                     </Link>
-                    <Link to="/lab-reports" className="btn btn-info text-white">
+                    <Link to="/lab-reports" className="btn btn-info ms-2">
                         View Report History
                     </Link>
                 </div>
             </div>
 
-            <input
-                type="text"
-                className="form-control mb-3"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setPage(1);
-                }}
-            />
-
-            {loading ? (
-                <div>Loading...</div>
-            ) : (
-                <>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Test Name</th>
-                                <th>Patient Name</th> {/* Backend serializer needs to provide this or nested consult->appt->patient */}
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {orders.length === 0 ? (
+            <div className="table-wrapper">
+                {loading ? (
+                    <div className="loading-state">Loading orders...</div>
+                ) : (
+                    <>
+                        <table className="table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="5" className="text-center">
-                                        No pending orders found
-                                    </td>
+                                    <th>ORDER ID</th>
+                                    <th>TEST NAME</th>
+                                    <th>PATIENT NAME</th>
+                                    <th>STATUS</th>
+                                    <th>ACTIONS</th>
                                 </tr>
-                            ) : (
-                                orders.map((order) => (
-                                    <tr key={order.lab_test_order_id}>
-                                        <td>{order.lab_test_order_id}</td>
-                                        {/* Adjust fields based on actual serializer output */}
-                                        <td>{order.test_name || order.test?.category_name || "N/A"}</td>
-                                        <td>
-                                            {/* Nested lookup might be deep: order.consultation?.appointment?.patient?.full_name */}
-                                            {/* Ideally the serializer flattens this. I will assume some basic info is there or displayed as ID for now if not. */}
-                                            {order.patient_name || "Patient Info"}
-                                        </td>
-                                        <td>
-                                            <span className="badge bg-warning text-dark">{order.status}</span>
-                                        </td>
-                                        <td>
-                                            <Link
-                                                to={`/view-prescription/${order.lab_test_order_id}`}
-                                                className="btn btn-sm btn-info me-2"
-                                            >
-                                                View
-                                            </Link>
-                                            <button
-                                                onClick={() => handleComplete(order.lab_test_order_id)}
-                                                className="btn btn-sm btn-success"
-                                            >
-                                                Complete
-                                            </button>
+                            </thead>
+
+                            <tbody>
+                                {orders.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="5" className="text-center">
+                                            No pending orders found
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    orders.map((order) => (
+                                        <tr key={order.lab_test_order_id}>
+                                            <td className="order-id">
+                                                #{order.lab_test_order_id}
+                                            </td>
+                                            <td className="test-name">
+                                                {getTestName(order)}
+                                            </td>
+                                            <td className="patient-name">
+                                                {getPatientName(order)}
+                                            </td>
+                                            <td>
+                                                <span className="status-badge status-pending">
+                                                    {order.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    to={`/view-prescription/${order.lab_test_order_id}`}
+                                                    className="btn-view"
+                                                >
+                                                    View
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleComplete(order.lab_test_order_id)}
+                                                    className="btn-success"
+                                                >
+                                                    Complete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
 
-                    {/* Pagination */}
-                    <div className="d-flex justify-content-center align-items-center mt-3">
-                        <button
-                            className="btn btn-outline-primary me-2"
-                            onClick={() => setPage(p => Math.max(p - 1, 1))}
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </button>
-                        <span className="pagination-info">Page {page} of {totalPages}</span>
-                        <button
-                            className="btn btn-outline-primary ms-2"
-                            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
-                            disabled={page === totalPages}
-                        >
-                            Next
-                        </button>
-                    </div>
-                </>
-            )}
+                        <div className="pagination-container">
+                            <div className="pagination-info">
+                                Showing {orders.length} of {totalCount} orders
+                            </div>
+                            <div className="pagination-controls">
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.max(p - 1, 1))}
+                                    disabled={page === 1}
+                                >
+                                    ← Previous
+                                </button>
+                                <div className="page-indicator">
+                                    Page {page} of {totalPages}
+                                </div>
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                                    disabled={page === totalPages}
+                                >
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

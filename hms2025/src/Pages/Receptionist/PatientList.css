@@ -1,143 +1,457 @@
-/* PatientList.css - Updated for Normal Sizing & White Buttons */
+/* PatientList.css - Modern Table Design */
 
 .list-container {
     padding: var(--space-xl);
-    background: var(--bg-light);
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     min-height: 100vh;
+    position: relative;
+    overflow-x: auto;
 }
 
+/* Modern header with gradient background */
 .list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-lg);
+    margin-bottom: 2.5rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 16px;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.list-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary-teal), var(--primary-blue));
 }
 
 .list-header h2 {
-    color: var(--secondary-teal);
-    font-weight: 700;
+    color: var(--text-dark);
+    font-weight: 800;
+    font-size: 2rem;
     margin: 0;
+    position: relative;
+    padding-left: 1.5rem;
 }
 
+.list-header h2::before {
+    content: '👥';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
+
+/* Modern button styles */
 .refresh-btn {
-    padding: 8px 16px;
-    background-color: #ffffff;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
-    border-radius: var(--radius-md);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.refresh-btn:hover {
-    background-color: var(--primary-blue);
-    color: white;
-    box-shadow: var(--shadow-sm);
-}
-
-/* Add Patient Button - White by default */
-.btn-primary {
-    background-color: #ffffff;
-    color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-blue);
-    color: white;
-}
-
-.table-wrapper {
-    background: var(--bg-white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+    position: relative;
     overflow: hidden;
 }
 
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
+.refresh-btn::before {
+    content: '🔄';
+    font-size: 1.1rem;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
+.refresh-btn:hover {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+    border-color: var(--primary-blue);
 }
 
-thead th {
-    background: var(--bg-light);
-    color: var(--text-medium);
-    padding: 16px;
-    text-align: left;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: var(--font-size-xs);
-    border-bottom: 2px solid var(--border-light);
+.refresh-btn:active {
+    transform: translateY(0);
 }
 
-tbody td {
-    padding: 16px;
-    border-bottom: 1px solid var(--border-light);
-    color: var(--text-dark);
-    font-size: var(--font-size-sm);
-    vertical-align: middle;
-}
-
-tbody tr:hover {
-    background-color: var(--bg-light);
-}
-
-/* Search Box */
+/* Search Box - Modern */
 .search-box {
-    margin-bottom: var(--space-md);
-    width: 100%;
-    max-width: 300px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
 }
 
 .search-box input {
     width: 100%;
-    padding: 10px 16px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--border-color);
+    padding: 12px 20px 12px 48px;
+    border-radius: 12px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236b7280" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 16px center;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .search-box input:focus {
     outline: none;
     border-color: var(--secondary-teal);
-    box-shadow: 0 0 0 2px var(--secondary-bg);
+    box-shadow: 
+        0 0 0 3px rgba(45, 212, 191, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
 }
 
-/* Action Buttons - White by default */
+/* Modern Table Container */
+.table-wrapper {
+    background: white;
+    border-radius: 18px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    position: relative;
+}
+
+.table-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.8), transparent);
+}
+
+/* Modern Table Design */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Modern Table Header */
+thead {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    backdrop-filter: blur(10px);
+}
+
+thead th {
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid rgba(226, 232, 240, 0.8);
+    position: relative;
+    white-space: nowrap;
+}
+
+thead th::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(226, 232, 240, 0.8), transparent);
+}
+
+thead th:last-child::after {
+    display: none;
+}
+
+/* Modern Table Body */
+tbody tr {
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+tbody tr:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.8), transparent);
+}
+
+tbody tr:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(45, 212, 191, 0.03) 100%);
+    transform: translateX(4px);
+    box-shadow: inset 3px 0 0 var(--secondary-teal);
+}
+
+tbody td {
+    padding: 1.25rem 1.5rem;
+    color: #334155;
+    font-size: 0.95rem;
+    vertical-align: middle;
+    font-weight: 500;
+    border: none;
+}
+
+/* Gender Styling */
+td:nth-child(4) {
+    text-transform: capitalize;
+}
+
+td:nth-child(4):contains("Male") {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+td:nth-child(4):contains("Female") {
+    color: #db2777;
+    font-weight: 600;
+}
+
+/* Blood Group Styling */
+td:nth-child(5) {
+    font-weight: 700;
+    color: #dc2626;
+}
+
+/* Empty State */
+td[colspan="7"] {
+    text-align: center;
+    padding: 4rem;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+/* Modern Action Buttons */
 .btn-edit,
 .btn-delete {
-    padding: 6px 12px;
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     margin-right: 8px;
-    transition: background var(--transition-fast);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .btn-edit {
-    background-color: #ffffff;
-    border: 1px solid var(--primary-blue);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     color: var(--primary-blue);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.15);
+}
+
+.btn-edit::before {
+    content: '✏️';
+    font-size: 0.9rem;
 }
 
 .btn-edit:hover {
-    background-color: var(--primary-blue);
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #2563eb 100%);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+    border-color: transparent;
 }
 
 .btn-delete {
-    background-color: #ffffff;
-    border: 1px solid var(--status-error);
-    color: var(--status-error);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    color: #dc2626;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
+}
+
+.btn-delete::before {
+    content: '🗑️';
+    font-size: 0.9rem;
 }
 
 .btn-delete:hover {
-    background-color: var(--status-error);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(220, 38, 38, 0.3);
+    border-color: transparent;
+}
+
+/* Pagination - Modern */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.pagination-info {
+    color: #64748b;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.pagination-btn {
+    padding: 8px 20px;
+    background: white;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 10px;
+    color: #475569;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Page Number Indicator */
+.page-indicator {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 10px;
+    color: var(--primary-blue);
+    font-weight: 700;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Status Badges (Example - for future use) */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
 }
+
+.status-inactive {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .table {
+        min-width: 900px;
+    }
+    
+    .search-box {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .list-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .list-container {
+        padding: 1rem;
+    }
+    
+    .list-header {
+        padding: 1.25rem;
+    }
+    
+    .list-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-edit,
+    .btn-delete {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    thead th,
+    tbody td {
+        padding: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-wrapper {
+    animation: fadeIn 0.5s ease-out;
+}
+
+tbody tr {
+    animation: fadeIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+tbody tr:nth-child(1) { animation-delay: 0.1s; }
+tbody tr:nth-child(2) { animation-delay: 0.2s; }
+tbody tr:nth-child(3) { animation-delay: 0.3s; }
+tbody tr:nth-child(4) { animation-delay: 0.4s; }
+tbody tr:nth-child(5) { animation-delay: 0.5s; }
